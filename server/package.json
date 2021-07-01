@@ -1,0 +1,26 @@
+{
+  "name": "pwd_manager_server",
+  "version": "1.0.0",
+  "description": "NODE SERVER FOR PASSWORD MANAGER",
+  "main": "dist/index.js",
+  "scripts": {
+    "start:dev": "nodemon .",
+    "start:prod": "cross-env NODE_ENV=production node .",
+    "watch:ts": "tsc -w"
+  },
+  "author": "Vidur Khanal, Sangit Manandhar",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/express": "^4.17.12",
+    "@types/morgan": "^1.9.2",
+    "@types/node": "^15.12.5",
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.9",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "helmet": "^4.6.0",
+    "morgan": "^1.10.0"
+  }
+}
