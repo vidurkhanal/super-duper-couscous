@@ -1,2 +1,3 @@
 # super-duper-couscous
-PASWORD MANAGER
+
+PASWORD MANAGER for every platform.
