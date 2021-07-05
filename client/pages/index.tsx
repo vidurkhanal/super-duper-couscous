@@ -1,15 +1,21 @@
-import Head from "next/head";
-import { Box } from "@chakra-ui/react";
+import Head from "next/head"
+import { NavBar } from "../components/LandingPage/NavBar"
+import { MainSection } from "../components/LandingPage/MainSection"
+import { FeaturesList } from "../components/LandingPage/FeaturesList"
+import { Footer } from "../components/LandingPage/Footer"
+import { PricingComp } from "../components/LandingPage/PricingComp"
 
 export default function Home() {
   return (
     <>
       <Head>
-        <title>NAME OF THE APP</title>
+        <title> Pass Manager</title>
       </Head>
-      <main>
-        <Box>Hello World</Box>
-      </main>
+      <NavBar />
+      <MainSection />
+      <FeaturesList />
+      <PricingComp />
+      <Footer />
     </>
-  );
+  )
 }
