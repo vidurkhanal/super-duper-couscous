@@ -1,6 +1,15 @@
 import Head from "next/head";
-import Image from "next/image";
+import { Box } from "@chakra-ui/react";
 
 export default function Home() {
-  return <div>Hello World</div>;
+  return (
+    <>
+      <Head>
+        <title>NAME OF THE APP</title>
+      </Head>
+      <main>
+        <Box>Hello World</Box>
+      </main>
+    </>
+  );
 }
