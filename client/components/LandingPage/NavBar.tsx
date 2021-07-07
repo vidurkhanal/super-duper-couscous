@@ -19,7 +19,7 @@ export const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure()
 
   return (
-    <Box position="fixed" width="100%" zIndex="1">
+    <Box position="sticky" top="0" zIndex="1">
       <Flex
         bg={useColorModeValue("white", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
