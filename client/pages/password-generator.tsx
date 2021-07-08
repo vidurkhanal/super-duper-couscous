@@ -32,11 +32,7 @@ const PasswordGenerator: React.FC = () => {
 
   const getNumberOfBools = () => {
     let total = 0
-    for (let i = 0; i < boolArr.length; i++) {
-      if (boolArr[i]) {
-        total++
-      }
-    }
+    for (const n of boolArr) if (n) total++
     return total
   }
 
@@ -279,8 +275,7 @@ const PasswordGenerator: React.FC = () => {
               </Flex>
             </Flex>
             <Box>
-              {/*
- // @ts-ignore */}
+              {/* @ts-expect-error */}
               <RadioGroup onChange={setRadioValue} value={radioValue}>
                 <Stack direction="column">
                   <Radio value="1">Easy To Red</Radio>
