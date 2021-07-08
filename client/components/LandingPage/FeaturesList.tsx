@@ -8,6 +8,7 @@ import {
   Stack,
   HStack,
   VStack,
+  Flex,
 } from "@chakra-ui/react"
 import { CheckIcon } from "@chakra-ui/icons"
 
@@ -21,7 +22,15 @@ const features = Array.apply(null, Array(9)).map(function (x, i) {
 
 export const FeaturesList = () => {
   return (
-    <Box p={4} id="featureList" pt={{ base: "4rem", md: "8rem" }}>
+    <Flex
+      p={4}
+      direction="column"
+      alignItems="center"
+      justifyContent="center"
+      id="featureList"
+      minHeight="95vh"
+      pt={{ base: "10vh" }}
+    >
       <Stack spacing={4} as={Container} maxW={"3xl"} textAlign={"center"}>
         <Heading fontSize={"3xl"}>Shitty Company Name</Heading>
         <Text color={"gray.600"} fontSize={"xl"}>
@@ -45,6 +54,6 @@ export const FeaturesList = () => {
           ))}
         </SimpleGrid>
       </Container>
-    </Box>
+    </Flex>
   )
 }

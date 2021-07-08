@@ -12,14 +12,14 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
-} from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+} from "@chakra-ui/react"
+import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons"
 
 export const NavBar = () => {
-  const { isOpen, onToggle } = useDisclosure();
+  const { isOpen, onToggle } = useDisclosure()
 
   return (
-    <Box position="sticky" top="0">
+    <Box position="sticky" top="0" zIndex="1">
       <Flex
         bg={useColorModeValue("white", "gray.800")}
         color={useColorModeValue("gray.600", "white")}
@@ -95,12 +95,12 @@ export const NavBar = () => {
         <MobileNav />
       </Collapse>
     </Box>
-  );
-};
+  )
+}
 
 const DesktopNav = () => {
-  const linkColor = useColorModeValue("gray.600", "gray.200");
-  const linkHoverColor = useColorModeValue("gray.800", "white");
+  const linkColor = useColorModeValue("gray.600", "gray.200")
+  const linkHoverColor = useColorModeValue("gray.800", "white")
 
   return (
     <Stack direction={"row"} spacing={4}>
@@ -126,8 +126,8 @@ const DesktopNav = () => {
         </Box>
       ))}
     </Stack>
-  );
-};
+  )
+}
 
 const MobileNav = () => {
   return (
@@ -140,8 +140,8 @@ const MobileNav = () => {
         <MobileNavItem key={navItem.label} {...navItem} />
       ))}
     </Stack>
-  );
-};
+  )
+}
 
 const MobileNavItem = ({ label, href }: NavItem) => {
   return (
@@ -164,12 +164,12 @@ const MobileNavItem = ({ label, href }: NavItem) => {
         </Text>
       </Flex>
     </Stack>
-  );
-};
+  )
+}
 
 interface NavItem {
-  label: string;
-  href?: string;
+  label: string
+  href?: string
 }
 
 const NAV_ITEMS: Array<NavItem> = [
@@ -189,4 +189,4 @@ const NAV_ITEMS: Array<NavItem> = [
     label: "We ll have 4 nav links at least",
     href: "#",
   },
-];
+]
