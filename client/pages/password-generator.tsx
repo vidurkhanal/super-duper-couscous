@@ -19,7 +19,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react"
 import Head from "next/head"
-import React, { useEffect, useState } from "react"
+import React, { useEffect, useState, useRef } from "react"
 import { NavBar } from "../components/LandingPage/NavBar"
 import { CopyModal } from "../components/password-gen/CopyModal"
 
@@ -29,6 +29,7 @@ const PasswordGenerator: React.FC = () => {
   const [radioValue, setRadioValue] = useState<"1" | "2">("2")
   const [strengthColor, setStrengthColor] = useState<string>("crimson")
   const [boolArr, setBollArr] = useState<boolean[]>([true, true, true, true])
+  const rotateRef = useRef<HTMLButtonElement>(null)
 
   const getNumberOfBools = () => {
     let total = 0
@@ -109,6 +110,7 @@ const PasswordGenerator: React.FC = () => {
       <Head>
         <title>Create A Secure Password</title>
       </Head>
+
       <NavBar />
       <main>
         <Flex
@@ -160,7 +162,24 @@ const PasswordGenerator: React.FC = () => {
               >
                 <CopyModal pass={password} variant="icon" />
                 <Tooltip label="Generate New" placement="top">
-                  <RepeatIcon w={8} h={8} onClick={genPass} />
+                  <Button
+                    ref={rotateRef}
+                    background="none"
+                    _hover={{}}
+                    _focus={{}}
+                    transitionDuration="0.5s"
+                    onClick={() => {
+                      if (
+                        rotateRef.current.style.getPropertyValue(
+                          "transform"
+                        ) !== "rotate(360deg)"
+                      )
+                        rotateRef.current.style.transform = "rotate(360deg)"
+                      else rotateRef.current.style.transform = "rotate(0deg)"
+                    }}
+                  >
+                    <RepeatIcon w={8} h={8} onClick={genPass} />
+                  </Button>
                 </Tooltip>
               </InputRightElement>
               <Input
@@ -176,56 +195,8 @@ const PasswordGenerator: React.FC = () => {
               />
             </InputGroup>
           </Flex>
-          <Stack
-            spacing={{ base: 5, md: 10 }}
-            direction={{ base: "column", md: "row" }}
-          >
-            <Stack spacing="10" direction={"row"}>
-              <Checkbox
-                colorScheme="green"
-                onChange={() => {
-                  boolArr[0] = !boolArr[0]
-                  setBollArr([...boolArr])
-                }}
-                defaultIsChecked
-              >
-                Uppercase
-              </Checkbox>
-              <Checkbox
-                colorScheme="green"
-                onChange={() => {
-                  boolArr[1] = !boolArr[1]
-                  setBollArr([...boolArr])
-                }}
-                defaultIsChecked
-              >
-                Lowercase
-              </Checkbox>
-            </Stack>
-            <Stack spacing={{ base: 12, md: 10 }} direction={"row"}>
-              <Checkbox
-                colorScheme="green"
-                onChange={() => {
-                  boolArr[2] = !boolArr[2]
-                  setBollArr([...boolArr])
-                }}
-                defaultIsChecked
-              >
-                Numbers
-              </Checkbox>
-              <Checkbox
-                colorScheme="green"
-                onChange={() => {
-                  boolArr[3] = !boolArr[3]
-                  setBollArr([...boolArr])
-                }}
-                defaultIsChecked
-              >
-                Symbols
-              </Checkbox>
-            </Stack>
-          </Stack>
         </Flex>
+
         <Box
           bgColor="#293A52"
           width={{ base: "95%", lg: "60%" }}
@@ -278,8 +249,12 @@ const PasswordGenerator: React.FC = () => {
               {/* @ts-expect-error */}
               <RadioGroup onChange={setRadioValue} value={radioValue}>
                 <Stack direction="column">
-                  <Radio value="1">Easy To Red</Radio>
-                  <Radio value="2">All Characters</Radio>
+                  <Radio colorScheme="green" value="1">
+                    <Text color="white">Easy To Red</Text>
+                  </Radio>
+                  <Radio colorScheme="green" value="2">
+                    <Text color="white">All Characters</Text>
+                  </Radio>
                 </Stack>
               </RadioGroup>
             </Box>
