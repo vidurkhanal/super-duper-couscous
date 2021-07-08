@@ -29,7 +29,7 @@ export const CopyModal: React.FC<{ pass: string; variant: "icon" | "text" }> =
         ) : (
           <Button
             onClick={openFunc}
-            background="transparent" //
+            background="none"
             _hover={{}}
             _focus={{}}
             _active={{}}
@@ -47,7 +47,7 @@ export const CopyModal: React.FC<{ pass: string; variant: "icon" | "text" }> =
           size="2xl"
         >
           <ModalOverlay />
-          <ModalContent borderRadius="10px">
+          <ModalContent borderRadius="10px" mx="1rem">
             <ModalBody p={0}>
               <Flex height="400px">
                 <Box flex="1">
