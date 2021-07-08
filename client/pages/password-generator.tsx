@@ -73,7 +73,7 @@ const PasswordGenerator: React.FC = () => {
         defaultIsChecked
         size="lg"
         py="5px"
-        m={{ sm: "10px", lg: "initial" }}
+        m={{ base: "1rem", lg: "initial" }}
         isChecked={boolArr[arrIndex]}
       >
         <Text textTransform="capitalize" fontSize="xl" color="white">
@@ -106,7 +106,7 @@ const PasswordGenerator: React.FC = () => {
   }, [radioValue])
 
   return (
-    <Box>
+    <Box pb={{ base: "1rem" }}>
       <Head>
         <title>Create A Secure Password</title>
       </Head>
@@ -152,7 +152,7 @@ const PasswordGenerator: React.FC = () => {
               Create A Secure Password By Using This Free [App Name] Password
               Generator Tool
             </Text>
-            <InputGroup width={{ base: "95%", lg: "60%" }}>
+            <InputGroup width={{ base: "90%", md: "43rem", lg: "55rem" }}>
               <InputRightElement
                 my="3rem"
                 mx="2rem"
@@ -185,7 +185,7 @@ const PasswordGenerator: React.FC = () => {
               <Input
                 my="1rem"
                 height="6rem"
-                paddingRight="4.5rem"
+                paddingRight="6rem"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 fontSize={{ base: "1.5rem", md: "2rem" }}
@@ -199,7 +199,7 @@ const PasswordGenerator: React.FC = () => {
 
         <Box
           bgColor="#293A52"
-          width={{ base: "95%", lg: "60%" }}
+          width={{ base: "90%", md: "43rem", lg: "55rem" }}
           mx="auto"
           borderRadius="5px"
           padding={{ base: "1rem 2rem", lg: "1rem 5rem" }}
@@ -231,7 +231,7 @@ const PasswordGenerator: React.FC = () => {
                 />
                 <Slider
                   aria-label="slider-ex-2"
-                  w="17rem"
+                  w="16rem"
                   min={8}
                   max={32}
                   value={length}
@@ -258,12 +258,9 @@ const PasswordGenerator: React.FC = () => {
                 </Stack>
               </RadioGroup>
             </Box>
-            <Box px="20px">
+            <Box>
               <Flex direction="column" width="100%">
-                <Flex
-                  direction={{ base: "row", md: "column" }}
-                  justifyContent="space-between"
-                >
+                <Flex direction={{ base: "row", md: "column" }}>
                   <CustomCheckBox arrIndex={0} text="Uppercase" />
                   <CustomCheckBox arrIndex={1} text="Lowercase" />
                 </Flex>
@@ -275,7 +272,11 @@ const PasswordGenerator: React.FC = () => {
             </Box>
           </Flex>
         </Box>
-        <Box width={{ base: "95%", lg: "60%" }} mx="auto" mt="10px">
+        <Box
+          width={{ base: "90%", md: "43rem", lg: "55rem" }}
+          mx="auto"
+          mt="1rem"
+        >
           <CopyModal variant="text" pass={password} />
         </Box>
       </main>
