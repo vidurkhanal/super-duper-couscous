@@ -172,10 +172,10 @@ const PasswordGenerator: React.FC = () => {
                       if (
                         rotateRef.current.style.getPropertyValue(
                           "transform"
-                        ) !== "rotate(360deg)"
+                        ) !== "rotate(1turn)"
                       )
-                        rotateRef.current.style.transform = "rotate(360deg)"
-                      else rotateRef.current.style.transform = "rotate(0deg)"
+                        rotateRef.current.style.transform = "rotate(1turn)"
+                      else rotateRef.current.style.transform = "rotate(0turn)"
                     }}
                   >
                     <RepeatIcon w={8} h={8} onClick={genPass} />
