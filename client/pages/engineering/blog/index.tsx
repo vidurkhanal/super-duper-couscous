@@ -22,9 +22,9 @@ import { useRouter } from "next/router";
 
 const index: React.FC<{ posts: Post[] }> = ({ posts }) => {
   const router = useRouter();
-  const tagsBuilder = (index: number): string[] => {
+  const tagsBuilder = (i: number): string[] => {
     let tags = [];
-    posts[index].tags.forEach((tag) => tags.push(tag.name));
+    posts[i].tags.forEach((tag) => tags.push(tag.name));
     return tags;
   };
   return (
@@ -86,7 +86,9 @@ const index: React.FC<{ posts: Post[] }> = ({ posts }) => {
             <BlogTags tags={tagsBuilder(0)} />
             <Heading marginTop="1">
               <Link textDecoration="none" _hover={{ textDecoration: "none" }}>
-                {posts[0].title}
+                <NextLink href={`${router.route}/${posts[0].slug}`}>
+                  {posts[0].title}
+                </NextLink>
               </Link>
             </Heading>
             <Text
