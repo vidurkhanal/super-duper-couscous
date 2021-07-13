@@ -1,4 +1,4 @@
-import Head from "next/head"
+import Head from "next/head";
 import {
   Box,
   Heading,
@@ -9,8 +9,8 @@ import {
   Icon,
   useColorModeValue,
   createIcon,
-} from "@chakra-ui/react"
-import { Link } from "react-scroll"
+} from "@chakra-ui/react";
+import { Link } from "react-scroll";
 
 export const MainSection = () => {
   return (
@@ -99,8 +99,8 @@ export const MainSection = () => {
         </Stack>
       </Container>
     </>
-  )
-}
+  );
+};
 
 const Arrow = createIcon({
   displayName: "Arrow",
@@ -113,4 +113,4 @@ const Arrow = createIcon({
       fill="currentColor"
     />
   ),
-})
+});

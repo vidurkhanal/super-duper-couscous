@@ -10,10 +10,10 @@ import {
   Input,
   IconButton,
   useColorModeValue,
-} from "@chakra-ui/react"
-import { ReactNode } from "react"
-import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa"
-import { BiMailSend } from "react-icons/bi"
+} from "@chakra-ui/react";
+import { ReactNode } from "react";
+import { FaInstagram, FaTwitter, FaYoutube } from "react-icons/fa";
+import { BiMailSend } from "react-icons/bi";
 
 const Logo = (props: any) => {
   return (
@@ -32,17 +32,17 @@ const Logo = (props: any) => {
         fill="#2F855A"
       />
     </svg>
-  )
-}
+  );
+};
 
 const SocialButton = ({
   children,
   label,
   href,
 }: {
-  children: ReactNode
-  label: string
-  href: string
+  children: ReactNode;
+  label: string;
+  href: string;
 }) => {
   return (
     <chakra.button
@@ -64,16 +64,16 @@ const SocialButton = ({
       <VisuallyHidden>{label}</VisuallyHidden>
       {children}
     </chakra.button>
-  )
-}
+  );
+};
 
 const ListHeader = ({ children }: { children: ReactNode }) => {
   return (
     <Text fontWeight={"500"} fontSize={"lg"} mb={2}>
       {children}
     </Text>
-  )
-}
+  );
+};
 
 export const Footer = () => {
   return (
@@ -144,5 +144,5 @@ export const Footer = () => {
         </SimpleGrid>
       </Container>
     </Box>
-  )
-}
+  );
+};

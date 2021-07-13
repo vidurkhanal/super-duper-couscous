@@ -1,4 +1,4 @@
-import { CopyIcon } from "@chakra-ui/icons"
+import { CopyIcon } from "@chakra-ui/icons";
 import {
   Box,
   Button,
@@ -12,16 +12,16 @@ import {
   Tooltip,
   useClipboard,
   useDisclosure,
-} from "@chakra-ui/react"
+} from "@chakra-ui/react";
 
 export const CopyModal: React.FC<{ pass: string; variant: "icon" | "text" }> =
   ({ pass, variant = "text" }) => {
-    const { isOpen, onOpen, onClose } = useDisclosure()
-    const { onCopy } = useClipboard(pass)
+    const { isOpen, onOpen, onClose } = useDisclosure();
+    const { onCopy } = useClipboard(pass);
     const openFunc = () => {
-      onCopy()
-      onOpen()
-    }
+      onCopy();
+      onOpen();
+    };
     return (
       <>
         {variant === "text" ? (
@@ -89,5 +89,5 @@ export const CopyModal: React.FC<{ pass: string; variant: "icon" | "text" }> =
           </ModalContent>
         </Modal>
       </>
-    )
-  }
+    );
+  };
