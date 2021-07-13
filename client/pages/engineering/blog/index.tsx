@@ -22,7 +22,7 @@ import { useRouter } from "next/router";
 
 const index: React.FC<{ posts: Post[] }> = ({ posts }) => {
   const router = useRouter();
-  const tagsBuilder = (index: number): String[] => {
+  const tagsBuilder = (index: number): string[] => {
     let tags = [];
     posts[index].tags.forEach((tag) => tags.push(tag.name));
     return tags;
@@ -83,7 +83,6 @@ const index: React.FC<{ posts: Post[] }> = ({ posts }) => {
             justifyContent="center"
             marginTop={{ base: "3", sm: "0" }}
           >
-            {/* // @ts-ignore  */}
             <BlogTags tags={tagsBuilder(0)} />
             <Heading marginTop="1">
               <Link textDecoration="none" _hover={{ textDecoration: "none" }}>

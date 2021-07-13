@@ -11,7 +11,7 @@ interface IOtherBlogsBox {
 
 export const OtherBlogsBox: React.FC<IOtherBlogsBox> = ({ postToRender }) => {
   const router = useRouter();
-  const tagsBuilder = (): String[] => {
+  const tagsBuilder = (): string[] => {
     let tags = [];
     postToRender.tags.forEach((tag) => tags.push(tag.name));
     return tags;
