@@ -174,8 +174,8 @@ const PasswordGenerator: React.FC = () => {
                           "transform"
                         ) !== "rotate(1turn)"
                       )
-                        rotateRef.current.style.transform = "rotate(1turn)";
-                      else rotateRef.current.style.transform = "rotate(0turn)";
+                        rotateRef.current.style.transform = "rotate(360deg)";
+                      else rotateRef.current.style.transform = "rotate(0deg)";
                     }}
                   >
                     <RepeatIcon w={8} h={8} onClick={genPass} />
