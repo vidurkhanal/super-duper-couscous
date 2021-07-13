@@ -35,9 +35,9 @@ const index: React.FC<{ posts: Post[] }> = ({ posts }) => {
       <Container maxW={"7xl"} p="12">
         <Heading as="h1">Blogs From Couple Of Tech Nerds</Heading>
         <Box
-          marginTop={{ base: "1", sm: "5" }}
+          marginTop={{ base: "1", md: "5" }}
           display="flex"
-          flexDirection={{ base: "column", sm: "row" }}
+          flexDirection={{ base: "column", md: "row" }}
           justifyContent="space-between"
         >
           <Box

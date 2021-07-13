@@ -17,7 +17,7 @@ export const OtherBlogsBox: React.FC<IOtherBlogsBox> = ({ postToRender }) => {
     return tags;
   };
   return (
-    <WrapItem width={{ base: "100%", sm: "45%", md: "45%", lg: "30%" }}>
+    <WrapItem width={{ base: "100%", sm: "100%", md: "20rem", lg: "20rem" }}>
       <Box w="100%">
         <Box borderRadius="lg" overflow="hidden">
           <Link textDecoration="none" _hover={{ textDecoration: "none" }}>
