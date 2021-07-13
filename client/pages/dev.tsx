@@ -7,7 +7,7 @@ import {
 } from "@chakra-ui/react";
 import { useState } from "react";
 
-const dev: React.FC = ({}) => {
+const dev: React.FC = () => {
   const [sliderValue, setSliderValue] = useState<number>(16);
   return (
     <>

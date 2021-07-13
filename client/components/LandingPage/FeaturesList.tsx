@@ -9,16 +9,16 @@ import {
   HStack,
   VStack,
   Flex,
-} from "@chakra-ui/react"
-import { CheckIcon } from "@chakra-ui/icons"
+} from "@chakra-ui/react";
+import { CheckIcon } from "@chakra-ui/icons";
 
 const features = Array.apply(null, Array(9)).map(function (x, i) {
   return {
     id: i,
     title: "Lorem ipsum dolor sit amet",
     text: "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam.",
-  }
-})
+  };
+});
 
 export const FeaturesList = () => {
   return (
@@ -55,5 +55,5 @@ export const FeaturesList = () => {
         </SimpleGrid>
       </Container>
     </Flex>
-  )
-}
+  );
+};

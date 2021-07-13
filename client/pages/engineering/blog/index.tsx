@@ -22,9 +22,9 @@ import { useRouter } from "next/router";
 
 const index: React.FC<{ posts: Post[] }> = ({ posts }) => {
   const router = useRouter();
-  const tagsBuilder = (index: number): string[] => {
+  const tagsBuilder = (i: number): string[] => {
     let tags = [];
-    posts[index].tags.forEach((tag) => tags.push(tag.name));
+    posts[i].tags.forEach((tag) => tags.push(tag.name));
     return tags;
   };
   return (
@@ -35,9 +35,9 @@ const index: React.FC<{ posts: Post[] }> = ({ posts }) => {
       <Container maxW={"7xl"} p="12">
         <Heading as="h1">Blogs From Couple Of Tech Nerds</Heading>
         <Box
-          marginTop={{ base: "1", sm: "5" }}
+          marginTop={{ base: "1", md: "5" }}
           display="flex"
-          flexDirection={{ base: "column", sm: "row" }}
+          flexDirection={{ base: "column", md: "row" }}
           justifyContent="space-between"
         >
           <Box
@@ -86,7 +86,9 @@ const index: React.FC<{ posts: Post[] }> = ({ posts }) => {
             <BlogTags tags={tagsBuilder(0)} />
             <Heading marginTop="1">
               <Link textDecoration="none" _hover={{ textDecoration: "none" }}>
-                {posts[0].title}
+                <NextLink href={`${router.route}/${posts[0].slug}`}>
+                  {posts[0].title}
+                </NextLink>
               </Link>
             </Heading>
             <Text
@@ -116,28 +118,8 @@ const index: React.FC<{ posts: Post[] }> = ({ posts }) => {
         <VStack paddingTop="40px" spacing="2" alignItems="flex-start">
           <Heading as="h2">What we write about</Heading>
           <Text as="p" fontSize="lg">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            condimentum quam arcu, eu tempus tortor molestie at. Vestibulum
-            pretium condimentum dignissim. Vestibulum ultrices vitae nisi sed
-            imperdiet. Mauris quis erat consequat, commodo massa quis, feugiat
-            sapien. Suspendisse placerat vulputate posuere. Curabitur neque
-            tortor, mattis nec lacus non, placerat congue elit.
-          </Text>
-          <Text as="p" fontSize="lg">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            condimentum quam arcu, eu tempus tortor molestie at. Vestibulum
-            pretium condimentum dignissim. Vestibulum ultrices vitae nisi sed
-            imperdiet. Mauris quis erat consequat, commodo massa quis, feugiat
-            sapien. Suspendisse placerat vulputate posuere. Curabitur neque
-            tortor, mattis nec lacus non, placerat congue elit.
-          </Text>
-          <Text as="p" fontSize="lg">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            condimentum quam arcu, eu tempus tortor molestie at. Vestibulum
-            pretium condimentum dignissim. Vestibulum ultrices vitae nisi sed
-            imperdiet. Mauris quis erat consequat, commodo massa quis, feugiat
-            sapien. Suspendisse placerat vulputate posuere. Curabitur neque
-            tortor, mattis nec lacus non, placerat congue elit.
+            We post stupid shit for the moment. Think of better shit to write
+            here later.
           </Text>
         </VStack>
       </Container>
