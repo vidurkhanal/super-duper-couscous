@@ -24,10 +24,11 @@ export const MainSection = () => {
 
       <Container maxW={"3xl"}>
         <Stack
+          minHeight="90vh"
           textAlign={"center"}
+          alignItems="center"
+          justifyContent="center"
           spacing={{ base: 8, md: 14 }}
-          py={{ base: 20, md: 60 }}
-          pb="0"
         >
           <Heading
             fontWeight={600}

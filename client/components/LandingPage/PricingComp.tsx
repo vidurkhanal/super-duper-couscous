@@ -31,7 +31,7 @@ function PriceWrapper({ children }: { children: ReactNode }) {
 
 export const PricingComp = () => {
   return (
-    <Box py={12} pt={{ base: "1rem", md: "10rem" }}>
+    <Box py={12} minHeight="95vh">
       <VStack spacing={2} textAlign="center">
         <Heading as="h1" fontSize="4xl">
           Plans that fit your need

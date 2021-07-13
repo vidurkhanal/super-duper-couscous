@@ -17,11 +17,9 @@ import {
   Stack,
   Text,
   Tooltip,
-  useClipboard,
-  useToast,
 } from "@chakra-ui/react";
 import Head from "next/head";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { NavBar } from "../components/LandingPage/NavBar";
 import { CopyModal } from "../components/password-gen/CopyModal";
 
@@ -31,14 +29,11 @@ const PasswordGenerator: React.FC = () => {
   const [radioValue, setRadioValue] = useState<"1" | "2">("2");
   const [strengthColor, setStrengthColor] = useState<string>("crimson");
   const [boolArr, setBollArr] = useState<boolean[]>([true, true, true, true]);
+  const rotateRef = useRef<HTMLButtonElement>(null);
 
   const getNumberOfBools = () => {
     let total = 0;
-    for (let i = 0; i < boolArr.length; i++) {
-      if (boolArr[i]) {
-        total++;
-      }
-    }
+    for (const n of boolArr) if (n) total++;
     return total;
   };
 
@@ -78,7 +73,7 @@ const PasswordGenerator: React.FC = () => {
         defaultIsChecked
         size="lg"
         py="5px"
-        m={{ sm: "10px", lg: "initial" }}
+        m={{ base: "1rem", lg: "initial" }}
         isChecked={boolArr[arrIndex]}
       >
         <Text textTransform="capitalize" fontSize="xl" color="white">
@@ -111,10 +106,11 @@ const PasswordGenerator: React.FC = () => {
   }, [radioValue]);
 
   return (
-    <Box>
+    <Box pb={{ base: "1rem" }}>
       <Head>
         <title>Create A Secure Password</title>
       </Head>
+
       <NavBar />
       <main>
         <Flex
@@ -156,7 +152,7 @@ const PasswordGenerator: React.FC = () => {
               Create A Secure Password By Using This Free [App Name] Password
               Generator Tool
             </Text>
-            <InputGroup width={{ base: "95%", lg: "60%" }}>
+            <InputGroup width={{ base: "90%", md: "43rem", lg: "55rem" }}>
               <InputRightElement
                 my="3rem"
                 mx="2rem"
@@ -166,13 +162,30 @@ const PasswordGenerator: React.FC = () => {
               >
                 <CopyModal pass={password} variant="icon" />
                 <Tooltip label="Generate New" placement="top">
-                  <RepeatIcon w={8} h={8} onClick={genPass} />
+                  <Button
+                    ref={rotateRef}
+                    background="none"
+                    _hover={{}}
+                    _focus={{}}
+                    transitionDuration="0.5s"
+                    onClick={() => {
+                      if (
+                        rotateRef.current.style.getPropertyValue(
+                          "transform"
+                        ) !== "rotate(360deg)"
+                      )
+                        rotateRef.current.style.transform = "rotate(360deg)";
+                      else rotateRef.current.style.transform = "rotate(0deg)";
+                    }}
+                  >
+                    <RepeatIcon w={8} h={8} onClick={genPass} />
+                  </Button>
                 </Tooltip>
               </InputRightElement>
               <Input
                 my="1rem"
                 height="6rem"
-                paddingRight="4.5rem"
+                paddingRight="6rem"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 fontSize={{ base: "1.5rem", md: "2rem" }}
@@ -183,9 +196,10 @@ const PasswordGenerator: React.FC = () => {
             </InputGroup>
           </Flex>
         </Flex>
+
         <Box
           bgColor="#293A52"
-          width={{ base: "95%", lg: "60%" }}
+          width={{ base: "90%", md: "43rem", lg: "55rem" }}
           mx="auto"
           borderRadius="5px"
           padding={{ base: "1rem 2rem", lg: "1rem 5rem" }}
@@ -217,7 +231,7 @@ const PasswordGenerator: React.FC = () => {
                 />
                 <Slider
                   aria-label="slider-ex-2"
-                  w="17rem"
+                  w="16rem"
                   min={8}
                   max={32}
                   value={length}
@@ -232,21 +246,21 @@ const PasswordGenerator: React.FC = () => {
               </Flex>
             </Flex>
             <Box>
-              {/*
- // @ts-ignore */}
+              {/* @ts-expect-error */}
               <RadioGroup onChange={setRadioValue} value={radioValue}>
                 <Stack direction="column">
-                  <Radio value="1">Easy To Red</Radio>
-                  <Radio value="2">All Characters</Radio>
+                  <Radio colorScheme="green" value="1">
+                    <Text color="white">Easy To Red</Text>
+                  </Radio>
+                  <Radio colorScheme="green" value="2">
+                    <Text color="white">All Characters</Text>
+                  </Radio>
                 </Stack>
               </RadioGroup>
             </Box>
-            <Box px="20px">
+            <Box>
               <Flex direction="column" width="100%">
-                <Flex
-                  direction={{ base: "row", md: "column" }}
-                  justifyContent="space-between"
-                >
+                <Flex direction={{ base: "row", md: "column" }}>
                   <CustomCheckBox arrIndex={0} text="Uppercase" />
                   <CustomCheckBox arrIndex={1} text="Lowercase" />
                 </Flex>
@@ -258,7 +272,11 @@ const PasswordGenerator: React.FC = () => {
             </Box>
           </Flex>
         </Box>
-        <Box width={{ base: "95%", lg: "60%" }} mx="auto" mt="10px">
+        <Box
+          width={{ base: "90%", md: "43rem", lg: "55rem" }}
+          mx="auto"
+          mt="1rem"
+        >
           <CopyModal variant="text" pass={password} />
         </Box>
       </main>
