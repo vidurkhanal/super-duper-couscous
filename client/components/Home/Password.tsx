@@ -55,6 +55,7 @@ export const Password = () => {
             pr="4.5rem"
             type={show ? "text" : "password"}
             value={pass.password}
+            readOnly
           />
           <InputRightElement width="4.5rem">
             <Button h="1.75rem" size="sm" onClick={handleClick}>

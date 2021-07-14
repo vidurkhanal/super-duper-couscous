@@ -6,13 +6,7 @@ import {
   Text,
   CloseButton,
 } from "@chakra-ui/react";
-import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
-} from "react-icons/fi";
+import { FiHome, FiSettings } from "react-icons/fi";
 import { NavItem } from "./NavItem";
 import { IconType } from "react-icons";
 
@@ -22,10 +16,7 @@ interface LinkItemProps {
 }
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Home", icon: FiHome },
-  { name: "Trending", icon: FiTrendingUp },
-  { name: "Explore", icon: FiCompass },
-  { name: "Favourites", icon: FiStar },
+  { name: "Password", icon: FiHome },
   { name: "Settings", icon: FiSettings },
 ];
 
