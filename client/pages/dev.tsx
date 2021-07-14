@@ -1,35 +1,48 @@
+import { ReactNode } from "react";
+import { MobileNav } from "../components/Home/MobileNav";
+import { SidebarContent } from "../components/Home/SideBarContent";
 import {
-  Slider,
-  SliderTrack,
-  SliderFilledTrack,
-  SliderThumb,
-  Input,
+  Box,
+  useColorModeValue,
+  Drawer,
+  DrawerContent,
+  useDisclosure,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { Password } from "../components/Home/Password";
 
-const dev: React.FC = () => {
-  const [sliderValue, setSliderValue] = useState<number>(16);
+export default function SidebarWithHeader({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
-      <Slider
-        aria-label="slider-ex-1"
-        value={sliderValue}
-        onChange={(e) => setSliderValue(e)}
-        min={8}
-        max={32}
-        colorScheme="purple"
-      >
-        <SliderTrack>
-          <SliderFilledTrack />
-        </SliderTrack>
-        <SliderThumb />
-      </Slider>
-      <Input
-        type="number"
-        value={sliderValue}
-        onChange={(e) => setSliderValue(+e.target.value)}
-      />
+      <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
+        <SidebarContent
+          onClose={() => onClose}
+          display={{ base: "none", md: "block" }}
+        />
+        <Drawer
+          autoFocus={false}
+          isOpen={isOpen}
+          placement="left"
+          onClose={onClose}
+          returnFocusOnClose={false}
+          onOverlayClick={onClose}
+          size="full"
+        >
+          <DrawerContent>
+            <SidebarContent onClose={onClose} />
+          </DrawerContent>
+        </Drawer>
+        {/* mobilenav */}
+        <MobileNav onOpen={onOpen} />
+        <Box ml={{ base: 0, md: 60 }} p="4">
+          {/* {children} */}
+          <Password />
+        </Box>
+      </Box>
     </>
   );
-};
-export default dev;
+}
