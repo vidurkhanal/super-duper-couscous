@@ -5,26 +5,42 @@ import {
   InputGroup,
   InputRightElement,
   Button,
+  Box,
+  useClipboard,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
+import { PassObj } from "../../types";
+import { MasterPasswordPopOver } from "../../components/Home/MasterPasswordPopOver";
 
-type PassObj = {
-  username: string;
-  password: string;
-  strength: string;
-};
+interface IPassword {
+  pass: PassObj;
+}
 
-export const Password = () => {
+export const Password: React.FC<IPassword> = ({ pass }) => {
   const [show, setShow] = useState<boolean>(false);
-  const pass: PassObj = {
-    username: "apple.money.com",
-    password: "password123",
-    strength: "GOOD",
-  };
+  const { hasCopied: copyEmail, onCopy: onCopyEmail } = useClipboard(
+    pass.username
+  );
 
-  const handleClick = () => {
+  // const pass: PassObj = {
+  //   site: "apple.money.com",
+  //   username: "hello@123.co",
+  //   password: "password123",
+  //   strength: "GOOD",
+  // };
+
+  const unlockPassword = () => {
     setShow(!show);
   };
+
+  useEffect(() => {
+    if (show) {
+      setTimeout(() => {
+        setShow(false);
+      }, 5000);
+    }
+  }, [show]);
 
   return (
     <Flex
@@ -34,6 +50,8 @@ export const Password = () => {
       direction="column"
       alignItems="baseline"
       borderRadius="5px"
+      width={{ sm: "100%", md: "90%", lg: "60%" }}
+      marginLeft={{ base: "0", md: "20px" }}
     >
       <Text p="1rem" fontSize="20px" fontWeight="bold" mr="1rem">
         LOGO Title
@@ -47,22 +65,59 @@ export const Password = () => {
         justifyContent="space-between"
         borderRadius="5px"
       >
-        <Text color="darkgray">USERNAME</Text>
-        <Text fontWeight="bold">{pass.username}</Text>
-        <Text color="darkgray">PASSWORD</Text>
-        <InputGroup>
-          <Input
-            pr="4.5rem"
-            type={show ? "text" : "password"}
-            value={pass.password}
-            readOnly
-          />
-          <InputRightElement width="4.5rem">
-            <Button h="1.75rem" size="sm" onClick={handleClick}>
-              {show ? "Hide" : "Show"}
-            </Button>
-          </InputRightElement>
-        </InputGroup>
+        <Box>
+          <Text color="darkgray">SITE</Text>
+          <Text fontWeight="bold">{pass.site}</Text>
+        </Box>
+        <Box>
+          <Text color="darkgray">USERNAME</Text>
+          <InputGroup>
+            <Input value={pass.username} readOnly cursor="pointer" />
+            <InputRightElement width="fit-content" p="10px">
+              <Button
+                size="sm"
+                outlineColor="transparent"
+                _focus={{}}
+                _active={{}}
+                _hover={{}}
+                onClick={onCopyEmail}
+              >
+                {!copyEmail ? "Copy Username" : "Username Copied"}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+        </Box>
+        <Box>
+          <Text color="darkgray">PASSWORD</Text>
+          <InputGroup>
+            <Input
+              pr="4.5rem"
+              type={show ? "text" : "password"}
+              value={show ? pass.password : "Nice Try Hot Shot."}
+              readOnly
+              cursor="not-allowed"
+            />
+            <InputRightElement width="4.5rem">
+              <Button
+                h="1.75rem"
+                size="sm"
+                outlineColor="transparent"
+                _focus={{}}
+                _active={{}}
+                _hover={{}}
+              >
+                {show ? (
+                  <BsFillEyeSlashFill
+                    color="#ff5050"
+                    onClick={unlockPassword}
+                  />
+                ) : (
+                  <MasterPasswordPopOver passwordUnlockerFn={unlockPassword} />
+                )}
+              </Button>
+            </InputRightElement>
+          </InputGroup>
+        </Box>
         <Text color="darkgray">SRENGTH</Text>
         <Text fontWeight="bold">{pass.strength}</Text>
       </Flex>
