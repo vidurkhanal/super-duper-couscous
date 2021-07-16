@@ -52,3 +52,25 @@ export type Post = {
     }
   ];
 };
+
+export type password_category =
+  | "entertainment"
+  | "business"
+  | "payment and banking"
+  | "personal"
+  | "travel"
+  | "other";
+
+export type PassObj = {
+  site: string;
+  username: string;
+  password: string;
+  strength: string;
+};
+
+export type sample_server_res = {
+  data: {
+    category: password_category;
+    passwords: PassObj[];
+  }[];
+};
