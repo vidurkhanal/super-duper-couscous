@@ -63,13 +63,12 @@ const PasswordPage = () => {
               >
                 {item.category}
               </Text>
-              {item.passwords.map((item, index) => {
-                return <Password pass={item} key={index} />;
-              })}
+              {item.passwords.map((instance, id) => (
+                <Password pass={instance} key={id} />
+              ))}
             </Box>
           );
         })}
-        {/* <Password /> */}
       </Wrapper>
     </Box>
   );
