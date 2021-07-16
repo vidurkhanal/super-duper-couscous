@@ -1,17 +1,17 @@
 import {
+  Box,
+  Button,
   Flex,
-  Text,
   Input,
   InputGroup,
   InputRightElement,
-  Button,
-  Box,
+  Text,
   useClipboard,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { BsFillEyeFill, BsFillEyeSlashFill } from "react-icons/bs";
-import { PassObj } from "../../types";
+import { BsFillEyeSlashFill } from "react-icons/bs";
 import { MasterPasswordPopOver } from "../../components/Home/MasterPasswordPopOver";
+import { PassObj } from "../../types";
 
 interface IPassword {
   pass: PassObj;
@@ -22,13 +22,9 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
   const { hasCopied: copyEmail, onCopy: onCopyEmail } = useClipboard(
     pass.username
   );
-
-  // const pass: PassObj = {
-  //   site: "apple.money.com",
-  //   username: "hello@123.co",
-  //   password: "password123",
-  //   strength: "GOOD",
-  // };
+  const { hasCopied: copyPassword, onCopy: onCopyPassword } = useClipboard(
+    pass.password
+  );
 
   const unlockPassword = () => {
     setShow(!show);
@@ -65,11 +61,11 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
         justifyContent="space-between"
         borderRadius="5px"
       >
-        <Box>
+        <Box mb="10px">
           <Text color="darkgray">SITE</Text>
           <Text fontWeight="bold">{pass.site}</Text>
         </Box>
-        <Box>
+        <Box mb="10px">
           <Text color="darkgray">USERNAME</Text>
           <InputGroup>
             <Input value={pass.username} readOnly cursor="pointer" />
@@ -87,7 +83,7 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
             </InputRightElement>
           </InputGroup>
         </Box>
-        <Box>
+        <Box mb="10px">
           <Text color="darkgray">PASSWORD</Text>
           <InputGroup>
             <Input
@@ -97,7 +93,7 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
               readOnly
               cursor="not-allowed"
             />
-            <InputRightElement width="4.5rem">
+            <InputRightElement width="fit-content" p="10px">
               <Button
                 h="1.75rem"
                 size="sm"
@@ -105,12 +101,18 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
                 _focus={{}}
                 _active={{}}
                 _hover={{}}
+                onClick={() => {
+                  if (show) {
+                    onCopyPassword();
+                  }
+                }}
               >
                 {show ? (
-                  <BsFillEyeSlashFill
-                    color="#ff5050"
-                    onClick={unlockPassword}
-                  />
+                  !copyPassword ? (
+                    "Copy Password"
+                  ) : (
+                    "Password Copied"
+                  )
                 ) : (
                   <MasterPasswordPopOver passwordUnlockerFn={unlockPassword} />
                 )}
