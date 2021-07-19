@@ -1,9 +1,38 @@
+import "reflect-metadata";
 import Express from "express";
-import { __PORT__, __PROD__ } from "./constants";
+import {
+  DATABASE_NAME,
+  DATABASE_PASSWORD,
+  DATABASE_USERNAME,
+  __PORT__,
+  __PROD__,
+} from "./constants";
 import morgan from "morgan";
+import { createConnection } from "typeorm";
+import { User } from "./models/user";
+import { ApolloServer } from "apollo-server-express";
+import { buildSchema } from "type-graphql";
+import { HelloResolver } from "./resolvers/hello";
+import { UserResolver } from "./resolvers/User";
 
 const main = async () => {
+  await createConnection({
+    type: "postgres",
+    database: DATABASE_NAME,
+    username: DATABASE_USERNAME,
+    password: DATABASE_PASSWORD,
+    logging: true,
+    synchronize: true,
+    entities: [User],
+  });
   const app = Express();
+  const apollo = new ApolloServer({
+    schema: await buildSchema({
+      resolvers: [HelloResolver, UserResolver],
+    }),
+  });
+  await apollo.start();
+  apollo.applyMiddleware({ app });
 
   app.use(
     morgan(":method :url :status :res[content-length] - :response-time ms")
@@ -20,4 +49,4 @@ const main = async () => {
   });
 };
 
-main().catch((e) => console.log(e));
+main().catch(e => console.log(e));
