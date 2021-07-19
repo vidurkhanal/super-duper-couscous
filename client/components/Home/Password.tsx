@@ -68,7 +68,7 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
         <Box mb="10px">
           <Text color="darkgray">USERNAME</Text>
           <InputGroup>
-            <Input value={pass.username} readOnly cursor="pointer" />
+            <Input value={pass.username} pr="9rem" readOnly cursor="pointer" />
             <InputRightElement width="fit-content" p="10px">
               <Button
                 size="sm"
