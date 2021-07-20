@@ -5,7 +5,5 @@ export const AuthSchema = Joi.object({
     .email({ minDomainSegments: 2, tlds: { allow: ["com", "net", "org"] } })
     .required(),
   fullName: Joi.string().min(3).max(50).required(),
-  password: Joi.string().pattern(
-    new RegExp("^(?=.?[A-Z])(?=.?[a-z])(?=.?[0-9])(?=.?[#?!@$ %^&*-]).{8,}$")
-  ),
+  password: Joi.string().pattern(new RegExp("^(?=.*[a-zA-Z])(?=.*[0-9]).+$")),
 });
