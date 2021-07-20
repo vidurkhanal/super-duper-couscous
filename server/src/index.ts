@@ -1,4 +1,5 @@
 import "reflect-metadata";
+require("dotenv").config();
 import Express from "express";
 import {
   DATABASE_NAME,
@@ -49,4 +50,4 @@ const main = async () => {
   });
 };
 
-main().catch(e => console.log(e));
+main().catch((e) => console.log(e));
