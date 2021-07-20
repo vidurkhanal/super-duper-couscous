@@ -14,6 +14,7 @@ import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/User";
+import "dotenv/config";
 
 const main = async () => {
   await createConnection({
@@ -25,6 +26,7 @@ const main = async () => {
     synchronize: true,
     entities: [User],
   });
+  // User.delete({});
   const app = Express();
   const apollo = new ApolloServer({
     schema: await buildSchema({
