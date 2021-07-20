@@ -24,11 +24,11 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
   passwordUnlockerFn,
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-  const [masterPIN, setMasterPIN] = useState<"" | number>(null);
+  const [masterPIN, setMasterPIN] = useState<"" | string>("");
   const [formErr, setFormErr] = useState<null | string>(null);
   const masterPINChecker = (e) => {
     e.preventDefault();
-    if (masterPIN === 1234) {
+    if (masterPIN === "1234") {
       passwordUnlockerFn();
       onClose();
     } else {
@@ -63,18 +63,13 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
                   inputMode="numeric"
                   value={masterPIN}
                   onChange={(e) => {
+                    setMasterPIN(e.target.value);
                     const foo = e.target.value;
                     if (foo.length > 8) {
                       setMasterPIN("");
                       setFormErr(
                         "Master PIN too long. Please enter carefully."
                       );
-                      return;
-                    } else {
-                      const foo_asc = foo.charCodeAt(foo.length - 1);
-                      if (foo_asc >= 48 && foo_asc <= 57) {
-                        setMasterPIN(+foo);
-                      }
                     }
                   }}
                 />
