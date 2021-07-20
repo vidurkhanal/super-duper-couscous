@@ -3,20 +3,20 @@ import { Arg, Mutation, Query, Resolver } from "type-graphql";
 import { getConnection } from "typeorm";
 import { hash, verify } from "argon2";
 import { AuthSchema } from "../Joi/AuthSchema";
-import { registerInput } from "./GqlObjects/registerInput";
-import { loginInput } from "./GqlObjects/loginInput";
+import { RegisterInput } from "./GqlObjects/registerInput";
+import { LoginInput } from "./GqlObjects/loginInput";
 import { AuthResponse } from "./GqlObjects/AuthResponse";
 
 @Resolver()
 export class UserResolver {
   @Query(() => [User])
   async getAllUsers(): Promise<User[]> {
-    return await User.find({});
+    return User.find({});
   }
 
   @Mutation(() => AuthResponse)
   async registerUser(
-    @Arg("registerInput") registerInput: registerInput
+    @Arg("registerInput") registerInput: RegisterInput
   ): Promise<AuthResponse> {
     const { error } = AuthSchema.validate(registerInput);
     let user;
@@ -75,7 +75,7 @@ export class UserResolver {
 
   @Mutation(() => AuthResponse)
   async loginUser(
-    @Arg("loginInput") loginInput: loginInput
+    @Arg("loginInput") loginInput: LoginInput
   ): Promise<AuthResponse> {
     const user = await User.findOne({ where: { email: loginInput.email } });
     if (!user) {

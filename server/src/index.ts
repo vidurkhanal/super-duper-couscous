@@ -27,7 +27,7 @@ const main = async () => {
     synchronize: true,
     entities: [User],
   });
-  // User.delete({});
+
   const app = Express();
   const apollo = new ApolloServer({
     schema: await buildSchema({
