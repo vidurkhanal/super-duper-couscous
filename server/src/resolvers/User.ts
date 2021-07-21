@@ -1,11 +1,12 @@
 import { User } from "../models/user";
-import { Arg, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { getConnection } from "typeorm";
 import { hash, verify } from "argon2";
 import { AuthSchema } from "../Joi/AuthSchema";
 import { RegisterInput } from "./GqlObjects/registerInput";
 import { LoginInput } from "./GqlObjects/loginInput";
 import { AuthResponse } from "./GqlObjects/AuthResponse";
+import { ApolloContext } from "src/types";
 
 @Resolver()
 export class UserResolver {
@@ -16,7 +17,8 @@ export class UserResolver {
 
   @Mutation(() => AuthResponse)
   async registerUser(
-    @Arg("registerInput") registerInput: RegisterInput
+    @Arg("registerInput") registerInput: RegisterInput,
+    @Ctx() { req }: ApolloContext
   ): Promise<AuthResponse> {
     const { error } = AuthSchema.validate(registerInput);
     let user;
@@ -69,13 +71,14 @@ export class UserResolver {
       }
       return { error: "Some Internal Error Occurred.Try Again.", user };
     }
-    console.log(user);
+    req.session.userID = user.userID;
     return { user };
   }
 
   @Mutation(() => AuthResponse)
   async loginUser(
-    @Arg("loginInput") loginInput: LoginInput
+    @Arg("loginInput") loginInput: LoginInput,
+    @Ctx() { req }: ApolloContext
   ): Promise<AuthResponse> {
     const user = await User.findOne({ where: { email: loginInput.email } });
     if (!user) {
@@ -86,6 +89,7 @@ export class UserResolver {
       return { error: "Password Doesn't Match Our Files." };
     }
 
+    req.session.userID = user.userID;
     return { user };
   }
 }
