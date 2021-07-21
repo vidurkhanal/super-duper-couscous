@@ -59,13 +59,8 @@ const main = async () => {
       cookie: {
         maxAge: 157784760000,
         httpOnly: true,
-<<<<<<< HEAD
         // secure: "auto",
         sameSite: "lax",
-=======
-        secure: "auto",
-        sameSite: "none",
->>>>>>> 7d152b452275f47736309a1961f9a4dd5c792c56
       },
     })
   );
