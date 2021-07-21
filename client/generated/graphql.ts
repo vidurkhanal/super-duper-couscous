@@ -20,6 +20,15 @@ export type AuthResponse = {
   user?: Maybe<User>;
 };
 
+export type Credential = {
+  __typename?: 'Credential';
+  credentialID: Scalars['String'];
+  createDate: Scalars['String'];
+  updatedDate: Scalars['String'];
+  email: Scalars['String'];
+  password: Scalars['String'];
+};
+
 export type LoginInput = {
   email: Scalars['String'];
   password: Scalars['String'];
@@ -29,6 +38,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   registerUser: AuthResponse;
   loginUser: AuthResponse;
+  addCredential: Credential;
 };
 
 
@@ -41,15 +51,27 @@ export type MutationLoginUserArgs = {
   loginInput: LoginInput;
 };
 
+
+export type MutationAddCredentialArgs = {
+  password: Scalars['String'];
+  email: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   getAllUsers: Array<User>;
+  getCredentials?: Maybe<Array<Credential>>;
 };
 
 
 export type QueryHelloArgs = {
   name: Scalars['String'];
+};
+
+
+export type QueryGetCredentialsArgs = {
+  userID: Scalars['String'];
 };
 
 export type RegisterInput = {
@@ -66,6 +88,19 @@ export type User = {
   fullName: Scalars['String'];
   email: Scalars['String'];
 };
+
+export type GetCredentialsQueryVariables = Exact<{
+  userID: Scalars['String'];
+}>;
+
+
+export type GetCredentialsQuery = (
+  { __typename?: 'Query' }
+  & { getCredentials?: Maybe<Array<(
+    { __typename?: 'Credential' }
+    & Pick<Credential, 'email' | 'password'>
+  )>> }
+);
 
 export type LoginUserMutationVariables = Exact<{
   email: Scalars['String'];
@@ -85,6 +120,18 @@ export type LoginUserMutation = (
 );
 
 
+export const GetCredentialsDocument = gql`
+    query GetCredentials($userID: String!) {
+  getCredentials(userID: $userID) {
+    email
+    password
+  }
+}
+    `;
+
+export function useGetCredentialsQuery(options: Omit<Urql.UseQueryArgs<GetCredentialsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetCredentialsQuery>({ query: GetCredentialsDocument, ...options });
+};
 export const LoginUserDocument = gql`
     mutation LoginUser($email: String!, $password: String!) {
   loginUser(loginInput: {email: $email, password: $password}) {

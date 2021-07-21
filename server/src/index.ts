@@ -1,8 +1,8 @@
 import "reflect-metadata";
+require("dotenv").config();
 import Express from "express";
 import {
   COOKIE_NAME,
-  COOKIE_SECRET,
   DATABASE_NAME,
   DATABASE_PASSWORD,
   DATABASE_USERNAME,
@@ -12,6 +12,7 @@ import {
 import morgan from "morgan";
 import { createConnection } from "typeorm";
 import { User } from "./models/user";
+import { Credential } from "./models/credential";
 import { ApolloServer } from "apollo-server-express";
 import { buildSchema } from "type-graphql";
 import { HelloResolver } from "./resolvers/hello";
@@ -22,6 +23,7 @@ import "dotenv/config";
 import session from "express-session";
 import { ApolloContext } from "./types";
 import cors from "cors";
+import { CredentialResolver } from "./resolvers/Credential";
 
 const main = async () => {
   await createConnection({
@@ -31,7 +33,7 @@ const main = async () => {
     password: DATABASE_PASSWORD,
     logging: true,
     synchronize: true,
-    entities: [User],
+    entities: [User, Credential],
   });
 
   const app = Express();
@@ -43,7 +45,7 @@ const main = async () => {
   );
   const redisClient = new Redis();
   const redisStore = connectRedis(session);
-  console.log(COOKIE_SECRET);
+
   app.use(
     session({
       secret: "w**oS=l9MBWY=CpRvuwT=uu#BXaVJ45l",
@@ -58,20 +60,15 @@ const main = async () => {
       cookie: {
         maxAge: 157784760000,
         httpOnly: true,
-<<<<<<< HEAD
         // secure: "auto",
         sameSite: "lax",
-=======
-        secure: "auto",
-        sameSite: "none",
->>>>>>> 7d152b452275f47736309a1961f9a4dd5c792c56
       },
     })
   );
 
   const apollo = new ApolloServer({
     schema: await buildSchema({
-      resolvers: [HelloResolver, UserResolver],
+      resolvers: [HelloResolver, UserResolver, CredentialResolver],
       validate: false,
     }),
     context: ({ req, res }): ApolloContext => ({ req, res }),
@@ -94,4 +91,4 @@ const main = async () => {
   });
 };
 
-main().catch(e => console.log(e));
+main().catch((e) => console.log(e));
