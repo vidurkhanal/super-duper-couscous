@@ -36,7 +36,10 @@ const main = async () => {
 
   const app = Express();
   app.use(
-    cors({ credentials: true, origin: "https://studio.apollographql.com" })
+    cors({
+      credentials: true,
+      origin: ["https://studio.apollographql.com", "http://localhost:3000"],
+    })
   );
   const redisClient = new Redis();
   const redisStore = connectRedis(session);
@@ -55,8 +58,8 @@ const main = async () => {
       cookie: {
         maxAge: 157784760000,
         httpOnly: true,
-        secure: "auto",
-        sameSite: "none",
+        // secure: "auto",
+        sameSite: "lax",
       },
     })
   );
