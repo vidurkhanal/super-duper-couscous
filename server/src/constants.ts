@@ -5,3 +5,6 @@ export const DATABASE_PASSWORD = process.env.DATABASE_PASSWORD!;
 export const DATABASE_NAME = process.env.DATABASE_NAME!;
 export const COOKIE_NAME = "auth_secret_cjscnjdncn_jdnvndc";
 export const COOKIE_SECRET = process.env.SESSION_SECRET!;
+export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY!;
+export const PUBLIC_KEY = process.env.PUBLIC_KEY!;
+export const PRIVATE_KEY = process.env.PRIVATE_KEY!;
