@@ -38,7 +38,11 @@ const main = async () => {
   app.use(
     cors({
       credentials: true,
-      origin: ["https://studio.apollographql.com", "http://localhost:3000"],
+      origin: [
+        "https://studio.apollographql.com",
+        "http://localhost:3000",
+        "https://super-duper-couscous.vercel.app",
+      ],
     })
   );
   const redisClient = new Redis();
@@ -58,13 +62,8 @@ const main = async () => {
       cookie: {
         maxAge: 157784760000,
         httpOnly: true,
-<<<<<<< HEAD
         // secure: "auto",
         sameSite: "lax",
-=======
-        secure: "auto",
-        sameSite: "none",
->>>>>>> 7d152b452275f47736309a1961f9a4dd5c792c56
       },
     })
   );
