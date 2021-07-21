@@ -4,18 +4,24 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  JoinColumn,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
-import { Credential } from "./credential";
+import { User } from "./user";
+
+//Fields to be added
+//Website name
+//Website url
+//Website favicon url
 
 @ObjectType()
 @Entity()
-export class User extends BaseEntity {
+export class Credential extends BaseEntity {
   @Field(() => String)
   @PrimaryGeneratedColumn("uuid")
-  userID: string;
+  credentialID: string;
 
   @Field(() => String)
   @CreateDateColumn()
@@ -27,16 +33,14 @@ export class User extends BaseEntity {
 
   @Field()
   @Column()
-  fullName: string;
-
-  @Field()
-  @Column({ unique: true })
   email: string;
 
-  @Column()
+  @Field()
+  @Column({ type: "text" })
   password: string;
 
-  @Field(() => [Credential], { nullable: true })
-  @OneToMany(() => Credential, (credential) => credential.user)
-  credentials: Credential[];
+  @Field(() => User)
+  @ManyToOne(() => User, (user: User) => user.credentials)
+  @JoinColumn({ name: "userID" })
+  user: User;
 }

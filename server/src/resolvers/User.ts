@@ -1,6 +1,6 @@
 import { User } from "../models/user";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
-import { getConnection } from "typeorm";
+import { Connection, getConnection } from "typeorm";
 import { hash, verify } from "argon2";
 import { AuthSchema } from "../Joi/AuthSchema";
 import { RegisterInput } from "./GqlObjects/registerInput";
@@ -13,6 +13,13 @@ export class UserResolver {
   @Query(() => [User])
   async getAllUsers(): Promise<User[]> {
     return User.find({});
+  }
+
+  @Query(() => User, { nullable: true })
+  async me(@Ctx() { req }: ApolloContext): Promise<User | void> {
+    return User.findOne(req.session.userID, {
+      relations: ["credentials"],
+    });
   }
 
   @Mutation(() => AuthResponse)
