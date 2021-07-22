@@ -1,6 +1,7 @@
+import { COOKIE_NAME } from "./../constants";
 import { User } from "../models/user";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
-import { Connection, getConnection } from "typeorm";
+import { getConnection } from "typeorm";
 import { hash, verify } from "argon2";
 import { AuthSchema } from "../Joi/AuthSchema";
 import { RegisterInput } from "./GqlObjects/registerInput";
@@ -17,8 +18,11 @@ export class UserResolver {
 
   @Query(() => User, { nullable: true })
   async me(@Ctx() { req }: ApolloContext): Promise<User | void> {
-    return User.findOne(req.session.userID, {
+    return User.findOne({
       relations: ["credentials"],
+      where: {
+        userID: req.session.userID,
+      },
     });
   }
 
@@ -89,14 +93,29 @@ export class UserResolver {
   ): Promise<AuthResponse> {
     const user = await User.findOne({ where: { email: loginInput.email } });
     if (!user) {
-      return { error: "User Not Found." };
+      return { error: "User Not Found. Try making an account." };
     }
     const verifyPassword = await verify(user.password, loginInput.password);
     if (!verifyPassword) {
-      return { error: "Password Doesn't Match Our Files." };
+      return { error: "Wrong Password. Try Again." };
     }
 
     req.session.userID = user.userID;
     return { user };
+  }
+
+  @Mutation(() => Boolean)
+  logoutUser(@Ctx() { req, res }: ApolloContext): Promise<boolean> {
+    return new Promise((resolve) => {
+      req.session.destroy((err) => {
+        res.clearCookie(COOKIE_NAME);
+        if (err) {
+          console.log(err);
+          resolve(false);
+          return;
+        }
+        resolve(true);
+      });
+    });
   }
 }

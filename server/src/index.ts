@@ -24,6 +24,7 @@ import session from "express-session";
 import { ApolloContext } from "./types";
 import cors from "cors";
 import { CredentialResolver } from "./resolvers/Credential";
+import helmet from "helmet";
 
 const main = async () => {
   await createConnection({
@@ -37,11 +38,11 @@ const main = async () => {
   });
 
   const app = Express();
+  app.use(helmet());
   app.use(
     cors({
       credentials: true,
       origin: [
-        "https://studio.apollographql.com",
         "http://localhost:3000",
         "https://super-duper-couscous.vercel.app",
       ],
@@ -64,7 +65,7 @@ const main = async () => {
       cookie: {
         maxAge: 157784760000,
         httpOnly: true,
-        // secure: "auto",
+        secure: __PROD__,
         sameSite: "lax",
       },
     })
