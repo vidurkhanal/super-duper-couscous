@@ -112,6 +112,25 @@ export type LoginUserMutation = (
   ) }
 );
 
+export type RegisterUserMutationVariables = Exact<{
+  email: Scalars['String'];
+  password: Scalars['String'];
+  fullName: Scalars['String'];
+}>;
+
+
+export type RegisterUserMutation = (
+  { __typename?: 'Mutation' }
+  & { registerUser: (
+    { __typename?: 'AuthResponse' }
+    & Pick<AuthResponse, 'error'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'email'>
+    )> }
+  ) }
+);
+
 export type GetCredentialsQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -162,6 +181,22 @@ export const LoginUserDocument = gql`
 
 export function useLoginUserMutation() {
   return Urql.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument);
+};
+export const RegisterUserDocument = gql`
+    mutation RegisterUser($email: String!, $password: String!, $fullName: String!) {
+  registerUser(
+    registerInput: {fullName: $fullName, email: $email, password: $password}
+  ) {
+    error
+    user {
+      email
+    }
+  }
+}
+    `;
+
+export function useRegisterUserMutation() {
+  return Urql.useMutation<RegisterUserMutation, RegisterUserMutationVariables>(RegisterUserDocument);
 };
 export const GetCredentialsDocument = gql`
     query GetCredentials {
