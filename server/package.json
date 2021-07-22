@@ -22,7 +22,7 @@
     "typescript": "^4.3.5"
   },
   "dependencies": {
-    "apollo-server-express": "^3.0.1",
+    "apollo-server-express": "^2.25.2",
     "argon2": "^0.28.2",
     "big-integer": "^1.6.48",
     "class-validator": "^0.13.1",

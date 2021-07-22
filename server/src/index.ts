@@ -40,7 +40,11 @@ const main = async () => {
   app.use(
     cors({
       credentials: true,
-      origin: ["https://studio.apollographql.com", "http://localhost:3000"],
+      origin: [
+        "https://studio.apollographql.com",
+        "http://localhost:3000",
+        "https://super-duper-couscous.vercel.app",
+      ],
     })
   );
   const redisClient = new Redis();
@@ -73,7 +77,6 @@ const main = async () => {
     }),
     context: ({ req, res }): ApolloContext => ({ req, res }),
   });
-  await apollo.start();
   apollo.applyMiddleware({ app, cors: false });
 
   app.use(

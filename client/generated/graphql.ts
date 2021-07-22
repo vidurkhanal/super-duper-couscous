@@ -27,6 +27,13 @@ export type Credential = {
   updatedDate: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
+  user: User;
+};
+
+export type CredentialResponse = {
+  __typename?: 'CredentialResponse';
+  error?: Maybe<Scalars['String']>;
+  credential?: Maybe<Credential>;
 };
 
 export type LoginInput = {
@@ -38,7 +45,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   registerUser: AuthResponse;
   loginUser: AuthResponse;
-  addCredential: Credential;
+  addCredential: CredentialResponse;
 };
 
 
@@ -61,17 +68,13 @@ export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   getAllUsers: Array<User>;
+  me?: Maybe<User>;
   getCredentials?: Maybe<Array<Credential>>;
 };
 
 
 export type QueryHelloArgs = {
   name: Scalars['String'];
-};
-
-
-export type QueryGetCredentialsArgs = {
-  userID: Scalars['String'];
 };
 
 export type RegisterInput = {
@@ -87,20 +90,8 @@ export type User = {
   updatedDate: Scalars['String'];
   fullName: Scalars['String'];
   email: Scalars['String'];
+  credentials?: Maybe<Array<Credential>>;
 };
-
-export type GetCredentialsQueryVariables = Exact<{
-  userID: Scalars['String'];
-}>;
-
-
-export type GetCredentialsQuery = (
-  { __typename?: 'Query' }
-  & { getCredentials?: Maybe<Array<(
-    { __typename?: 'Credential' }
-    & Pick<Credential, 'email' | 'password'>
-  )>> }
-);
 
 export type LoginUserMutationVariables = Exact<{
   email: Scalars['String'];
@@ -119,19 +110,43 @@ export type LoginUserMutation = (
   ) }
 );
 
+export type GetCredentialsQueryVariables = Exact<{ [key: string]: never; }>;
 
-export const GetCredentialsDocument = gql`
-    query GetCredentials($userID: String!) {
-  getCredentials(userID: $userID) {
-    email
-    password
-  }
-}
-    `;
 
-export function useGetCredentialsQuery(options: Omit<Urql.UseQueryArgs<GetCredentialsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<GetCredentialsQuery>({ query: GetCredentialsDocument, ...options });
-};
+export type GetCredentialsQuery = (
+  { __typename?: 'Query' }
+  & { getCredentials?: Maybe<Array<(
+    { __typename?: 'Credential' }
+    & Pick<Credential, 'credentialID' | 'email' | 'password'>
+  )>> }
+);
+
+export type HelloQueryQueryVariables = Exact<{
+  helloName: Scalars['String'];
+}>;
+
+
+export type HelloQueryQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'hello'>
+);
+
+export type MeQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type MeQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'userID'>
+    & { credentials?: Maybe<Array<(
+      { __typename?: 'Credential' }
+      & Pick<Credential, 'email' | 'password'>
+    )>> }
+  )> }
+);
+
+
 export const LoginUserDocument = gql`
     mutation LoginUser($email: String!, $password: String!) {
   loginUser(loginInput: {email: $email, password: $password}) {
@@ -144,4 +159,41 @@ export const LoginUserDocument = gql`
 
 export function useLoginUserMutation() {
   return Urql.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument);
+};
+export const GetCredentialsDocument = gql`
+    query GetCredentials {
+  getCredentials {
+    credentialID
+    email
+    password
+  }
+}
+    `;
+
+export function useGetCredentialsQuery(options: Omit<Urql.UseQueryArgs<GetCredentialsQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<GetCredentialsQuery>({ query: GetCredentialsDocument, ...options });
+};
+export const HelloQueryDocument = gql`
+    query HelloQuery($helloName: String!) {
+  hello(name: $helloName)
+}
+    `;
+
+export function useHelloQueryQuery(options: Omit<Urql.UseQueryArgs<HelloQueryQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<HelloQueryQuery>({ query: HelloQueryDocument, ...options });
+};
+export const MeDocument = gql`
+    query Me {
+  me {
+    userID
+    credentials {
+      email
+      password
+    }
+  }
+}
+    `;
+
+export function useMeQuery(options: Omit<Urql.UseQueryArgs<MeQueryVariables>, 'query'> = {}) {
+  return Urql.useQuery<MeQuery>({ query: MeDocument, ...options });
 };
