@@ -1,5 +1,6 @@
 mutation LoginUser($email: String!, $password: String!) {
   loginUser(loginInput: { email: $email, password: $password }) {
+    error
     user {
       email
     }

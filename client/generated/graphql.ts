@@ -45,6 +45,7 @@ export type Mutation = {
   __typename?: 'Mutation';
   registerUser: AuthResponse;
   loginUser: AuthResponse;
+  logoutUser: Scalars['Boolean'];
   addCredential: CredentialResponse;
 };
 
@@ -103,6 +104,7 @@ export type LoginUserMutation = (
   { __typename?: 'Mutation' }
   & { loginUser: (
     { __typename?: 'AuthResponse' }
+    & Pick<AuthResponse, 'error'>
     & { user?: Maybe<(
       { __typename?: 'User' }
       & Pick<User, 'email'>
@@ -150,6 +152,7 @@ export type MeQuery = (
 export const LoginUserDocument = gql`
     mutation LoginUser($email: String!, $password: String!) {
   loginUser(loginInput: {email: $email, password: $password}) {
+    error
     user {
       email
     }
