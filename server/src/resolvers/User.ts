@@ -1,3 +1,4 @@
+import { createEmailLink } from "./../utility/createEmailLink";
 import { COOKIE_NAME } from "./../constants";
 import { User } from "../models/user";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
@@ -8,6 +9,7 @@ import { RegisterInput } from "./GqlObjects/registerInput";
 import { LoginInput } from "./GqlObjects/loginInput";
 import { AuthResponse } from "./GqlObjects/AuthResponse";
 import { ApolloContext } from "src/types";
+import { PAGE_URL } from "./../constants";
 
 @Resolver()
 export class UserResolver {
@@ -29,7 +31,7 @@ export class UserResolver {
   @Mutation(() => AuthResponse)
   async registerUser(
     @Arg("registerInput") registerInput: RegisterInput,
-    @Ctx() { req }: ApolloContext
+    @Ctx() { req, redisClient }: ApolloContext
   ): Promise<AuthResponse> {
     const { error } = AuthSchema.validate(registerInput);
     let user;
@@ -75,13 +77,17 @@ export class UserResolver {
         })
         .returning("*")
         .execute();
-      user = result.raw[0];
+      user = result.raw[0] as User;
     } catch (e) {
       if (e.code === "23505") {
         return { error: "Provided Email Already Exists.", user };
       }
       return { error: "Some Internal Error Occurred.Try Again.", user };
     }
+
+    const link = await createEmailLink(PAGE_URL, redisClient, user.userID);
+    console.log(link);
+
     req.session.userID = user.userID;
     return { user };
   }

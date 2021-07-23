@@ -1,6 +1,6 @@
 import "reflect-metadata";
 require("dotenv").config();
-import Express from "express";
+import Express, { Request, Response } from "express";
 import {
   COOKIE_NAME,
   DATABASE_NAME,
@@ -74,8 +74,9 @@ const main = async () => {
       resolvers: [HelloResolver, UserResolver, CredentialResolver],
       validate: false,
     }),
-    context: ({ req, res }): ApolloContext => ({ req, res }),
+    context: ({ req, res }): ApolloContext => ({ req, res, redisClient }),
   });
+
   apollo.applyMiddleware({ app, cors: false });
 
   app.use(helmet());
@@ -87,6 +88,16 @@ const main = async () => {
     return __PROD__
       ? res.send("<b>Hello THERE</b>")
       : res.send("<b>CONSTRUCTION GOING ON...</b>");
+  });
+
+  app.get("/confirm-email/:id", async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const userID = await redisClient.get(id);
+    if (!userID) res.send("HOW ARE YOU HERE < LOL ?");
+    else {
+      User.update({ userID }, { isVerified: true });
+      res.send("OK");
+    }
   });
 
   app.listen(__PORT__, () => {
