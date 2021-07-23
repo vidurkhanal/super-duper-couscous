@@ -8,3 +8,4 @@ export const COOKIE_SECRET = process.env.SESSION_SECRET!;
 export const ENCRYPTION_KEY = process.env.ENCRYPTION_KEY!;
 export const PUBLIC_KEY = process.env.PUBLIC_KEY!;
 export const PRIVATE_KEY = process.env.PRIVATE_KEY!;
+export const PAGE_URL = "http://localhost:8080";
