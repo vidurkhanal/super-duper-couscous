@@ -1,7 +1,7 @@
 import { COOKIE_NAME } from "./../constants";
 import { User } from "../models/user";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
-import { Connection, getConnection } from "typeorm";
+import { getConnection } from "typeorm";
 import { hash, verify } from "argon2";
 import { AuthSchema } from "../Joi/AuthSchema";
 import { RegisterInput } from "./GqlObjects/registerInput";

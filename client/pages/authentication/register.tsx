@@ -1,27 +1,26 @@
 import {
   Button,
-  Checkbox,
   Flex,
   FormControl,
   FormLabel,
   Heading,
   Input,
-  Link,
   Stack,
   Image,
   useToast,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import { withUrqlClient } from "next-urql";
-import { useLoginUserMutation } from "../../generated/graphql";
+import { useRegisterUserMutation } from "../../generated/graphql";
 import { URQLClient } from "../../utils/createClient";
 
 const Login = () => {
-  const [, loginUser] = useLoginUserMutation();
+  const [, registerUser] = useRegisterUserMutation();
   const toast = useToast();
 
   const handleSubmit = async (values, actions) => {
-    const { data, error } = await loginUser(values);
+    console.log(values);
+    const { data, error } = await registerUser(values);
     if (error) {
       toast({
         title: error.message,
@@ -29,14 +28,14 @@ const Login = () => {
       });
     }
 
-    if (data.loginUser.error) {
+    if (data.registerUser.error) {
       toast({
-        title: data.loginUser.error,
+        title: data.registerUser.error,
         status: "error",
       });
     }
 
-    if (data.loginUser.user) {
+    if (data.registerUser.user) {
       toast({
         title: "Logged In Succesfully...",
         status: "success",
@@ -49,13 +48,27 @@ const Login = () => {
     <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
         <Stack spacing={4} w={"full"} maxW={"md"}>
-          <Heading fontSize={"2xl"}>Sign in to your account</Heading>
+          <Heading fontSize={"2xl"}>Register your account</Heading>
           <Formik
-            initialValues={{ email: "", password: "" }}
+            initialValues={{ email: "", password: "", fullName: "" }}
             onSubmit={handleSubmit}
           >
             {({ isSubmitting }) => (
               <Form>
+                <Field name="fullName">
+                  {({ field, form: _ }) => (
+                    <FormControl id="fullName" name="fullName">
+                      <FormLabel htmlFor="fullName">Full Name</FormLabel>
+                      <Input
+                        mb={3}
+                        type="fullName"
+                        id="fullName"
+                        {...field}
+                        placeholder="Enter your Full Name"
+                      />
+                    </FormControl>
+                  )}
+                </Field>
                 <Field name="email">
                   {({ field, form: _ }) => (
                     <FormControl id="email" name="email">
@@ -75,31 +88,23 @@ const Login = () => {
                     <FormControl id="password" name="password">
                       <FormLabel htmlFor="password">Password</FormLabel>
                       <Input
-                        mb={3}
                         type="password"
+                        mb={3}
                         id="password"
                         {...field}
-                        placeholder="Enter your password"
+                        placeholder="Enter your Password"
                       />
                     </FormControl>
                   )}
                 </Field>
-                <Stack spacing={6}>
-                  <Stack
-                    direction={{ base: "column", sm: "row" }}
-                    align={"start"}
-                    justify={"space-between"}
-                  >
-                    <Checkbox>Remember me</Checkbox>
-                    <Link color={"blue.500"}>Forgot password?</Link>
-                  </Stack>
+                <Stack spacing={6} mt={6}>
                   <Button
                     colorScheme={"blue"}
                     variant={"solid"}
                     type="submit"
                     isLoading={isSubmitting}
                   >
-                    Sign in
+                    Register
                   </Button>
                 </Stack>
               </Form>

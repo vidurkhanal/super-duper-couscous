@@ -19,7 +19,6 @@ import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/User";
 import Redis from "ioredis";
 import connectRedis from "connect-redis";
-import "dotenv/config";
 import session from "express-session";
 import { ApolloContext } from "./types";
 import cors from "cors";
@@ -38,7 +37,6 @@ const main = async () => {
   });
 
   const app = Express();
-  app.use(helmet());
   app.use(
     cors({
       credentials: true,
@@ -80,6 +78,7 @@ const main = async () => {
   });
   apollo.applyMiddleware({ app, cors: false });
 
+  app.use(helmet());
   app.use(
     morgan(":method :url :status :res[content-length] - :response-time ms")
   );
