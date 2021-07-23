@@ -1,14 +1,16 @@
-import { createEmailLink } from "./../utility/createEmailLink";
-import { COOKIE_NAME, PAGE_URL } from "./../constants";
-import { User } from "../models/user";
+import { hash, verify } from "argon2";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { getConnection } from "typeorm";
-import { hash, verify } from "argon2";
 import { AuthSchema } from "../Joi/AuthSchema";
-import { RegisterInput } from "./GqlObjects/registerInput";
-import { LoginInput } from "./GqlObjects/loginInput";
+import { User } from "../models/user";
+import { ApolloContext } from "../types";
+import { sendEmail } from "../utility/sendEmail";
+import { verifyEmailHTMLGenerator } from "../utility/verifyEmailTemplate";
+import { COOKIE_NAME, PAGE_URL } from "./../constants";
+import { createEmailLink } from "./../utility/createEmailLink";
 import { AuthResponse } from "./GqlObjects/AuthResponse";
-import { ApolloContext } from "src/types";
+import { LoginInput } from "./GqlObjects/loginInput";
+import { RegisterInput } from "./GqlObjects/registerInput";
 
 @Resolver()
 export class UserResolver {
@@ -85,7 +87,9 @@ export class UserResolver {
     }
 
     const link = await createEmailLink(PAGE_URL, redisClient, user.userID);
-    console.log(link);
+
+    const emailContent = verifyEmailHTMLGenerator(link);
+    await sendEmail("", "Verify Your KPass12 Email", emailContent);
 
     req.session.userID = user.userID;
     return { user };
