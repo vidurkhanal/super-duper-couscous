@@ -1,6 +1,6 @@
 import "reflect-metadata";
 require("dotenv").config();
-import Express from "express";
+import Express, { Request, Response } from "express";
 import {
   COOKIE_NAME,
   DATABASE_NAME,
@@ -19,7 +19,6 @@ import { HelloResolver } from "./resolvers/hello";
 import { UserResolver } from "./resolvers/User";
 import Redis from "ioredis";
 import connectRedis from "connect-redis";
-import "dotenv/config";
 import session from "express-session";
 import { ApolloContext } from "./types";
 import cors from "cors";
@@ -38,7 +37,6 @@ const main = async () => {
   });
 
   const app = Express();
-  app.use(helmet());
   app.use(
     cors({
       credentials: true,
@@ -76,10 +74,12 @@ const main = async () => {
       resolvers: [HelloResolver, UserResolver, CredentialResolver],
       validate: false,
     }),
-    context: ({ req, res }): ApolloContext => ({ req, res }),
+    context: ({ req, res }): ApolloContext => ({ req, res, redisClient }),
   });
+
   apollo.applyMiddleware({ app, cors: false });
 
+  app.use(helmet());
   app.use(
     morgan(":method :url :status :res[content-length] - :response-time ms")
   );
@@ -88,6 +88,16 @@ const main = async () => {
     return __PROD__
       ? res.send("<b>Hello THERE</b>")
       : res.send("<b>CONSTRUCTION GOING ON...</b>");
+  });
+
+  app.get("/confirm-email/:id", async (req: Request, res: Response) => {
+    const { id } = req.params;
+    const userID = await redisClient.get(id);
+    if (!userID) res.send("HOW ARE YOU HERE < LOL ?");
+    else {
+      User.update({ userID }, { isVerified: true });
+      res.send("OK");
+    }
   });
 
   app.listen(__PORT__, () => {
