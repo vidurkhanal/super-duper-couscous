@@ -1,5 +1,5 @@
 import { createEmailLink } from "./../utility/createEmailLink";
-import { COOKIE_NAME } from "./../constants";
+import { COOKIE_NAME, PAGE_URL } from "./../constants";
 import { User } from "../models/user";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { getConnection } from "typeorm";
@@ -9,7 +9,6 @@ import { RegisterInput } from "./GqlObjects/registerInput";
 import { LoginInput } from "./GqlObjects/loginInput";
 import { AuthResponse } from "./GqlObjects/AuthResponse";
 import { ApolloContext } from "src/types";
-import { PAGE_URL } from "./../constants";
 
 @Resolver()
 export class UserResolver {
