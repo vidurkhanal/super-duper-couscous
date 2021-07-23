@@ -33,6 +33,7 @@ const Login = () => {
                   title: error.message,
                   status: "error",
                 });
+                return;
               }
 
               if (data.loginUser.error) {
@@ -40,6 +41,7 @@ const Login = () => {
                   title: data.loginUser.error,
                   status: "error",
                 });
+                return;
               }
 
               if (data.loginUser.user) {
@@ -49,6 +51,7 @@ const Login = () => {
                 });
               }
               actions.setSubmitting(false);
+              return;
             }}
           >
             {({ isSubmitting }) => (
