@@ -5,7 +5,7 @@ import { AuthSchema } from "../Joi/AuthSchema";
 import { User } from "../models/user";
 import { ApolloContext } from "../types";
 import { sendEmail } from "../utility/sendEmail";
-import { verifyEmailHTMLGenerator } from "../utility/verifyEmailTemplate";
+import { verifyEmailHTMLGenerator } from "../static/verifyEmailTemplate";
 import { COOKIE_NAME, PAGE_URL } from "./../constants";
 import { createEmailLink } from "./../utility/createEmailLink";
 import { AuthResponse } from "./GqlObjects/AuthResponse";
