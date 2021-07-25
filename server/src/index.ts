@@ -94,6 +94,7 @@ const main = async () => {
   app.get("/confirm-email/:id", async (req: Request, res: Response) => {
     const { id } = req.params;
     const userID = await redisClient.get(id);
+    redisClient.del(id);
     if (!userID) res.send("HOW ARE YOU HERE < LOL ?");
     else {
       User.update({ userID }, { isVerified: true });

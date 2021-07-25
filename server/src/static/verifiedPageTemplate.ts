@@ -1,5 +1,6 @@
-import { COMPANY_NAME } from "../constants";
-const link = `http:localhost/authentication/login`;
+import { COMPANY_NAME, PAGE_URL } from "../constants";
+
+const link = `${PAGE_URL}/login`;
 
 export const verifiedPageTemplate = () => `
 <!DOCTYPE html>

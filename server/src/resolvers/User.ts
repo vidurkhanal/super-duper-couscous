@@ -1,3 +1,7 @@
+import { forgetPasswordTemplate } from "./../static/forgotPasswordTemplate";
+import { PasswordSchema } from "./../Joi/AuthSchema";
+import { ChangePasswordResolver } from "./GqlObjects/ChangePasswordResponse";
+import { createForgetPasswordLink } from "./../utility/createForgotPasswordLink";
 import { hash, verify } from "argon2";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { getConnection } from "typeorm";
@@ -7,10 +11,11 @@ import { ApolloContext } from "../types";
 import { sendEmail } from "../utility/sendEmail";
 import { verifyEmailHTMLGenerator } from "../static/verifyEmailTemplate";
 import { COOKIE_NAME, PAGE_URL } from "./../constants";
-import { createEmailLink } from "./../utility/createEmailLink";
+import { createEmailLink } from "../utility/createVerifyEmailLink";
 import { AuthResponse } from "./GqlObjects/AuthResponse";
 import { LoginInput } from "./GqlObjects/loginInput";
 import { RegisterInput } from "./GqlObjects/registerInput";
+import { ForgotPasswordResponse } from "./GqlObjects/ForgotPasswordResponse";
 
 @Resolver()
 export class UserResolver {
@@ -126,5 +131,43 @@ export class UserResolver {
         resolve(true);
       });
     });
+  }
+
+  @Mutation(() => ForgotPasswordResponse)
+  async forgotPassword(
+    @Arg("email") email: string,
+    @Ctx() { redisClient }: ApolloContext
+  ): Promise<ForgotPasswordResponse> {
+    const user = await User.findOne({ where: { email } });
+    if (!user) return { error: "User doesn't exist", isSent: false };
+
+    const link = await createForgetPasswordLink(
+      PAGE_URL,
+      redisClient,
+      user.userID
+    );
+    const emailContent = forgetPasswordTemplate(link);
+    await sendEmail("", "Forgot Password", emailContent);
+    return { isSent: true };
+  }
+
+  @Mutation(() => ChangePasswordResolver)
+  async forgotPasswordChange(
+    @Arg("key") key: string,
+    @Arg("newPassword") newPassword: string,
+    @Ctx() { redisClient }: ApolloContext
+  ): Promise<ChangePasswordResolver> {
+    const userID = await redisClient.get(key);
+    if (!userID) return { error: "Expired or Invalid Key", isChanged: false };
+
+    const { error } = PasswordSchema.validate({ password: newPassword });
+    console.log(error);
+    if (error) {
+      return { error: "New Password isn't secure enough.", isChanged: false };
+    }
+
+    await redisClient.del(key);
+    await User.update({ userID }, { password: await hash(newPassword) });
+    return { isChanged: true };
   }
 }
