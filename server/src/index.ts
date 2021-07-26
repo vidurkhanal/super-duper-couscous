@@ -24,6 +24,7 @@ import { ApolloContext } from "./types";
 import cors from "cors";
 import { CredentialResolver } from "./resolvers/Credential";
 import helmet from "helmet";
+import { verifiedPageTemplate } from "./static/verifiedPageTemplate";
 
 const main = async () => {
   await createConnection({
@@ -93,10 +94,11 @@ const main = async () => {
   app.get("/confirm-email/:id", async (req: Request, res: Response) => {
     const { id } = req.params;
     const userID = await redisClient.get(id);
+    redisClient.del(id);
     if (!userID) res.send("HOW ARE YOU HERE < LOL ?");
     else {
       User.update({ userID }, { isVerified: true });
-      res.send("OK");
+      res.send(verifiedPageTemplate());
     }
   });
 
