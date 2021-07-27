@@ -20,7 +20,7 @@ const Login = () => {
   const [, loginUser] = useLoginUserMutation();
   const toast = useToast();
 
-  const handleSubmit = async (values, actions) => {
+  const handleSubmit = async (values: any, actions: any) => {
     const { data, error } = await loginUser(values);
     if (error) {
       toast({
@@ -29,14 +29,14 @@ const Login = () => {
       });
     }
 
-    if (data.loginUser.error) {
+    if (data?.loginUser.error) {
       toast({
         title: data.loginUser.error,
         status: "error",
       });
     }
 
-    if (data.loginUser.user) {
+    if (data?.loginUser.user) {
       toast({
         title: "Logged In Succesfully...",
         status: "success",
@@ -91,7 +91,9 @@ const Login = () => {
                     justify={"space-between"}
                   >
                     <Checkbox>Remember me</Checkbox>
-                    <Link color={"blue.500"}>Forgot password?</Link>
+                    <Link color={"blue.500"} href="/forgetpassword">
+                      Forgot password?
+                    </Link>
                   </Stack>
                   <Button
                     colorScheme={"blue"}

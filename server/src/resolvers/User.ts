@@ -136,16 +136,12 @@ export class UserResolver {
   @Mutation(() => ForgotPasswordResponse)
   async forgotPassword(
     @Arg("email") email: string,
-    @Ctx() { redisClient }: ApolloContext
+    @Ctx() { PwdRedisClient: redisClient }: ApolloContext
   ): Promise<ForgotPasswordResponse> {
     const user = await User.findOne({ where: { email } });
     if (!user) return { error: "User doesn't exist", isSent: false };
 
-    const link = await createForgetPasswordLink(
-      PAGE_URL,
-      redisClient,
-      user.userID
-    );
+    const link = await createForgetPasswordLink(redisClient, user.userID);
     const emailContent = forgetPasswordTemplate(link);
     await sendEmail("", "Forgot Password", emailContent);
     return { isSent: true };
@@ -155,10 +151,11 @@ export class UserResolver {
   async forgotPasswordChange(
     @Arg("key") key: string,
     @Arg("newPassword") newPassword: string,
-    @Ctx() { redisClient }: ApolloContext
+    @Ctx() { PwdRedisClient: redisClient }: ApolloContext
   ): Promise<ChangePasswordResolver> {
     const userID = await redisClient.get(key);
-    if (!userID) return { error: "Expired or Invalid Key", isChanged: false };
+    if (!userID)
+      return { error: "Provided Token is valid or expired.", isChanged: false };
 
     const { error } = PasswordSchema.validate({ password: newPassword });
     console.log(error);
