@@ -6,6 +6,8 @@ import {
   DATABASE_NAME,
   DATABASE_PASSWORD,
   DATABASE_USERNAME,
+  PWD_REDIS_CLIENT_HOST,
+  PWD_REDIS_PASSWORD,
   __PORT__,
   __PROD__,
 } from "./constants";
@@ -49,6 +51,12 @@ const main = async () => {
   );
   const redisClient = new Redis();
   const redisStore = connectRedis(session);
+  const PwdRedisClient = new Redis({
+    port: 13762,
+    host: PWD_REDIS_CLIENT_HOST,
+    password: PWD_REDIS_PASSWORD,
+    db: 0,
+  });
 
   app.use(
     session({
@@ -75,7 +83,12 @@ const main = async () => {
       resolvers: [HelloResolver, UserResolver, CredentialResolver],
       validate: false,
     }),
-    context: ({ req, res }): ApolloContext => ({ req, res, redisClient }),
+    context: ({ req, res }): ApolloContext => ({
+      req,
+      res,
+      redisClient,
+      PwdRedisClient: PwdRedisClient,
+    }),
   });
 
   apollo.applyMiddleware({ app, cors: false });

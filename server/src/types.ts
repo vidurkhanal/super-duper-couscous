@@ -7,6 +7,7 @@ export type ApolloContext = {
     session: Session & Partial<SessionData> & { userID?: string };
   };
   redisClient: Redis;
+  PwdRedisClient: Redis;
   res: Response;
   payload?: { userID: number };
 };
