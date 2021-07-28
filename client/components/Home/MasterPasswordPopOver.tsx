@@ -14,7 +14,7 @@ import {
   useDisclosure,
   FormErrorMessage,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import React, { useState } from "react";
 import { BsFillEyeFill } from "react-icons/bs";
 interface MasterPasswordPopOverProps {
   passwordUnlockerFn: () => void;
@@ -26,7 +26,7 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [masterPIN, setMasterPIN] = useState<"" | string>("");
   const [formErr, setFormErr] = useState<null | string>(null);
-  const masterPINChecker = (e) => {
+  const masterPINChecker = (e: React.FormEvent) => {
     e.preventDefault();
     if (masterPIN === "1234") {
       passwordUnlockerFn();
@@ -45,7 +45,7 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
       <Modal
         isOpen={isOpen}
         onClose={() => {
-          setMasterPIN(null);
+          setMasterPIN("");
           setFormErr(null);
           onClose();
         }}
@@ -62,7 +62,7 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
                   autoFocus
                   inputMode="numeric"
                   value={masterPIN}
-                  onChange={(e) => {
+                  onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setMasterPIN(e.target.value);
                     const foo = e.target.value;
                     if (foo.length > 8) {

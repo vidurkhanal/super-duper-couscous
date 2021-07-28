@@ -1,7 +1,7 @@
 import { ghost } from "./setup";
 
 export async function getAllPosts() {
-  return await ghost.posts
+  return ghost.posts
     .browse({
       include: ["authors", "tags"],
       limit: "15",
@@ -12,7 +12,7 @@ export async function getAllPosts() {
 }
 
 export async function getSinglePost(postSlug: string) {
-  return await ghost.posts
+  return ghost.posts
     .read(
       {
         slug: postSlug,
