@@ -12,7 +12,7 @@ interface IOtherBlogsBox {
 export const OtherBlogsBox: React.FC<IOtherBlogsBox> = ({ postToRender }) => {
   const router = useRouter();
   const tagsBuilder = (): string[] => {
-    let tags = [];
+    let tags: string[] = [];
     postToRender.tags.forEach((tag) => tags.push(tag.name));
     return tags;
   };

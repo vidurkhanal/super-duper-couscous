@@ -16,11 +16,16 @@ import { withUrqlClient } from "next-urql";
 import { useLoginUserMutation } from "../../generated/graphql";
 import { URQLClient } from "../../utils/createClient";
 
+type FormValues = {
+  email: string;
+  password: string;
+};
+
 const Login = () => {
   const [, loginUser] = useLoginUserMutation();
   const toast = useToast();
 
-  const handleSubmit = async (values: any, actions: any) => {
+  const handleSubmit = async (values: FormValues, actions: any) => {
     const { data, error } = await loginUser(values);
     if (error) {
       toast({
@@ -57,7 +62,7 @@ const Login = () => {
             {({ isSubmitting }) => (
               <Form>
                 <Field name="email">
-                  {({ field, form: _ }) => (
+                  {({ field, form: _ }: any) => (
                     <FormControl id="email" name="email">
                       <FormLabel htmlFor="email">Email address</FormLabel>
                       <Input
@@ -71,7 +76,7 @@ const Login = () => {
                   )}
                 </Field>
                 <Field name="password">
-                  {({ field, form: _ }) => (
+                  {({ field, form: _ }: any) => (
                     <FormControl id="password" name="password">
                       <FormLabel htmlFor="password">Password</FormLabel>
                       <Input

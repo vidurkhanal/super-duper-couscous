@@ -14,11 +14,17 @@ import { withUrqlClient } from "next-urql";
 import { useRegisterUserMutation } from "../../generated/graphql";
 import { URQLClient } from "../../utils/createClient";
 
+type FormValues = {
+  email: string;
+  password: string;
+  fullName: string;
+};
+
 const Login = () => {
   const [, registerUser] = useRegisterUserMutation();
   const toast = useToast();
 
-  const handleSubmit = async (values, actions) => {
+  const handleSubmit = async (values: FormValues, actions: any) => {
     console.log(values);
     const { data, error } = await registerUser(values);
     if (error) {
@@ -28,14 +34,14 @@ const Login = () => {
       });
     }
 
-    if (data.registerUser.error) {
+    if (data?.registerUser.error) {
       toast({
         title: data.registerUser.error,
         status: "error",
       });
     }
 
-    if (data.registerUser.user) {
+    if (data?.registerUser.user) {
       toast({
         title: "Logged In Succesfully...",
         status: "success",
@@ -56,7 +62,7 @@ const Login = () => {
             {({ isSubmitting }) => (
               <Form>
                 <Field name="fullName">
-                  {({ field, form: _ }) => (
+                  {({ field, form: _ }: any) => (
                     <FormControl id="fullName" name="fullName">
                       <FormLabel htmlFor="fullName">Full Name</FormLabel>
                       <Input
@@ -70,7 +76,7 @@ const Login = () => {
                   )}
                 </Field>
                 <Field name="email">
-                  {({ field, form: _ }) => (
+                  {({ field, form: _ }: any) => (
                     <FormControl id="email" name="email">
                       <FormLabel htmlFor="email">Email address</FormLabel>
                       <Input
@@ -84,7 +90,7 @@ const Login = () => {
                   )}
                 </Field>
                 <Field name="password">
-                  {({ field, form: _ }) => (
+                  {({ field, form: _ }: any) => (
                     <FormControl id="password" name="password">
                       <FormLabel htmlFor="password">Password</FormLabel>
                       <Input

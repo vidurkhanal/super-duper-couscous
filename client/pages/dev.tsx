@@ -1,9 +1,7 @@
 import { withUrqlClient } from "next-urql";
-import { useEffect } from "react";
 import {
   useLoginUserMutation,
   useGetCredentialsQuery,
-  useMeQuery,
 } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 import { decode } from "../utils/decode";
@@ -12,10 +10,12 @@ const Dev = () => {
   const [, loginUser] = useLoginUserMutation();
   const [{ data }] = useGetCredentialsQuery();
   // const [{ data }] = useMeQuery();
-  console.log(decode(data?.getCredentials[0].password));
+
+  if (data?.getCredentials)
+    console.log(decode(data.getCredentials[0].password));
 
   // useEffect(() => {
-  //   const loginU = async () => {
+  //   const loginU = async () =>
   //     await loginUser({
   //       email: "vidur@vidur.com",
   //       password: "vid123!@",

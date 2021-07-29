@@ -4,7 +4,7 @@ import theme from "../utils/theme";
 import "@fontsource/raleway/400.css";
 import "@fontsource/open-sans/700.css";
 
-function MyApp({ Component, pageProps }) {
+function MyApp({ Component, pageProps }: any) {
   return (
     <ChakraProvider theme={theme}>
       <Head>

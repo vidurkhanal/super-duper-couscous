@@ -24,14 +24,14 @@ export default SinglePage;
 export async function getStaticPaths() {
   const posts = await getAllPosts();
   //@ts-ignore
-  const paths = posts.map((post) => ({
+  const paths = posts.map((post: Post) => ({
     params: { slug: post.slug },
   }));
 
   return { paths, fallback: false };
 }
 
-export async function getStaticProps(context) {
+export async function getStaticProps(context: any) {
   const post = await getSinglePost(context.params.slug);
 
   if (!post) {
