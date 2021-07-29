@@ -17,6 +17,7 @@ RUN yarn
 COPY . .
 COPY .env.production .env
 
+
 RUN yarn build:ts
 
 ENV NODE_ENV=production
