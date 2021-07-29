@@ -23,7 +23,7 @@ import { useRouter } from "next/router";
 const index: React.FC<{ posts: Post[] }> = ({ posts }) => {
   const router = useRouter();
   const tagsBuilder = (i: number): string[] => {
-    let tags = [];
+    let tags: string[] = [];
     posts[i].tags.forEach((tag) => tags.push(tag.name));
     return tags;
   };
@@ -129,7 +129,7 @@ const index: React.FC<{ posts: Post[] }> = ({ posts }) => {
 };
 export default index;
 
-export const getStaticProps = async ({ params }) => {
+export const getStaticProps = async ({ params }: any) => {
   const posts = await getAllPosts();
 
   if (!posts) {
