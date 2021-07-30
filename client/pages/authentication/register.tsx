@@ -25,7 +25,6 @@ const Login = () => {
   const toast = useToast();
 
   const handleSubmit = async (values: FormValues, actions: any) => {
-    console.log(values);
     const { data, error } = await registerUser(values);
     if (error) {
       toast({
@@ -43,7 +42,7 @@ const Login = () => {
 
     if (data?.registerUser.user) {
       toast({
-        title: "Logged In Succesfully...",
+        title: "Account registered succesfully. Please check your email.",
         status: "success",
       });
     }

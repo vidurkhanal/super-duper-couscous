@@ -1,4 +1,8 @@
-"use strict";
+("use strict");
+import {
+  SEND_IN_BLUE_EMAIL_FOR_VERIFY,
+  SEND_IN_BLUE_PASSWORD_FOR_VERIFY,
+} from "./../constants";
 import nodemailer from "nodemailer";
 
 // const getTestAcc = async () => {
@@ -9,7 +13,7 @@ import nodemailer from "nodemailer";
 // getTestAcc().catch((e) => console.log(e.message));
 
 export async function sendEmail(
-  _emailToSendTo: string,
+  emailToSendTo: string,
   emailTitle: string,
   emailContent: string
 ) {
@@ -19,31 +23,31 @@ export async function sendEmail(
   //   console.log(testAccount);
 
   // create reusable transporter object using the default SMTP transport
-  //   let transporter = nodemailer.createTransport({
-  //     service: "SendinBlue",
-  //     host: "smtp-relay.sendinblue.com",
-  //     port: 587,
-  //     secure: false, // true for 465, false for other ports
-  //     auth: {
-  //       user: "SEND IN BLUE EMAIK",
-  //       pass: "SEND IN BLUE PWD",
-  //     },
-  //   });
-
   let transporter = nodemailer.createTransport({
-    host: "smtp.ethereal.email",
+    service: "SendinBlue",
+    host: "smtp-relay.sendinblue.com",
     port: 587,
     secure: false, // true for 465, false for other ports
     auth: {
-      user: "xfcqlzq7xrtkfcrr@ethereal.email",
-      pass: "vGCHCKgBvr3uXJFj1F",
+      user: SEND_IN_BLUE_EMAIL_FOR_VERIFY,
+      pass: SEND_IN_BLUE_PASSWORD_FOR_VERIFY,
     },
   });
 
+  // let transporter = nodemailer.createTransport({
+  //   host: "smtp.ethereal.email",
+  //   port: 587,
+  //   secure: false, // true for 465, false for other ports
+  //   auth: {
+  //     user: "xfcqlzq7xrtkfcrr@ethereal.email",
+  //     pass: "vGCHCKgBvr3uXJFj1F",
+  //   },
+  // });
+
   //   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"K Pass 12" <topilama23@gmail.com>', // sender address
-    to: "rux12@icloud.com, vidur1@outlook.com", // list of receivers
+    from: '"K Pass 12" <noreply@kpass12.com>', // sender address
+    to: emailToSendTo, // list of receivers
     subject: emailTitle, // Subject line
     html: emailContent, // html body
   });
