@@ -107,3 +107,5 @@ dist
 # TernJS port file
 .tern-port
 client/.prettierrc.json
+server/ormconfig.json
+server/.env.production

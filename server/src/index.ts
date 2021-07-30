@@ -1,13 +1,12 @@
 import "reflect-metadata";
-require("dotenv").config();
+require("dotenv-safe").config();
 import Express, { Request, Response } from "express";
 import {
   COOKIE_NAME,
-  DATABASE_NAME,
-  DATABASE_PASSWORD,
-  DATABASE_USERNAME,
   PWD_REDIS_CLIENT_HOST,
   PWD_REDIS_PASSWORD,
+  SESSIONS_REDIS_CLIENT_HOST,
+  SESSIONS_REDIS_PASSWORD,
   __PORT__,
   __PROD__,
 } from "./constants";
@@ -27,18 +26,18 @@ import cors from "cors";
 import { CredentialResolver } from "./resolvers/Credential";
 import helmet from "helmet";
 import { verifiedPageTemplate } from "./static/verifiedPageTemplate";
+import path from "path";
 
 const main = async () => {
-  await createConnection({
+  const conn = await createConnection({
     type: "postgres",
-    database: DATABASE_NAME,
-    username: DATABASE_USERNAME,
-    password: DATABASE_PASSWORD,
+    url: process.env.DATABASE_URL,
     logging: true,
-    synchronize: true,
+    // synchronize: true,
+    migrations: [path.join(__dirname, "./migrations/*")],
     entities: [User, Credential],
   });
-
+  await conn.runMigrations();
   const app = Express();
   app.use(
     cors({
@@ -49,7 +48,12 @@ const main = async () => {
       ],
     })
   );
-  const redisClient = new Redis();
+  const redisClient = new Redis({
+    port: 11173,
+    host: SESSIONS_REDIS_CLIENT_HOST,
+    password: SESSIONS_REDIS_PASSWORD,
+    db: 0,
+  });
   const redisStore = connectRedis(session);
   const PwdRedisClient = new Redis({
     port: 13762,
@@ -60,7 +64,7 @@ const main = async () => {
 
   app.use(
     session({
-      secret: "w**oS=l9MBWY=CpRvuwT=uu#BXaVJ45l",
+      secret: process.env.SESSION_SECRET,
       store: new redisStore({
         client: redisClient,
         disableTTL: true,
