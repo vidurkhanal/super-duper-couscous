@@ -6,7 +6,7 @@ const url = __PROD__
   : "http://localhost:8080/graphql";
 
 export const URQLClient = (ssrExchange: any, _ctx: any) => ({
-  url,
+  url: "https://api.kpass12.ninja/graphql",
   fetchOptions: {
     credentials: "include" as const,
   },
