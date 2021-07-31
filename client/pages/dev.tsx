@@ -1,14 +1,11 @@
 import { withUrqlClient } from "next-urql";
-import {
-  useLoginUserMutation,
-  useGetCredentialsQuery,
-} from "../generated/graphql";
+import { useGetCredentialsQuery, useMeQuery } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 import { decode } from "../utils/decode";
 
 const Dev = () => {
-  const [, loginUser] = useLoginUserMutation();
   const [{ data }] = useGetCredentialsQuery();
+  console.log(data);
   // const [{ data }] = useMeQuery();
 
   if (data?.getCredentials)

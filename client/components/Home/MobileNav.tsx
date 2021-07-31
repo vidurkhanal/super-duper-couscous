@@ -15,11 +15,20 @@ import {
   MenuDivider,
 } from "@chakra-ui/react";
 import { FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
+import NextRouter from "next/router";
+import { useLogoutUserMutation } from "../../generated/graphql";
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const [, logoutUser] = useLogoutUserMutation();
+  const handleLogout = async () => {
+    await logoutUser();
+    setTimeout(() => {
+      NextRouter.push("/authentication/login");
+    }, 1000);
+  };
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -97,7 +106,7 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={handleLogout}>Sign out</MenuItem>
             </MenuList>
           </Menu>
         </Flex>

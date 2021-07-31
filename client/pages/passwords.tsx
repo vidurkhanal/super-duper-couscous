@@ -1,9 +1,16 @@
 import { Box, Text } from "@chakra-ui/react";
+import { withUrqlClient } from "next-urql";
 import { Password } from "../components/Home/Password";
 import { Wrapper } from "../components/Home/Wrapper";
+import { useMeQuery } from "../generated/graphql";
 import { sample_server_res } from "../types";
+import { URQLClient } from "../utils/createClient";
+import NextRouter from "next/router";
+import { useEffect } from "react";
 
 const PasswordPage = () => {
+  //We need a loading page indicator thing here
+  const [{ data }] = useMeQuery();
   const server_res: sample_server_res = {
     data: [
       {
@@ -48,6 +55,11 @@ const PasswordPage = () => {
       },
     ],
   };
+
+  useEffect(() => {
+    if (!data?.me) NextRouter.push("/authentication/login");
+  }, []);
+
   return (
     <Box>
       <Wrapper>
@@ -74,4 +86,4 @@ const PasswordPage = () => {
   );
 };
 
-export default PasswordPage;
+export default withUrqlClient(URQLClient, { ssr: true })(PasswordPage);
