@@ -8,6 +8,7 @@ import {
   Stack,
   Image,
   useToast,
+  Link,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import { withUrqlClient } from "next-urql";
@@ -102,6 +103,9 @@ const Login = () => {
                     </FormControl>
                   )}
                 </Field>
+                <Link color={"blue.500"} href="/authentication/login">
+                  Already Have An Account?
+                </Link>
                 <Stack spacing={6} mt={6}>
                   <Button
                     colorScheme={"blue"}
