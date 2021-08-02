@@ -188,7 +188,7 @@ const NAV_ITEMS: Array<NavItem> = [
     href: "#",
   },
   {
-    label: "We ll have 4 nav links at least",
-    href: "#",
+    label: "Blog",
+    href: "/engineering/blog",
   },
 ];

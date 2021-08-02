@@ -11,6 +11,7 @@ import {
   createIcon,
 } from "@chakra-ui/react";
 import { Link } from "react-scroll";
+import NextRouter from "next/router";
 
 export const MainSection = () => {
   return (
@@ -62,6 +63,7 @@ export const MainSection = () => {
               _hover={{
                 bg: "green.500",
               }}
+              onClick={() => NextRouter.push("/authentication/register")}
             >
               Get Started
             </Button>
