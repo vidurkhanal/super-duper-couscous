@@ -57,7 +57,7 @@ const PasswordPage = () => {
   };
 
   useEffect(() => {
-    if (!fetching && !data?.me) NextRouter.push("/authentication/login");
+    if (!fetching && !data?.me) window.location.href = "/authentication/login";
   }, [data, fetching]);
 
   if (data?.me) {
