@@ -45,9 +45,12 @@ const Login = () => {
 
     if (data?.loginUser.user) {
       toast({
-        title: "Logged In Succesfully...",
+        title: "Logged In Succesfully...Redirecting to home page",
         status: "success",
       });
+      setTimeout(() => {
+        NextRouter.push("/passwords");
+      }, 1000);
     }
     actions.setSubmitting(false);
   };
@@ -114,7 +117,7 @@ const Login = () => {
                     OR
                   </Text>
                   <Button
-                    colorScheme={"blackAlpha"}
+                    colorScheme={"blue"}
                     variant={"solid"}
                     onClick={() => NextRouter.push("/authentication/register")}
                   >
