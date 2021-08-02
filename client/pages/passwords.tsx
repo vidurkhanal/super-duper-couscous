@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { Password } from "../components/Home/Password";
 import { Wrapper } from "../components/Home/Wrapper";
@@ -10,7 +10,8 @@ import { useEffect } from "react";
 
 const PasswordPage = () => {
   //We need a loading page indicator thing here
-  const [{ data }] = useMeQuery();
+  const [{ data, fetching }] = useMeQuery();
+  console.log(data);
   const server_res: sample_server_res = {
     data: [
       {
@@ -57,33 +58,45 @@ const PasswordPage = () => {
   };
 
   useEffect(() => {
-    if (!data?.me) NextRouter.push("/authentication/login");
-  }, []);
+    if (!fetching && !data?.me) NextRouter.push("/authentication/login");
+  }, [data, fetching]);
 
+  if (data?.me) {
+    return (
+      <Box>
+        <Wrapper>
+          {server_res.data.map((item, index) => {
+            return (
+              <Box key={index}>
+                <Text
+                  textTransform="capitalize"
+                  fontSize="2xl"
+                  mb="10px"
+                  as="h1"
+                  fontWeight="600"
+                >
+                  {item.category}
+                </Text>
+                {item.passwords.map((instance, id) => (
+                  <Password pass={instance} key={id} />
+                ))}
+              </Box>
+            );
+          })}
+        </Wrapper>
+      </Box>
+    );
+  }
   return (
-    <Box>
-      <Wrapper>
-        {server_res.data.map((item, index) => {
-          return (
-            <Box key={index}>
-              <Text
-                textTransform="capitalize"
-                fontSize="2xl"
-                mb="10px"
-                as="h1"
-                fontWeight="600"
-              >
-                {item.category}
-              </Text>
-              {item.passwords.map((instance, id) => (
-                <Password pass={instance} key={id} />
-              ))}
-            </Box>
-          );
-        })}
-      </Wrapper>
-    </Box>
+    <Flex
+      width="100vw"
+      height="100vh"
+      alignItems="center"
+      justifyContent="center"
+    >
+      <Spinner />
+    </Flex>
   );
 };
 
-export default withUrqlClient(URQLClient, { ssr: true })(PasswordPage);
+export default withUrqlClient(URQLClient)(PasswordPage);
