@@ -11,7 +11,6 @@ import { useEffect } from "react";
 const PasswordPage = () => {
   //We need a loading page indicator thing here
   const [{ data, fetching }] = useMeQuery();
-  console.log(data);
   const server_res: sample_server_res = {
     data: [
       {
@@ -58,7 +57,7 @@ const PasswordPage = () => {
   };
 
   useEffect(() => {
-    if (!fetching && !data?.me) NextRouter.push("/authentication/login");
+    if (!fetching && !data?.me) window.location.href = "/authentication/login";
   }, [data, fetching]);
 
   if (data?.me) {
