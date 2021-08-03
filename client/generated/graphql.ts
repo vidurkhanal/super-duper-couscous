@@ -219,7 +219,7 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'userID'>
+    & Pick<User, 'userID' | 'fullName'>
     & { credentials?: Maybe<Array<(
       { __typename?: 'Credential' }
       & Pick<Credential, 'email' | 'password'>
@@ -317,6 +317,7 @@ export const MeDocument = gql`
     query Me {
   me {
     userID
+    fullName
     credentials {
       email
       password

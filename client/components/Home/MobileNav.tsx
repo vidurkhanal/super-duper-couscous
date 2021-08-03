@@ -16,12 +16,13 @@ import {
 } from "@chakra-ui/react";
 import { FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
 import NextRouter from "next/router";
-import { useLogoutUserMutation } from "../../generated/graphql";
+import { useLogoutUserMutation, useMeQuery } from "../../generated/graphql";
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
 }
 export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
+  const [{ data }] = useMeQuery();
   const [, logoutUser] = useLogoutUserMutation();
   const handleLogout = async () => {
     await logoutUser();
@@ -88,7 +89,7 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                   spacing="1px"
                   ml="2"
                 >
-                  <Text fontSize="sm">Justina Clark</Text>
+                  <Text fontSize="sm">{data?.me?.fullName}</Text>
                   <Text fontSize="xs" color="gray.600">
                     Admin
                   </Text>

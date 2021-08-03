@@ -49,8 +49,8 @@ const Login = () => {
         status: "success",
       });
       setTimeout(() => {
-        NextRouter.push("/passwords");
-      }, 1000);
+        window.location.href = "/passwords";
+      }, 2000);
     }
     actions.setSubmitting(false);
   };
