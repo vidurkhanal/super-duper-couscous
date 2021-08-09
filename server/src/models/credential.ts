@@ -39,6 +39,14 @@ export class Credential extends BaseEntity {
   @Column({ type: "text" })
   password: string;
 
+  @Field()
+  @Column()
+  strength: number;
+
+  @Field()
+  @Column()
+  siteName: string;
+
   @Field(() => User)
   @ManyToOne(() => User, (user: User) => user.credentials)
   @JoinColumn({ name: "userID" })
