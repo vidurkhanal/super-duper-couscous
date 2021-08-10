@@ -33,6 +33,8 @@ export type Credential = {
   updatedDate: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
+  strength: Scalars['Float'];
+  siteName: Scalars['String'];
   user: User;
 };
 
@@ -86,6 +88,7 @@ export type MutationForgotPasswordChangeArgs = {
 
 
 export type MutationAddCredentialArgs = {
+  siteName: Scalars['String'];
   password: Scalars['String'];
   email: Scalars['String'];
 };
@@ -118,6 +121,21 @@ export type User = {
   email: Scalars['String'];
   credentials?: Maybe<Array<Credential>>;
 };
+
+export type AddCredentialMutationVariables = Exact<{
+  email: Scalars['String'];
+  siteName: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type AddCredentialMutation = (
+  { __typename?: 'Mutation' }
+  & { addCredential: (
+    { __typename?: 'CredentialResponse' }
+    & Pick<CredentialResponse, 'error'>
+  ) }
+);
 
 export type ForgetPasswordMutationVariables = Exact<{
   email: Scalars['String'];
@@ -228,6 +246,17 @@ export type MeQuery = (
 );
 
 
+export const AddCredentialDocument = gql`
+    mutation AddCredential($email: String!, $siteName: String!, $password: String!) {
+  addCredential(email: $email, siteName: $siteName, password: $password) {
+    error
+  }
+}
+    `;
+
+export function useAddCredentialMutation() {
+  return Urql.useMutation<AddCredentialMutation, AddCredentialMutationVariables>(AddCredentialDocument);
+};
 export const ForgetPasswordDocument = gql`
     mutation ForgetPassword($email: String!) {
   forgotPassword(email: $email) {
