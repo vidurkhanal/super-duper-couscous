@@ -5,13 +5,11 @@ import { Wrapper } from "../components/Home/Wrapper";
 import { useMeQuery } from "../generated/graphql";
 import { sample_server_res } from "../types";
 import { URQLClient } from "../utils/createClient";
-import NextRouter from "next/router";
 import { useEffect } from "react";
-import AddCredModal from "../components/AddCredential/addCredModal";
 
 const PasswordPage = () => {
   //We need a loading page indicator thing here
-  // const [{ data, fetching }] = useMeQuery();
+  const [{ data, fetching }] = useMeQuery();
   const server_res: sample_server_res = {
     data: [
       {
@@ -57,36 +55,36 @@ const PasswordPage = () => {
     ],
   };
 
-  // useEffect(() => {
-  //   if (!fetching && !data?.me) window.location.href = "/authentication/login";
-  // }, [data, fetching]);
+  useEffect(() => {
+    if (!fetching && !data?.me) window.location.href = "/authentication/login";
+  }, [data, fetching]);
 
-  // if (data?.me) {
-  return (
-    <Box>
-      <Wrapper>
-        {server_res.data.map((item, index) => {
-          return (
-            <Box key={index}>
-              <Text
-                textTransform="capitalize"
-                fontSize="2xl"
-                mb="10px"
-                as="h1"
-                fontWeight="600"
-              >
-                {item.category}
-              </Text>
-              {item.passwords.map((instance, id) => (
-                <Password pass={instance} key={id} />
-              ))}
-            </Box>
-          );
-        })}
-      </Wrapper>
-    </Box>
-  );
-  // }
+  if (data?.me) {
+    return (
+      <Box>
+        <Wrapper>
+          {server_res.data.map((item, index) => {
+            return (
+              <Box key={index}>
+                <Text
+                  textTransform="capitalize"
+                  fontSize="2xl"
+                  mb="10px"
+                  as="h1"
+                  fontWeight="600"
+                >
+                  {item.category}
+                </Text>
+                {item.passwords.map((instance, id) => (
+                  <Password pass={instance} key={id} />
+                ))}
+              </Box>
+            );
+          })}
+        </Wrapper>
+      </Box>
+    );
+  }
   return (
     <Flex
       width="100vw"
