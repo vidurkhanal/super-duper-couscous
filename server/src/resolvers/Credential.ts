@@ -12,6 +12,7 @@ export class CredentialResolver {
   async addCredential(
     @Arg("email") email: string,
     @Arg("password") password: string,
+    @Arg("siteName") siteName: string,
     @Ctx() { req }: ApolloContext
   ): Promise<CredentialResponse> {
     let credential;
@@ -35,6 +36,7 @@ export class CredentialResolver {
         email,
         password: encodedPass,
         user,
+        siteName,
       })
       .returning("*")
       .execute();

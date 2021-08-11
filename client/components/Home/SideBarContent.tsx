@@ -9,6 +9,7 @@ import {
 import { FiHome, FiSettings } from "react-icons/fi";
 import { NavItem } from "./NavItem";
 import { IconType } from "react-icons";
+import AddCredModal from "../AddCredential/addCredModal";
 
 interface LinkItemProps {
   name: string;
@@ -47,6 +48,7 @@ export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
           {link.name}
         </NavItem>
       ))}
+      <AddCredModal />
     </Box>
   );
 };

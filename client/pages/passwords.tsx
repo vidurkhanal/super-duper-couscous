@@ -5,7 +5,6 @@ import { Wrapper } from "../components/Home/Wrapper";
 import { useMeQuery } from "../generated/graphql";
 import { sample_server_res } from "../types";
 import { URQLClient } from "../utils/createClient";
-import NextRouter from "next/router";
 import { useEffect } from "react";
 
 const PasswordPage = () => {
