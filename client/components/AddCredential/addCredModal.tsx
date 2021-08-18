@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
@@ -10,10 +11,12 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Spinner,
   useDisclosure,
+  Text,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
+import { FormEvent, useState } from "react";
 import { useAddCredentialMutation } from "../../generated/graphql";
 
 type IForm = {
@@ -26,6 +29,7 @@ const AddCredModal = () => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const [, addCredentials] = useAddCredentialMutation();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const [form, setForm] = useState<IForm>({
     siteName: "",
@@ -40,8 +44,13 @@ const AddCredModal = () => {
     setForm({ ...form });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    setIsSubmitting(true);
     const { data, error } = await addCredentials(form);
+    if (data || error) {
+      setIsSubmitting(false);
+    }
     if (error) {
       toast({
         title: error.message,
@@ -54,7 +63,7 @@ const AddCredModal = () => {
       });
     } else {
       toast({
-        title: "Logged In Succesfully...Redirecting to home page",
+        title: "Credential Added Successfully...",
         status: "success",
       });
     }
@@ -75,47 +84,82 @@ const AddCredModal = () => {
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Add a website</ModalHeader>
-          <ModalCloseButton />
+          <form onSubmit={handleSubmit}>
+            {!isSubmitting && (
+              <>
+                <ModalHeader>Add a new site to your vault</ModalHeader>
+                <ModalCloseButton />
+              </>
+            )}
 
-          <ModalBody pb={6}>
-            <FormControl id="siteName" name="siteName">
-              <FormLabel>Site</FormLabel>
-              <Input
-                name="siteName"
-                placeholder="Site name"
-                value={form.siteName}
-                onChange={handleChange}
-              />
-            </FormControl>
+            {!isSubmitting ? (
+              <>
+                <ModalBody pb={6}>
+                  <FormControl id="siteName" name="siteName">
+                    <FormLabel>Site Name</FormLabel>
+                    <Input
+                      name="siteName"
+                      placeholder="https://mywebsite.com"
+                      value={form.siteName}
+                      onChange={handleChange}
+                      required={true}
+                    />
+                  </FormControl>
 
-            <FormControl my={4}>
-              <FormLabel>Email</FormLabel>
-              <Input
-                name="email"
-                placeholder="First name"
-                value={form.email}
-                onChange={handleChange}
-              />
-            </FormControl>
+                  <FormControl my={4}>
+                    <FormLabel>Email</FormLabel>
+                    <Input
+                      name="email"
+                      type="email"
+                      placeholder="james@potter.com"
+                      value={form.email}
+                      onChange={handleChange}
+                      required={true}
+                    />
+                  </FormControl>
 
-            <FormControl>
-              <FormLabel>Password</FormLabel>
-              <Input
-                name="password"
-                placeholder="Last name"
-                value={form.password}
-                onChange={handleChange}
-              />
-            </FormControl>
-          </ModalBody>
+                  <FormControl>
+                    <FormLabel>Password</FormLabel>
+                    <Input
+                      name="password"
+                      type="password"
+                      placeholder="************"
+                      value={form.password}
+                      onChange={handleChange}
+                      required={true}
+                    />
+                  </FormControl>
+                </ModalBody>
 
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={handleSubmit}>
-              Save
-            </Button>
-            <Button onClick={onClose}>Cancel</Button>
-          </ModalFooter>
+                <ModalFooter>
+                  <Button
+                    colorScheme="blue"
+                    mr={3}
+                    type="submit"
+                    isLoading={isSubmitting}
+                  >
+                    Save
+                  </Button>
+                  <Button onClick={onClose}>Cancel</Button>
+                </ModalFooter>
+              </>
+            ) : (
+              <ModalBody p={6}>
+                <Box
+                  minH="200px"
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  flexDirection="column"
+                >
+                  <>
+                    <Spinner size="xl" mb="10px" />
+                    <Text>Securely adding your site to the vault</Text>
+                  </>
+                </Box>
+              </ModalBody>
+            )}
+          </form>
         </ModalContent>
       </Modal>
     </>

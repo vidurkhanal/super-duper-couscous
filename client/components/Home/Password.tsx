@@ -49,9 +49,9 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
       width={{ sm: "100%", md: "90%", lg: "60%" }}
       marginLeft={{ base: "0", md: "20px" }}
     >
-      <Text p="1rem" fontSize="20px" fontWeight="bold" mr="1rem">
+      {/* <Text p="1rem" fontSize="20px" fontWeight="bold" mr="1rem">
         LOGO Title
-      </Text>
+      </Text> */}
       <Flex
         bgColor="rgba(180,180,180,0.2)"
         minWidth="100%"
