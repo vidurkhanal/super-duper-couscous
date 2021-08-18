@@ -85,6 +85,7 @@ const PasswordPage = () => {
       </Box>
     );
   }
+
   return (
     <Flex
       width="100vw"

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import React from "react";
 import { MobileNav } from "./MobileNav";
 import { SidebarContent } from "./SideBarContent";
 import {
@@ -9,7 +9,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 
-export const Wrapper = ({ children }: { children: ReactNode }) => {
+export const Wrapper: React.FC = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
