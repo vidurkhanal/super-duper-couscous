@@ -6,6 +6,7 @@ import { User } from "../models/user";
 import { ApolloContext } from "../types";
 import { encode } from "../utility/encode";
 import { CredentialResponse } from "./GqlObjects/CredentialResponse";
+import { passwordStrengthCalculator } from "../utility/passwordStrength";
 
 @Resolver()
 export class CredentialResolver {
@@ -28,7 +29,7 @@ export class CredentialResolver {
         credential,
       };
     }
-
+    //
     const encodedPass = encode(password);
     const userID = req.session.userID;
     if (!userID) {
@@ -48,7 +49,7 @@ export class CredentialResolver {
         password: encodedPass,
         user,
         siteName,
-        strength: 1,
+        strength: passwordStrengthCalculator(password),
       })
       .returning("*")
       .execute();

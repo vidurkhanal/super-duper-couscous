@@ -6,7 +6,7 @@ const url = __PROD__
   : "http://localhost:8080/graphql";
 
 export const URQLClient = (ssrExchange: any, _ctx: any) => ({
-  url: url,
+  url,
   fetchOptions: {
     credentials: "include" as const,
   },

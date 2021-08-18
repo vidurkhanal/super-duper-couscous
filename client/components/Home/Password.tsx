@@ -9,7 +9,6 @@ import {
   useClipboard,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { BsFillEyeSlashFill } from "react-icons/bs";
 import { MasterPasswordPopOver } from "../../components/Home/MasterPasswordPopOver";
 import { PassObj } from "../../types";
 import { decode } from "../../utils/decode";
