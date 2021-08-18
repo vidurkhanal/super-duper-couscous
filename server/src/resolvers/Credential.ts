@@ -48,6 +48,7 @@ export class CredentialResolver {
         password: encodedPass,
         user,
         siteName,
+        strength: 1,
       })
       .returning("*")
       .execute();

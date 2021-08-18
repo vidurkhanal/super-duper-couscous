@@ -240,7 +240,7 @@ export type MeQuery = (
     & Pick<User, 'userID' | 'fullName'>
     & { credentials?: Maybe<Array<(
       { __typename?: 'Credential' }
-      & Pick<Credential, 'email' | 'password'>
+      & Pick<Credential, 'email' | 'password' | 'siteName' | 'strength'>
     )>> }
   )> }
 );
@@ -350,6 +350,8 @@ export const MeDocument = gql`
     credentials {
       email
       password
+      siteName
+      strength
     }
   }
 }
