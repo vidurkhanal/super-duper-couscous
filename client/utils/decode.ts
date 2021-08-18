@@ -7,7 +7,7 @@ export const decode = (encodedPass: string) => {
   const numArr: number[] = encodedPass.split(" ").map((item) => parseInt(item));
 
   for (const n of numArr) {
-    const decoded = bigInt(n).modPow(22993121, "62615533");
+    const decoded = bigInt(n).modPow(e, "62615533");
     //@ts-expect-error
     str += String.fromCharCode(decoded);
   }
