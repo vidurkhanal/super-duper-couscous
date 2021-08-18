@@ -39,11 +39,11 @@ export class Credential extends BaseEntity {
   @Column({ type: "text" })
   password: string;
 
-  @Field()
+  @Field(() => Number)
   @Column()
   strength: number;
 
-  @Field()
+  @Field(() => String)
   @Column()
   siteName: string;
 

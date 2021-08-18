@@ -37,6 +37,7 @@ export class CredentialResolver {
         password: encodedPass,
         user,
         siteName,
+        strength: 1,
       })
       .returning("*")
       .execute();
@@ -46,13 +47,16 @@ export class CredentialResolver {
   }
 
   @Query(() => [Credential], { nullable: true })
-  async getCredentials(@Ctx() { req }: ApolloContext) {
+  async getCredentials(
+    @Ctx() { req }: ApolloContext
+  ): Promise<Credential | null> {
     try {
       return getConnection().query(
         `SELECT * FROM Credential WHERE "userID" = '${req.session.userID}'`
       );
     } catch (err) {
       console.log(err);
+      return null;
     }
   }
 }

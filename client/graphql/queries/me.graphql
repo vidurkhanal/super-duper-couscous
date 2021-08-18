@@ -5,6 +5,8 @@ query Me {
     credentials {
       email
       password
+      siteName
+      strength
     }
   }
 }
