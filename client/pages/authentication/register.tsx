@@ -8,6 +8,7 @@ import {
   Stack,
   Image,
   useToast,
+  Link,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import { withUrqlClient } from "next-urql";
@@ -25,7 +26,6 @@ const Login = () => {
   const toast = useToast();
 
   const handleSubmit = async (values: FormValues, actions: any) => {
-    console.log(values);
     const { data, error } = await registerUser(values);
     if (error) {
       toast({
@@ -43,7 +43,7 @@ const Login = () => {
 
     if (data?.registerUser.user) {
       toast({
-        title: "Logged In Succesfully...",
+        title: "Account registered succesfully. Please check your email.",
         status: "success",
       });
     }
@@ -103,6 +103,9 @@ const Login = () => {
                     </FormControl>
                   )}
                 </Field>
+                <Link color={"blue.500"} href="/authentication/login">
+                  Already Have An Account?
+                </Link>
                 <Stack spacing={6} mt={6}>
                   <Button
                     colorScheme={"blue"}

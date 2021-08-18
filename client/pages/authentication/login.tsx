@@ -10,11 +10,13 @@ import {
   Stack,
   Image,
   useToast,
+  Text,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
 import { withUrqlClient } from "next-urql";
 import { useLoginUserMutation } from "../../generated/graphql";
 import { URQLClient } from "../../utils/createClient";
+import NextRouter from "next/router";
 
 type FormValues = {
   email: string;
@@ -43,9 +45,12 @@ const Login = () => {
 
     if (data?.loginUser.user) {
       toast({
-        title: "Logged In Succesfully...",
+        title: "Logged In Succesfully...Redirecting to home page",
         status: "success",
       });
+      setTimeout(() => {
+        window.location.href = "/passwords";
+      }, 2000);
     }
     actions.setSubmitting(false);
   };
@@ -107,6 +112,16 @@ const Login = () => {
                     isLoading={isSubmitting}
                   >
                     Sign in
+                  </Button>
+                  <Text align="center" userSelect="none" fontWeight="bold">
+                    OR
+                  </Text>
+                  <Button
+                    colorScheme={"blue"}
+                    variant={"solid"}
+                    onClick={() => NextRouter.push("/authentication/register")}
+                  >
+                    Need An Account?
                   </Button>
                 </Stack>
               </Form>

@@ -12,18 +12,18 @@ export class CredentialResolver {
   async addCredential(
     @Arg("email") email: string,
     @Arg("password") password: string,
+    @Arg("siteName") siteName: string,
     @Ctx() { req }: ApolloContext
   ): Promise<CredentialResponse> {
     let credential;
     const encodedPass = encode(password);
     const userID = req.session.userID;
+
     console.log(userID);
     if (!userID) {
       return { error: "User Not Authenticated", credential };
     }
 
-    //Fetch this from the context's session object or the cookie I dont know how sessions work
-    //Try catch is reduntant here
     const user = await User.findOne({
       where: { userID },
     });
@@ -36,6 +36,7 @@ export class CredentialResolver {
         email,
         password: encodedPass,
         user,
+        siteName,
       })
       .returning("*")
       .execute();
@@ -45,10 +46,13 @@ export class CredentialResolver {
   }
 
   @Query(() => [Credential], { nullable: true })
-  //We don't need a try catch as the user will surely exist
   async getCredentials(@Ctx() { req }: ApolloContext) {
-    return getConnection().query(
-      `SELECT * FROM Credential WHERE "userID" = '${req.session.userID}'`
-    );
+    try {
+      return getConnection().query(
+        `SELECT * FROM Credential WHERE "userID" = '${req.session.userID}'`
+      );
+    } catch (err) {
+      console.log(err);
+    }
   }
 }

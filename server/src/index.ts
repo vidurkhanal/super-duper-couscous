@@ -44,10 +44,12 @@ const main = async () => {
       credentials: true,
       origin: [
         "http://localhost:3000",
+        "https://www.kpass12.ninja",
         "https://super-duper-couscous.vercel.app",
       ],
     })
   );
+  app.set("trust proxy", 1);
   const redisClient = new Redis({
     port: 11173,
     host: SESSIONS_REDIS_CLIENT_HOST,

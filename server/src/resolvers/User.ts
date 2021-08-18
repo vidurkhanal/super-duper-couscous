@@ -10,7 +10,7 @@ import { User } from "../models/user";
 import { ApolloContext } from "../types";
 import { sendEmail } from "../utility/sendEmail";
 import { verifyEmailHTMLGenerator } from "../static/verifyEmailTemplate";
-import { COOKIE_NAME, PAGE_URL } from "./../constants";
+import { COOKIE_NAME, SERVER_URL } from "./../constants";
 import { createEmailLink } from "../utility/createVerifyEmailLink";
 import { AuthResponse } from "./GqlObjects/AuthResponse";
 import { LoginInput } from "./GqlObjects/loginInput";
@@ -91,10 +91,14 @@ export class UserResolver {
       return { error: "Some Internal Error Occurred.Try Again.", user };
     }
 
-    const link = await createEmailLink(PAGE_URL, redisClient, user.userID);
+    const link = await createEmailLink(SERVER_URL, redisClient, user.userID);
 
     const emailContent = verifyEmailHTMLGenerator(link);
-    await sendEmail("", "Verify Your KPass12 Email", emailContent);
+    await sendEmail(
+      registerInput.email,
+      "Verify Your KPass12 Email",
+      emailContent
+    );
 
     req.session.userID = user.userID;
     return { user };
@@ -143,7 +147,7 @@ export class UserResolver {
 
     const link = await createForgetPasswordLink(redisClient, user.userID);
     const emailContent = forgetPasswordTemplate(link);
-    await sendEmail("", "Forgot Password", emailContent);
+    await sendEmail(email, "Forgot Password", emailContent);
     return { isSent: true };
   }
 

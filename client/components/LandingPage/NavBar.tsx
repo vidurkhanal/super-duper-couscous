@@ -14,6 +14,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
+import NextRouter from "next/router";
 
 export const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
@@ -71,20 +72,21 @@ export const NavBar = () => {
             fontWeight={400}
             variant={"link"}
             _focus={{}}
-            href={"#"}
+            href="/authentication/login"
           >
             Sign In
           </Button>
+
           <Button
             display={{ base: "none", md: "inline-flex" }}
             fontSize={"sm"}
             fontWeight={600}
             color={"white"}
             bg={" #46BCBA"}
-            href={"#"}
             _hover={{
               bg: "#57C7C4",
             }}
+            onClick={() => NextRouter.push("/authentication/register")}
           >
             Sign Up
           </Button>
@@ -186,7 +188,7 @@ const NAV_ITEMS: Array<NavItem> = [
     href: "#",
   },
   {
-    label: "We ll have 4 nav links at least",
-    href: "#",
+    label: "Blog",
+    href: "/engineering/blog",
   },
 ];

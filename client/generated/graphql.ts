@@ -33,6 +33,8 @@ export type Credential = {
   updatedDate: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
+  strength: Scalars['Float'];
+  siteName: Scalars['String'];
   user: User;
 };
 
@@ -86,6 +88,7 @@ export type MutationForgotPasswordChangeArgs = {
 
 
 export type MutationAddCredentialArgs = {
+  siteName: Scalars['String'];
   password: Scalars['String'];
   email: Scalars['String'];
 };
@@ -119,6 +122,21 @@ export type User = {
   credentials?: Maybe<Array<Credential>>;
 };
 
+export type AddCredentialMutationVariables = Exact<{
+  email: Scalars['String'];
+  siteName: Scalars['String'];
+  password: Scalars['String'];
+}>;
+
+
+export type AddCredentialMutation = (
+  { __typename?: 'Mutation' }
+  & { addCredential: (
+    { __typename?: 'CredentialResponse' }
+    & Pick<CredentialResponse, 'error'>
+  ) }
+);
+
 export type ForgetPasswordMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
@@ -148,6 +166,14 @@ export type LoginUserMutation = (
       & Pick<User, 'email'>
     )> }
   ) }
+);
+
+export type LogoutUserMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type LogoutUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'logoutUser'>
 );
 
 export type RegisterUserMutationVariables = Exact<{
@@ -211,7 +237,7 @@ export type MeQuery = (
   { __typename?: 'Query' }
   & { me?: Maybe<(
     { __typename?: 'User' }
-    & Pick<User, 'userID'>
+    & Pick<User, 'userID' | 'fullName'>
     & { credentials?: Maybe<Array<(
       { __typename?: 'Credential' }
       & Pick<Credential, 'email' | 'password'>
@@ -220,6 +246,17 @@ export type MeQuery = (
 );
 
 
+export const AddCredentialDocument = gql`
+    mutation AddCredential($email: String!, $siteName: String!, $password: String!) {
+  addCredential(email: $email, siteName: $siteName, password: $password) {
+    error
+  }
+}
+    `;
+
+export function useAddCredentialMutation() {
+  return Urql.useMutation<AddCredentialMutation, AddCredentialMutationVariables>(AddCredentialDocument);
+};
 export const ForgetPasswordDocument = gql`
     mutation ForgetPassword($email: String!) {
   forgotPassword(email: $email) {
@@ -245,6 +282,15 @@ export const LoginUserDocument = gql`
 
 export function useLoginUserMutation() {
   return Urql.useMutation<LoginUserMutation, LoginUserMutationVariables>(LoginUserDocument);
+};
+export const LogoutUserDocument = gql`
+    mutation LogoutUser {
+  logoutUser
+}
+    `;
+
+export function useLogoutUserMutation() {
+  return Urql.useMutation<LogoutUserMutation, LogoutUserMutationVariables>(LogoutUserDocument);
 };
 export const RegisterUserDocument = gql`
     mutation RegisterUser($email: String!, $password: String!, $fullName: String!) {
@@ -300,6 +346,7 @@ export const MeDocument = gql`
     query Me {
   me {
     userID
+    fullName
     credentials {
       email
       password
