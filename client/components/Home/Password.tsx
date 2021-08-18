@@ -12,15 +12,18 @@ import { useEffect, useState } from "react";
 import { BsFillEyeSlashFill } from "react-icons/bs";
 import { MasterPasswordPopOver } from "../../components/Home/MasterPasswordPopOver";
 import { PassObj } from "../../types";
+import { decode } from "../../utils/decode";
 
 interface IPassword {
   pass: PassObj;
 }
 
+const strengthMap = ["BAD", "MEDIUM", "GOOD"];
+
 export const Password: React.FC<IPassword> = ({ pass }) => {
   const [show, setShow] = useState<boolean>(false);
   const { hasCopied: copyEmail, onCopy: onCopyEmail } = useClipboard(
-    pass.username
+    pass.email
   );
   const { hasCopied: copyPassword, onCopy: onCopyPassword } = useClipboard(
     pass.password
@@ -63,12 +66,12 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
       >
         <Box mb="10px">
           <Text color="darkgray">SITE</Text>
-          <Text fontWeight="bold">{pass.site}</Text>
+          <Text fontWeight="bold">{pass.siteName}</Text>
         </Box>
         <Box mb="10px">
           <Text color="darkgray">USERNAME</Text>
           <InputGroup>
-            <Input value={pass.username} pr="9rem" readOnly cursor="pointer" />
+            <Input value={pass.email} pr="9rem" readOnly cursor="pointer" />
             <InputRightElement width="fit-content" p="10px">
               <Button
                 size="sm"
@@ -89,7 +92,7 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
             <Input
               pr="4.5rem"
               type={show ? "text" : "password"}
-              value={show ? pass.password : "Nice Try Hot Shot."}
+              value={show ? decode(pass.password) : "Nice Try Hot Shot."}
               readOnly
               cursor="not-allowed"
             />
@@ -121,7 +124,7 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
           </InputGroup>
         </Box>
         <Text color="darkgray">SRENGTH</Text>
-        <Text fontWeight="bold">{pass.strength}</Text>
+        <Text fontWeight="bold">{strengthMap[pass.strength]}</Text>
       </Flex>
     </Flex>
   );

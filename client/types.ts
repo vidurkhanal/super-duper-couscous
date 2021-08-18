@@ -62,10 +62,10 @@ export type password_category =
   | "other";
 
 export type PassObj = {
-  site: string;
-  username: string;
+  siteName: string;
+  email: string;
   password: string;
-  strength: string;
+  strength: number;
 };
 
 export type sample_server_res = {
