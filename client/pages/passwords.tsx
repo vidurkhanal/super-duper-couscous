@@ -1,60 +1,15 @@
-import { Box, Flex, Spinner, Text } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
+import { useEffect } from "react";
 import { Password } from "../components/Home/Password";
 import { Wrapper } from "../components/Home/Wrapper";
+import { LoadingPage } from "../components/LoadingPage";
 import { useMeQuery } from "../generated/graphql";
-import { sample_server_res } from "../types";
 import { URQLClient } from "../utils/createClient";
-import { useEffect } from "react";
 
 const PasswordPage = () => {
-  //We need a loading page indicator thing here
   const [{ data, fetching }] = useMeQuery();
-  const server_res: sample_server_res = {
-    data: [
-      {
-        category: "personal",
-        passwords: [
-          {
-            site: "account.apple.com",
-            username: "hello@123.co",
-            password: "password123",
-            strength: "GOOD",
-          },
-          {
-            site: "accounts.google.com",
-            username: "mydreams@google.co",
-            password: "Quit Dreaming And Get To Work",
-            strength: "GOOD",
-          },
-        ],
-      },
-      {
-        category: "payment and banking",
-        passwords: [
-          {
-            site: "apple.money.com",
-            username: "hello@123.co",
-            password: "password123",
-            strength: "GOOD",
-          },
-        ],
-      },
-
-      {
-        category: "business",
-        passwords: [
-          {
-            site: "yahoo.finance.com",
-            username: "mybusinessemail@domain.com",
-            password: "password123",
-            strength: "GOOD",
-          },
-        ],
-      },
-    ],
-  };
-
+  const credentialArray = data?.me?.credentials || [];
   useEffect(() => {
     if (!fetching && !data?.me) window.location.href = "/authentication/login";
   }, [data, fetching]);
@@ -63,38 +18,15 @@ const PasswordPage = () => {
     return (
       <Box>
         <Wrapper>
-          {server_res.data.map((item, index) => {
-            return (
-              <Box key={index}>
-                <Text
-                  textTransform="capitalize"
-                  fontSize="2xl"
-                  mb="10px"
-                  as="h1"
-                  fontWeight="600"
-                >
-                  {item.category}
-                </Text>
-                {item.passwords.map((instance, id) => (
-                  <Password pass={instance} key={id} />
-                ))}
-              </Box>
-            );
-          })}
+          {credentialArray.map((item, index) => (
+            <Password key={index} pass={item} />
+          ))}
         </Wrapper>
       </Box>
     );
   }
-  return (
-    <Flex
-      width="100vw"
-      height="100vh"
-      alignItems="center"
-      justifyContent="center"
-    >
-      <Spinner />
-    </Flex>
-  );
+
+  return <LoadingPage />;
 };
 
 export default withUrqlClient(URQLClient)(PasswordPage);

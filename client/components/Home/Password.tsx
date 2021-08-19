@@ -9,22 +9,30 @@ import {
   useClipboard,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { BsFillEyeSlashFill } from "react-icons/bs";
 import { MasterPasswordPopOver } from "../../components/Home/MasterPasswordPopOver";
+import { PRIVATE_KEY } from "../../constants";
 import { PassObj } from "../../types";
+import { hey } from "../../utils/decode";
+import bigInt from "big-integer";
+import { DeleteCredential } from "../DeleteCredential/DeleteModal";
 
 interface IPassword {
   pass: PassObj;
 }
 
-export const Password: React.FC<IPassword> = ({ pass }) => {
+const strengthMap = ["BAD", "MEDIUM", "GOOD"];
+
+export const Password = ({ pass }: IPassword) => {
   const [show, setShow] = useState<boolean>(false);
+
   const { hasCopied: copyEmail, onCopy: onCopyEmail } = useClipboard(
-    pass.username
+    pass.email
   );
   const { hasCopied: copyPassword, onCopy: onCopyPassword } = useClipboard(
     pass.password
   );
+
+  const decode = hey();
 
   const unlockPassword = () => {
     setShow(!show);
@@ -49,9 +57,9 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
       width={{ sm: "100%", md: "90%", lg: "60%" }}
       marginLeft={{ base: "0", md: "20px" }}
     >
-      <Text p="1rem" fontSize="20px" fontWeight="bold" mr="1rem">
+      {/* <Text p="1rem" fontSize="20px" fontWeight="bold" mr="1rem">
         LOGO Title
-      </Text>
+      </Text> */}
       <Flex
         bgColor="rgba(180,180,180,0.2)"
         minWidth="100%"
@@ -63,12 +71,12 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
       >
         <Box mb="10px">
           <Text color="darkgray">SITE</Text>
-          <Text fontWeight="bold">{pass.site}</Text>
+          <Text fontWeight="bold">{pass.siteName}</Text>
         </Box>
         <Box mb="10px">
           <Text color="darkgray">USERNAME</Text>
           <InputGroup>
-            <Input value={pass.username} pr="9rem" readOnly cursor="pointer" />
+            <Input value={pass.email} pr="9rem" readOnly cursor="pointer" />
             <InputRightElement width="fit-content" p="10px">
               <Button
                 size="sm"
@@ -89,7 +97,9 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
             <Input
               pr="4.5rem"
               type={show ? "text" : "password"}
-              value={show ? pass.password : "Nice Try Hot Shot."}
+              value={
+                show ? decode(pass.password, bigInt) : "Nice Try Hot Shot."
+              }
               readOnly
               cursor="not-allowed"
             />
@@ -121,7 +131,10 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
           </InputGroup>
         </Box>
         <Text color="darkgray">SRENGTH</Text>
-        <Text fontWeight="bold">{pass.strength}</Text>
+        <Text pb="0.8rem" fontWeight="bold">
+          {strengthMap[pass.strength]}
+        </Text>
+        <DeleteCredential credentialID={pass.credentialID} />
       </Flex>
     </Flex>
   );

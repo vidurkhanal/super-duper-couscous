@@ -1,11 +1,11 @@
+import { User } from "../../models/user";
 import { Field, ObjectType } from "type-graphql";
-import { Credential } from "../../models/credential";
 
 @ObjectType()
 export class CredentialResponse {
   @Field({ nullable: true })
   error?: string;
 
-  @Field(() => Credential, { nullable: true })
-  credential?: Credential;
+  @Field(() => User, { nullable: true })
+  user?: User;
 }

@@ -33,11 +33,10 @@ const main = async () => {
     type: "postgres",
     url: process.env.DATABASE_URL,
     logging: true,
-    // synchronize: true,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [User, Credential],
   });
-  await conn.runMigrations();
+  //await conn.runMigrations();
   const app = Express();
   app.use(
     cors({
@@ -114,11 +113,10 @@ const main = async () => {
     const { id } = req.params;
     const userID = await redisClient.get(id);
     redisClient.del(id);
-    if (!userID) res.send("HOW ARE YOU HERE < LOL ?");
-    else {
-      User.update({ userID }, { isVerified: true });
-      res.send(verifiedPageTemplate());
-    }
+
+    if (userID) User.update({ userID }, { isVerified: true });
+
+    res.send(verifiedPageTemplate());
   });
 
   app.listen(__PORT__, () => {

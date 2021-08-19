@@ -62,15 +62,9 @@ export type password_category =
   | "other";
 
 export type PassObj = {
-  site: string;
-  username: string;
+  siteName: string;
+  email: string;
   password: string;
-  strength: string;
-};
-
-export type sample_server_res = {
-  data: {
-    category: password_category;
-    passwords: PassObj[];
-  }[];
+  strength: number;
+  credentialID: string;
 };

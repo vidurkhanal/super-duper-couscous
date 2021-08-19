@@ -1,10 +1,12 @@
-import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { CredentialSchema } from "../Joi/CredentialsSchema";
+import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
 import { getConnection } from "typeorm";
 import { Credential } from "../models/credential";
-import { encode } from "../utility/encode";
 import { User } from "../models/user";
 import { ApolloContext } from "../types";
+import { encode } from "../utility/encode";
 import { CredentialResponse } from "./GqlObjects/CredentialResponse";
+import { passwordStrengthCalculator } from "../utility/passwordStrength";
 
 @Resolver()
 export class CredentialResolver {
@@ -15,20 +17,27 @@ export class CredentialResolver {
     @Arg("siteName") siteName: string,
     @Ctx() { req }: ApolloContext
   ): Promise<CredentialResponse> {
-    let credential;
+    const { error: JoiError } = CredentialSchema.validate({
+      email,
+      password,
+      siteName,
+    });
+    if (JoiError) {
+      return {
+        error: JoiError.message,
+      };
+    }
+    //
     const encodedPass = encode(password);
     const userID = req.session.userID;
-
-    console.log(userID);
     if (!userID) {
-      return { error: "User Not Authenticated", credential };
+      return { error: "User Not Authenticated" };
     }
 
     const user = await User.findOne({
       where: { userID },
     });
-
-    const result = await getConnection()
+    await getConnection()
       .createQueryBuilder()
       .insert()
       .into(Credential)
@@ -37,22 +46,45 @@ export class CredentialResolver {
         password: encodedPass,
         user,
         siteName,
+        strength: passwordStrengthCalculator(password),
       })
       .returning("*")
       .execute();
 
-    credential = result.raw[0] as Credential;
-    return { credential };
+    return {
+      user: await User.findOne({
+        relations: ["credentials"],
+        where: {
+          userID: req.session.userID,
+        },
+      }),
+    };
   }
 
-  @Query(() => [Credential], { nullable: true })
-  async getCredentials(@Ctx() { req }: ApolloContext) {
+  @Mutation(() => CredentialResponse)
+  async delCredentials(
+    @Arg("credentialID") credentialID: string,
+    @Ctx() { req }: ApolloContext
+  ): Promise<CredentialResponse> {
     try {
-      return getConnection().query(
-        `SELECT * FROM Credential WHERE "userID" = '${req.session.userID}'`
-      );
-    } catch (err) {
-      console.log(err);
+      await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(Credential)
+        .where(`credentialID= '${credentialID}'`)
+        .execute();
+
+      return {
+        user: await User.findOne({
+          relations: ["credentials"],
+          where: {
+            userID: req.session.userID,
+          },
+        }),
+      };
+    } catch (e) {
+      console.log(e);
+      return { error: "Internal Server Error" };
     }
   }
 }

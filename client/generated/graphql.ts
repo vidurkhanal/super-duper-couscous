@@ -41,7 +41,7 @@ export type Credential = {
 export type CredentialResponse = {
   __typename?: 'CredentialResponse';
   error?: Maybe<Scalars['String']>;
-  credential?: Maybe<Credential>;
+  user?: Maybe<User>;
 };
 
 export type ForgotPasswordResponse = {
@@ -63,6 +63,7 @@ export type Mutation = {
   forgotPassword: ForgotPasswordResponse;
   forgotPasswordChange: ChangePasswordResolver;
   addCredential: CredentialResponse;
+  delCredentials: CredentialResponse;
 };
 
 
@@ -93,12 +94,16 @@ export type MutationAddCredentialArgs = {
   email: Scalars['String'];
 };
 
+
+export type MutationDelCredentialsArgs = {
+  credentialID: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   hello: Scalars['String'];
   getAllUsers: Array<User>;
   me?: Maybe<User>;
-  getCredentials?: Maybe<Array<Credential>>;
 };
 
 
@@ -134,6 +139,35 @@ export type AddCredentialMutation = (
   & { addCredential: (
     { __typename?: 'CredentialResponse' }
     & Pick<CredentialResponse, 'error'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'userID' | 'fullName'>
+      & { credentials?: Maybe<Array<(
+        { __typename?: 'Credential' }
+        & Pick<Credential, 'email' | 'password'>
+      )>> }
+    )> }
+  ) }
+);
+
+export type DeleteCredentialMutationVariables = Exact<{
+  credentialID: Scalars['String'];
+}>;
+
+
+export type DeleteCredentialMutation = (
+  { __typename?: 'Mutation' }
+  & { delCredentials: (
+    { __typename?: 'CredentialResponse' }
+    & Pick<CredentialResponse, 'error'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'userID' | 'fullName'>
+      & { credentials?: Maybe<Array<(
+        { __typename?: 'Credential' }
+        & Pick<Credential, 'email' | 'password'>
+      )>> }
+    )> }
   ) }
 );
 
@@ -209,17 +243,6 @@ export type ResetPasswordMutation = (
   ) }
 );
 
-export type GetCredentialsQueryVariables = Exact<{ [key: string]: never; }>;
-
-
-export type GetCredentialsQuery = (
-  { __typename?: 'Query' }
-  & { getCredentials?: Maybe<Array<(
-    { __typename?: 'Credential' }
-    & Pick<Credential, 'credentialID' | 'email' | 'password'>
-  )>> }
-);
-
 export type HelloQueryQueryVariables = Exact<{
   helloName: Scalars['String'];
 }>;
@@ -240,7 +263,7 @@ export type MeQuery = (
     & Pick<User, 'userID' | 'fullName'>
     & { credentials?: Maybe<Array<(
       { __typename?: 'Credential' }
-      & Pick<Credential, 'email' | 'password'>
+      & Pick<Credential, 'email' | 'password' | 'siteName' | 'strength' | 'credentialID'>
     )>> }
   )> }
 );
@@ -250,12 +273,39 @@ export const AddCredentialDocument = gql`
     mutation AddCredential($email: String!, $siteName: String!, $password: String!) {
   addCredential(email: $email, siteName: $siteName, password: $password) {
     error
+    user {
+      userID
+      fullName
+      credentials {
+        email
+        password
+      }
+    }
   }
 }
     `;
 
 export function useAddCredentialMutation() {
   return Urql.useMutation<AddCredentialMutation, AddCredentialMutationVariables>(AddCredentialDocument);
+};
+export const DeleteCredentialDocument = gql`
+    mutation DeleteCredential($credentialID: String!) {
+  delCredentials(credentialID: $credentialID) {
+    error
+    user {
+      userID
+      fullName
+      credentials {
+        email
+        password
+      }
+    }
+  }
+}
+    `;
+
+export function useDeleteCredentialMutation() {
+  return Urql.useMutation<DeleteCredentialMutation, DeleteCredentialMutationVariables>(DeleteCredentialDocument);
 };
 export const ForgetPasswordDocument = gql`
     mutation ForgetPassword($email: String!) {
@@ -320,19 +370,6 @@ export const ResetPasswordDocument = gql`
 export function useResetPasswordMutation() {
   return Urql.useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument);
 };
-export const GetCredentialsDocument = gql`
-    query GetCredentials {
-  getCredentials {
-    credentialID
-    email
-    password
-  }
-}
-    `;
-
-export function useGetCredentialsQuery(options: Omit<Urql.UseQueryArgs<GetCredentialsQueryVariables>, 'query'> = {}) {
-  return Urql.useQuery<GetCredentialsQuery>({ query: GetCredentialsDocument, ...options });
-};
 export const HelloQueryDocument = gql`
     query HelloQuery($helloName: String!) {
   hello(name: $helloName)
@@ -350,6 +387,9 @@ export const MeDocument = gql`
     credentials {
       email
       password
+      siteName
+      strength
+      credentialID
     }
   }
 }
