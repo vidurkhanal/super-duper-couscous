@@ -109,3 +109,5 @@ dist
 client/.prettierrc.json
 server/ormconfig.json
 server/.env.production
+client/next.config.js
+client/next.config.js

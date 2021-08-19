@@ -9,7 +9,6 @@ import {
   useClipboard,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { BsFillEyeSlashFill } from "react-icons/bs";
 import { MasterPasswordPopOver } from "../../components/Home/MasterPasswordPopOver";
 import { PassObj } from "../../types";
 import { decode } from "../../utils/decode";
@@ -28,7 +27,8 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
   const { hasCopied: copyPassword, onCopy: onCopyPassword } = useClipboard(
     pass.password
   );
-
+  const pvtkey = process.env.PRIVATE_KEY!;
+  console.log(pvtkey);
   const unlockPassword = () => {
     setShow(!show);
   };
@@ -92,7 +92,9 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
             <Input
               pr="4.5rem"
               type={show ? "text" : "password"}
-              value={show ? decode(pass.password) : "Nice Try Hot Shot."}
+              value={
+                show ? decode(pass.password, pvtkey) : "Nice Try Hot Shot."
+              }
               readOnly
               cursor="not-allowed"
             />

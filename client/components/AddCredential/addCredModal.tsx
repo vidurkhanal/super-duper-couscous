@@ -66,6 +66,7 @@ const AddCredModal = () => {
         title: "Credential Added Successfully...",
         status: "success",
       });
+      onClose();
     }
   };
 
