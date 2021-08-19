@@ -4,6 +4,8 @@ import { __PROD__ } from "../constants";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import {
   AddCredentialMutation,
+  DeleteCredentialDocument,
+  DeleteCredentialMutation,
   MeDocument,
   MeQuery,
 } from "../generated/graphql";
@@ -33,6 +35,22 @@ export const URQLClient = (ssrExchange: any, _ctx: any) => ({
                 } else {
                   return {
                     me: result.addCredential.user,
+                  } as MeQuery;
+                }
+              }
+            );
+          },
+          delCredentials: (_result, args, cache, info) => {
+            betterUpdateQuery<DeleteCredentialMutation, MeQuery>(
+              cache,
+              { query: MeDocument },
+              _result,
+              (result, query) => {
+                if (result.delCredentials.error) {
+                  return query;
+                } else {
+                  return {
+                    me: result.delCredentials.user,
                   } as MeQuery;
                 }
               }

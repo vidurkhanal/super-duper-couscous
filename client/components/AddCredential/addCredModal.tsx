@@ -18,6 +18,7 @@ import {
 } from "@chakra-ui/react";
 import { FormEvent, useState } from "react";
 import { useAddCredentialMutation } from "../../generated/graphql";
+import { LoadingModal } from "../LoadingModal";
 
 type IForm = {
   siteName: string;
@@ -145,20 +146,7 @@ const AddCredModal = () => {
                 </ModalFooter>
               </>
             ) : (
-              <ModalBody p={6}>
-                <Box
-                  minH="200px"
-                  display="flex"
-                  alignItems="center"
-                  justifyContent="center"
-                  flexDirection="column"
-                >
-                  <>
-                    <Spinner size="xl" mb="10px" />
-                    <Text>Securely adding your site to the vault</Text>
-                  </>
-                </Box>
-              </ModalBody>
+              <LoadingModal />
             )}
           </form>
         </ModalContent>

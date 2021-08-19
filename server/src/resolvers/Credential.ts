@@ -60,4 +60,31 @@ export class CredentialResolver {
       }),
     };
   }
+
+  @Mutation(() => CredentialResponse)
+  async delCredentials(
+    @Arg("credentialID") credentialID: string,
+    @Ctx() { req }: ApolloContext
+  ): Promise<CredentialResponse> {
+    try {
+      await getConnection()
+        .createQueryBuilder()
+        .delete()
+        .from(Credential)
+        .where(`credentialID= '${credentialID}'`)
+        .execute();
+
+      return {
+        user: await User.findOne({
+          relations: ["credentials"],
+          where: {
+            userID: req.session.userID,
+          },
+        }),
+      };
+    } catch (e) {
+      console.log(e);
+      return { error: "Internal Server Error" };
+    }
+  }
 }

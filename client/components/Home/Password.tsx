@@ -10,8 +10,11 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { MasterPasswordPopOver } from "../../components/Home/MasterPasswordPopOver";
+import { PRIVATE_KEY } from "../../constants";
 import { PassObj } from "../../types";
-import { decode } from "../../utils/decode";
+import { hey } from "../../utils/decode";
+import bigInt from "big-integer";
+import { DeleteCredential } from "../DeleteCredential/DeleteModal";
 
 interface IPassword {
   pass: PassObj;
@@ -19,16 +22,18 @@ interface IPassword {
 
 const strengthMap = ["BAD", "MEDIUM", "GOOD"];
 
-export const Password: React.FC<IPassword> = ({ pass }) => {
+export const Password = ({ pass }: IPassword) => {
   const [show, setShow] = useState<boolean>(false);
+
   const { hasCopied: copyEmail, onCopy: onCopyEmail } = useClipboard(
     pass.email
   );
   const { hasCopied: copyPassword, onCopy: onCopyPassword } = useClipboard(
     pass.password
   );
-  const pvtkey = process.env.PRIVATE_KEY!;
-  console.log(pvtkey);
+
+  const decode = hey();
+
   const unlockPassword = () => {
     setShow(!show);
   };
@@ -93,7 +98,7 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
               pr="4.5rem"
               type={show ? "text" : "password"}
               value={
-                show ? decode(pass.password, pvtkey) : "Nice Try Hot Shot."
+                show ? decode(pass.password, bigInt) : "Nice Try Hot Shot."
               }
               readOnly
               cursor="not-allowed"
@@ -126,7 +131,10 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
           </InputGroup>
         </Box>
         <Text color="darkgray">SRENGTH</Text>
-        <Text fontWeight="bold">{strengthMap[pass.strength]}</Text>
+        <Text pb="0.8rem" fontWeight="bold">
+          {strengthMap[pass.strength]}
+        </Text>
+        <DeleteCredential credentialID={pass.credentialID} />
       </Flex>
     </Flex>
   );
