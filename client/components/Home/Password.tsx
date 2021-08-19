@@ -10,10 +10,8 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { MasterPasswordPopOver } from "../../components/Home/MasterPasswordPopOver";
-import { PRIVATE_KEY } from "../../constants";
 import { PassObj } from "../../types";
-import { hey } from "../../utils/decode";
-import bigInt from "big-integer";
+import { decode } from "../../utils/decode";
 import { DeleteCredential } from "../DeleteCredential/DeleteModal";
 
 interface IPassword {
@@ -31,8 +29,6 @@ export const Password = ({ pass }: IPassword) => {
   const { hasCopied: copyPassword, onCopy: onCopyPassword } = useClipboard(
     pass.password
   );
-
-  const decode = hey();
 
   const unlockPassword = () => {
     setShow(!show);
@@ -97,9 +93,7 @@ export const Password = ({ pass }: IPassword) => {
             <Input
               pr="4.5rem"
               type={show ? "text" : "password"}
-              value={
-                show ? decode(pass.password, bigInt) : "Nice Try Hot Shot."
-              }
+              value={show ? decode(pass.password) : "Nice Try Hot Shot."}
               readOnly
               cursor="not-allowed"
             />
