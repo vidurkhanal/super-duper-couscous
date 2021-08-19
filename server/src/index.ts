@@ -36,7 +36,7 @@ const main = async () => {
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [User, Credential],
   });
-  await conn.runMigrations();
+  //await conn.runMigrations();
   const app = Express();
   app.use(
     cors({

@@ -66,11 +66,5 @@ export type PassObj = {
   email: string;
   password: string;
   strength: number;
-};
-
-export type sample_server_res = {
-  data: {
-    category: password_category;
-    passwords: PassObj[];
-  }[];
+  credentialID: string;
 };

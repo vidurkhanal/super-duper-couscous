@@ -63,6 +63,7 @@ export type Mutation = {
   forgotPassword: ForgotPasswordResponse;
   forgotPasswordChange: ChangePasswordResolver;
   addCredential: CredentialResponse;
+  delCredentials: CredentialResponse;
 };
 
 
@@ -91,6 +92,11 @@ export type MutationAddCredentialArgs = {
   siteName: Scalars['String'];
   password: Scalars['String'];
   email: Scalars['String'];
+};
+
+
+export type MutationDelCredentialsArgs = {
+  credentialID: Scalars['String'];
 };
 
 export type Query = {
@@ -131,6 +137,27 @@ export type AddCredentialMutationVariables = Exact<{
 export type AddCredentialMutation = (
   { __typename?: 'Mutation' }
   & { addCredential: (
+    { __typename?: 'CredentialResponse' }
+    & Pick<CredentialResponse, 'error'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'userID' | 'fullName'>
+      & { credentials?: Maybe<Array<(
+        { __typename?: 'Credential' }
+        & Pick<Credential, 'email' | 'password'>
+      )>> }
+    )> }
+  ) }
+);
+
+export type DeleteCredentialMutationVariables = Exact<{
+  credentialID: Scalars['String'];
+}>;
+
+
+export type DeleteCredentialMutation = (
+  { __typename?: 'Mutation' }
+  & { delCredentials: (
     { __typename?: 'CredentialResponse' }
     & Pick<CredentialResponse, 'error'>
     & { user?: Maybe<(
@@ -236,7 +263,7 @@ export type MeQuery = (
     & Pick<User, 'userID' | 'fullName'>
     & { credentials?: Maybe<Array<(
       { __typename?: 'Credential' }
-      & Pick<Credential, 'email' | 'password' | 'siteName' | 'strength'>
+      & Pick<Credential, 'email' | 'password' | 'siteName' | 'strength' | 'credentialID'>
     )>> }
   )> }
 );
@@ -260,6 +287,25 @@ export const AddCredentialDocument = gql`
 
 export function useAddCredentialMutation() {
   return Urql.useMutation<AddCredentialMutation, AddCredentialMutationVariables>(AddCredentialDocument);
+};
+export const DeleteCredentialDocument = gql`
+    mutation DeleteCredential($credentialID: String!) {
+  delCredentials(credentialID: $credentialID) {
+    error
+    user {
+      userID
+      fullName
+      credentials {
+        email
+        password
+      }
+    }
+  }
+}
+    `;
+
+export function useDeleteCredentialMutation() {
+  return Urql.useMutation<DeleteCredentialMutation, DeleteCredentialMutationVariables>(DeleteCredentialDocument);
 };
 export const ForgetPasswordDocument = gql`
     mutation ForgetPassword($email: String!) {
@@ -343,6 +389,7 @@ export const MeDocument = gql`
       password
       siteName
       strength
+      credentialID
     }
   }
 }
