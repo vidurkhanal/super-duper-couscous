@@ -1,9 +1,8 @@
 import bigInt from "big-integer";
-import { PRIVATE_KEY } from "../constants";
 
-export const decode = (encodedPass: string) => {
+export const decode = (encodedPass: string, PvtKey: string) => {
   let str = "";
-  const e = bigInt(PRIVATE_KEY);
+  const e = bigInt(PvtKey);
   const numArr: number[] = encodedPass.split(" ").map((item) => parseInt(item));
 
   for (const n of numArr) {

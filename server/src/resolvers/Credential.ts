@@ -22,25 +22,22 @@ export class CredentialResolver {
       password,
       siteName,
     });
-    let credential;
     if (JoiError) {
       return {
         error: JoiError.message,
-        credential,
       };
     }
     //
     const encodedPass = encode(password);
     const userID = req.session.userID;
     if (!userID) {
-      return { error: "User Not Authenticated", credential };
+      return { error: "User Not Authenticated" };
     }
 
     const user = await User.findOne({
       where: { userID },
     });
-
-    const result = await getConnection()
+    await getConnection()
       .createQueryBuilder()
       .insert()
       .into(Credential)
@@ -54,7 +51,13 @@ export class CredentialResolver {
       .returning("*")
       .execute();
 
-    credential = result.raw[0] as Credential;
-    return { credential };
+    return {
+      user: await User.findOne({
+        relations: ["credentials"],
+        where: {
+          userID: req.session.userID,
+        },
+      }),
+    };
   }
 }
