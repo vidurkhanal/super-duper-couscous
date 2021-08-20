@@ -17,6 +17,7 @@ export const MainSection = () => {
   return (
     <>
       <Head>
+        {/*  eslint-disable-next-line @next/next/no-page-custom-font */}
         <link
           href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&display=swap"
           rel="stylesheet"

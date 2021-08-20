@@ -102,6 +102,7 @@ const ResetPassword: React.FC = () => {
         minH={"100vh"}
         align={"center"}
         justify={"center"}
+        // eslint-disable-next-line react-hooks/rules-of-hooks
         bg={useColorModeValue("gray.50", "gray.800")}
       >
         <form onSubmit={resetPasswordSubmitter}>
@@ -111,6 +112,7 @@ const ResetPassword: React.FC = () => {
             </Stack>
             <Box
               rounded={"lg"}
+              // eslint-disable-next-line react-hooks/rules-of-hooks
               bg={useColorModeValue("white", "gray.700")}
               boxShadow={"lg"}
               p={8}
@@ -153,7 +155,7 @@ const ResetPassword: React.FC = () => {
                     justify={"space-between"}
                   >
                     <Link color={"blue.400"} href="/authentication/login">
-                      Don't need to reset it?
+                      Do not need to reset it?
                     </Link>
                   </Stack>
                   <Button

@@ -20,7 +20,7 @@ import Head from "next/head";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
 
-const index: React.FC<{ posts: Post[] }> = ({ posts }) => {
+const Index: React.FC<{ posts: Post[] }> = ({ posts }) => {
   const router = useRouter();
   const tagsBuilder = (i: number): string[] => {
     let tags: string[] = [];
@@ -127,7 +127,7 @@ const index: React.FC<{ posts: Post[] }> = ({ posts }) => {
     </Box>
   );
 };
-export default index;
+export default Index;
 
 export const getStaticProps = async ({ params }: any) => {
   const posts = await getAllPosts();
