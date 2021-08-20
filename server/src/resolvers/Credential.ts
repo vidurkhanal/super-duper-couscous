@@ -1,5 +1,5 @@
 import { CredentialSchema } from "../Joi/CredentialsSchema";
-import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
+import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
 import { getConnection } from "typeorm";
 import { Credential } from "../models/credential";
 import { User } from "../models/user";
@@ -7,6 +7,8 @@ import { ApolloContext } from "../types";
 import { encode } from "../utility/encode";
 import { CredentialResponse } from "./GqlObjects/CredentialResponse";
 import { passwordStrengthCalculator } from "../utility/passwordStrength";
+import axios from "axios";
+import { ICON_FETCHER } from "../constants";
 
 @Resolver()
 export class CredentialResolver {
@@ -27,7 +29,8 @@ export class CredentialResolver {
         error: JoiError.message,
       };
     }
-    //
+    const { data } = await axios.get(ICON_FETCHER + siteName);
+    const siteLogo = data[0].url;
     const encodedPass = encode(password);
     const userID = req.session.userID;
     if (!userID) {
@@ -46,6 +49,7 @@ export class CredentialResolver {
         password: encodedPass,
         user,
         siteName,
+        siteLogo,
         strength: passwordStrengthCalculator(password),
       })
       .returning("*")
@@ -86,5 +90,12 @@ export class CredentialResolver {
       console.log(e);
       return { error: "Internal Server Error" };
     }
+  }
+
+  @Query(() => String, { nullable: true })
+  async getFavicon() {
+    const { data } = await axios.get(ICON_FETCHER + "instagram.com");
+    console.log(data[0].url);
+    return null;
   }
 }
