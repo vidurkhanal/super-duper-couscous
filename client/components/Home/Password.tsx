@@ -10,6 +10,7 @@ import {
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { MasterPasswordPopOver } from "../../components/Home/MasterPasswordPopOver";
+import { PRIVATE_KEY } from "../../constants";
 import { PassObj } from "../../types";
 import { decode } from "../../utils/decode";
 import { DeleteCredential } from "../DeleteCredential/DeleteModal";
