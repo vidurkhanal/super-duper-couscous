@@ -13,6 +13,7 @@ import {
 import { useDeleteCredentialMutation } from "../../generated/graphql";
 import { useState } from "react";
 import { LoadingModal } from "../LoadingModal";
+import { MasterPasswordPopOver } from "../Home/MasterPasswordPopOver";
 
 interface IProps {
   credentialID: string;
@@ -46,14 +47,19 @@ export const DeleteCredential: React.FC<IProps> = ({ credentialID }) => {
                 <Text fontWeight="bold" mb="1rem">
                   Are you sure?
                 </Text>
+                <Text>
+                  Remember the deletion is permanent. You might need to enter
+                  your Master PIN to complete your changes.
+                </Text>
               </ModalBody>
               <ModalFooter>
-                <Button colorScheme="blue" mr={3} onClick={onClose}>
+                <Button variant="ghost" mr={3} onClick={onClose}>
                   Close
                 </Button>
-                <Button variant="ghost" onClick={handleSubmit}>
-                  Delete
-                </Button>
+                <MasterPasswordPopOver
+                  passwordUnlockerFn={handleSubmit}
+                  variant="delete"
+                />
               </ModalFooter>
             </>
           ) : (

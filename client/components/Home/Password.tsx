@@ -118,7 +118,10 @@ export const Password = ({ pass }: IPassword) => {
                     "Password Copied"
                   )
                 ) : (
-                  <MasterPasswordPopOver passwordUnlockerFn={unlockPassword} />
+                  <MasterPasswordPopOver
+                    passwordUnlockerFn={unlockPassword}
+                    variant="open"
+                  />
                 )}
               </Button>
             </InputRightElement>
