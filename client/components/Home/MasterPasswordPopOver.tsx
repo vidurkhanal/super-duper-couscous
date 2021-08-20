@@ -98,7 +98,8 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
                 {variant === "delete" ? "Delete" : "Open"}
               </Button>
               <Button variant="ghost" onClick={onClose}>
-                I Don't Wanna {variant === "delete" ? "Delete" : "Open Vault"}
+                <span>I Do not Wanna</span>{" "}
+                {variant === "delete" ? "Delete" : "Open Vault"}
               </Button>
             </ModalFooter>
           </form>

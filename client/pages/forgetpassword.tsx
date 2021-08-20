@@ -17,7 +17,7 @@ import SuccessfulModel from "../components/ForgetPassword/SuccessfulModel";
 import { useForgetPasswordMutation } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 
-const forgetpassword = () => {
+const Forgetpassword = () => {
   const [, forgetPassword] = useForgetPasswordMutation();
   const [email, setEmail] = useState("");
   const { isOpen, onOpen } = useDisclosure();
@@ -85,4 +85,4 @@ const forgetpassword = () => {
   );
 };
 
-export default withUrqlClient(URQLClient)(forgetpassword);
+export default withUrqlClient(URQLClient)(Forgetpassword);

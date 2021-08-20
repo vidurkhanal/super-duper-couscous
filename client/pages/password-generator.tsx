@@ -19,7 +19,7 @@ import {
   Tooltip,
 } from "@chakra-ui/react";
 import Head from "next/head";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useCallback } from "react";
 import { NavBar } from "../components/LandingPage/NavBar";
 import { CopyModal } from "../components/password-gen/CopyModal";
 
@@ -30,34 +30,6 @@ const PasswordGenerator: React.FC = () => {
   const [strengthColor, setStrengthColor] = useState<string>("crimson");
   const [boolArr, setBollArr] = useState<boolean[]>([true, true, true, true]);
   const rotateRef = useRef<HTMLButtonElement>(null);
-
-  const getNumberOfBools = () => {
-    let total = 0;
-    for (const n of boolArr) if (n) total++;
-    return total;
-  };
-
-  const genPass = () => {
-    const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-    const lowerCase = "abcdefghijklmnopqrstuvwxyz";
-    const numbers = "0123456789";
-    const symbols = "!@#$%^&*_-+=";
-
-    let n = length;
-    let pass = "";
-    let characters = "";
-
-    characters += boolArr[0] ? upperCase : "";
-    characters += boolArr[1] ? lowerCase : "";
-    characters += boolArr[2] ? numbers : "";
-    characters += boolArr[3] ? symbols : "";
-
-    while (n > 0) {
-      pass += characters.charAt(Math.floor(Math.random() * characters.length));
-      n--;
-    }
-    setPassword(pass);
-  };
 
   const CustomCheckBox: React.FC<{ arrIndex: 0 | 1 | 2 | 3; text: string }> = ({
     text,
@@ -83,7 +55,35 @@ const PasswordGenerator: React.FC = () => {
     );
   };
 
+  const genPass = useCallback(() => {
+    const upperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lowerCase = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    const symbols = "!@#$%^&*_-+=";
+
+    let n = length;
+    let pass = "";
+    let characters = "";
+
+    characters += boolArr[0] ? upperCase : "";
+    characters += boolArr[1] ? lowerCase : "";
+    characters += boolArr[2] ? numbers : "";
+    characters += boolArr[3] ? symbols : "";
+
+    while (n > 0) {
+      pass += characters.charAt(Math.floor(Math.random() * characters.length));
+      n--;
+    }
+    setPassword(pass);
+  }, [boolArr, length]);
+
   useEffect(() => {
+    const getNumberOfBools = () => {
+      let total = 0;
+      for (const n of boolArr) if (n) total++;
+      return total;
+    };
+
     genPass();
     const numOfBools = getNumberOfBools();
     if (numOfBools === 4) {
@@ -95,7 +95,7 @@ const PasswordGenerator: React.FC = () => {
     } else {
       setStrengthColor("red");
     }
-  }, [length, boolArr]);
+  }, [length, boolArr, genPass]);
 
   useEffect(() => {
     if (radioValue === "2") {

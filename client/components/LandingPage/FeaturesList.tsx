@@ -34,8 +34,8 @@ export const FeaturesList = () => {
       <Stack spacing={4} as={Container} maxW={"3xl"} textAlign={"center"}>
         <Heading fontSize={"3xl"}>Shitty Company Name</Heading>
         <Text color={"gray.600"} fontSize={"xl"}>
-          We offer military grade encryption of your passwords (it's just crypto
-          lol).
+          We offer military grade encryption of your passwords (it is just
+          crypto lol).
         </Text>
       </Stack>
 
