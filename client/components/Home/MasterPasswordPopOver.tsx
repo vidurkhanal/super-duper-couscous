@@ -18,10 +18,12 @@ import React, { useState } from "react";
 import { BsFillEyeFill } from "react-icons/bs";
 interface MasterPasswordPopOverProps {
   passwordUnlockerFn: () => void;
+  variant: "delete" | "open";
 }
 
 export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
   passwordUnlockerFn,
+  variant = "open",
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [masterPIN, setMasterPIN] = useState<"" | string>("");
@@ -40,7 +42,13 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
   return (
     <>
       <>
-        <BsFillEyeFill color="#66ff66" onClick={onOpen} />
+        {variant === "open" ? (
+          <BsFillEyeFill color="#66ff66" onClick={onOpen} />
+        ) : (
+          <Button colorScheme="red" onClick={onOpen}>
+            Delete
+          </Button>
+        )}
       </>
       <Modal
         isOpen={isOpen}
@@ -57,7 +65,7 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
             <ModalCloseButton />
             <ModalBody>
               <FormControl id="email" isInvalid={!!formErr}>
-                <FormLabel>Enter Your Master PIN To Open The Vault</FormLabel>
+                <FormLabel>Enter Your Master PIN</FormLabel>
                 <Input
                   autoFocus
                   inputMode="numeric"
@@ -87,10 +95,10 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
                 onClick={masterPINChecker}
                 type="submit"
               >
-                Open
+                {variant === "delete" ? "Delete" : "Open"}
               </Button>
               <Button variant="ghost" onClick={onClose}>
-                I Don't Wanna Open Vault
+                I Don't Wanna {variant === "delete" ? "Delete" : "Open Vault"}
               </Button>
             </ModalFooter>
           </form>

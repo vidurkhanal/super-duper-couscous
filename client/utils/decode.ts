@@ -14,7 +14,3 @@ export const decode = (encodedPass: string) => {
   }
   return str;
 };
-
-// export const hey = () => {
-//   return decode;
-// };
