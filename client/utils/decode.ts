@@ -1,6 +1,7 @@
 import { PRIVATE_KEY } from "../constants";
+import bigInt from "big-integer";
 
-const decode = (encodedPass: string, bigInt: any) => {
+export const decode = (encodedPass: string) => {
   let str = "";
   const e = bigInt(PRIVATE_KEY);
 
@@ -8,11 +9,12 @@ const decode = (encodedPass: string, bigInt: any) => {
 
   for (const n of numArr) {
     const decoded = bigInt(n).modPow(e, "62615533");
+    // @ts-expect-error
     str += String.fromCharCode(decoded);
   }
   return str;
 };
 
-export const hey = () => {
-  return decode;
-};
+// export const hey = () => {
+//   return decode;
+// };
