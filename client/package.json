@@ -19,8 +19,6 @@
     "@tryghost/content-api": "^1.5.10",
     "@urql/exchange-graphcache": "^4.2.1",
     "big-integer": "^1.6.48",
-    "dotenv": "^10.0.0",
-    "dotenv-webpack": "^7.0.3",
     "formik": "^2.2.9",
     "framer-motion": "^4",
     "graphql": "^15.5.1",
