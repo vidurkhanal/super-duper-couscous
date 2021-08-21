@@ -128,11 +128,15 @@ export const Password = ({ pass }: IPassword) => {
             </InputRightElement>
           </InputGroup>
         </Box>
-        <Text color="darkgray">SRENGTH</Text>
-        <Text pb="0.8rem" fontWeight="bold">
-          {strengthMap[pass.strength]}
-        </Text>
-        <DeleteCredential credentialID={pass.credentialID} />
+        <Flex justifyContent="space-between" alignItems="center">
+          <Box>
+            <Text color="darkgray">SRENGTH</Text>
+            <Text pb="0.8rem" fontWeight="bold">
+              {strengthMap[pass.strength]}
+            </Text>
+          </Box>
+          <DeleteCredential credentialID={pass.credentialID} />
+        </Flex>
       </Flex>
     </Flex>
   );
