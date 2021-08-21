@@ -22,3 +22,5 @@ export const SEND_IN_BLUE_PASSWORD_FOR_VERIFY =
 export const SESSIONS_REDIS_CLIENT_HOST =
   process.env.SESSIONS_REDIS_CLIENT_HOST;
 export const SESSIONS_REDIS_PASSWORD = process.env.SESSIONS_REDIS_PASSWORD;
+export const ICON_FETCHER =
+  "https://grab-favicons.herokuapp.com/api/v1/grab-favicons?url=";

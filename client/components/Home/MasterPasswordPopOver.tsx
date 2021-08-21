@@ -13,6 +13,7 @@ import {
   ModalOverlay,
   useDisclosure,
   FormErrorMessage,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { BsFillEyeFill } from "react-icons/bs";
@@ -45,7 +46,7 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
         {variant === "open" ? (
           <BsFillEyeFill color="#66ff66" onClick={onOpen} />
         ) : (
-          <Button colorScheme="red" onClick={onOpen}>
+          <Button background="red" color="white" onClick={onOpen}>
             Delete
           </Button>
         )}
@@ -70,6 +71,7 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
                   autoFocus
                   inputMode="numeric"
                   value={masterPIN}
+                  type="password"
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setMasterPIN(e.target.value);
                     const foo = e.target.value;
@@ -95,11 +97,10 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
                 onClick={masterPINChecker}
                 type="submit"
               >
-                {variant === "delete" ? "Delete" : "Open"}
+                Confirm
               </Button>
               <Button variant="ghost" onClick={onClose}>
-                <span>I Do not Wanna</span>{" "}
-                {variant === "delete" ? "Delete" : "Open Vault"}
+                No Thanks
               </Button>
             </ModalFooter>
           </form>

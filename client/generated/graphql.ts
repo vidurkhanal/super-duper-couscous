@@ -35,6 +35,7 @@ export type Credential = {
   password: Scalars['String'];
   strength: Scalars['Float'];
   siteName: Scalars['String'];
+  siteLogo?: Maybe<Scalars['String']>;
   user: User;
 };
 
@@ -104,6 +105,7 @@ export type Query = {
   hello: Scalars['String'];
   getAllUsers: Array<User>;
   me?: Maybe<User>;
+  getFavicon?: Maybe<Scalars['String']>;
 };
 
 
@@ -144,7 +146,7 @@ export type AddCredentialMutation = (
       & Pick<User, 'userID' | 'fullName'>
       & { credentials?: Maybe<Array<(
         { __typename?: 'Credential' }
-        & Pick<Credential, 'email' | 'password'>
+        & Pick<Credential, 'email' | 'password' | 'siteName' | 'strength' | 'credentialID' | 'siteLogo'>
       )>> }
     )> }
   ) }
@@ -263,7 +265,7 @@ export type MeQuery = (
     & Pick<User, 'userID' | 'fullName'>
     & { credentials?: Maybe<Array<(
       { __typename?: 'Credential' }
-      & Pick<Credential, 'email' | 'password' | 'siteName' | 'strength' | 'credentialID'>
+      & Pick<Credential, 'email' | 'password' | 'siteName' | 'strength' | 'credentialID' | 'siteLogo'>
     )>> }
   )> }
 );
@@ -279,6 +281,10 @@ export const AddCredentialDocument = gql`
       credentials {
         email
         password
+        siteName
+        strength
+        credentialID
+        siteLogo
       }
     }
   }
@@ -390,6 +396,7 @@ export const MeDocument = gql`
       siteName
       strength
       credentialID
+      siteLogo
     }
   }
 }

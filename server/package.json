@@ -27,6 +27,7 @@
   "dependencies": {
     "apollo-server-express": "^2.25.2",
     "argon2": "^0.28.2",
+    "axios": "^0.21.1",
     "big-integer": "^1.6.48",
     "class-validator": "^0.13.1",
     "connect-redis": "^6.0.0",

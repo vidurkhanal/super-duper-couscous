@@ -33,7 +33,7 @@ export const DeleteCredential: React.FC<IProps> = ({ credentialID }) => {
 
   return (
     <>
-      <Button width="8rem" colorScheme="blue" onClick={onOpen}>
+      <Button width="8rem" variant="outline" colorScheme="red" onClick={onOpen}>
         Delete
       </Button>
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
