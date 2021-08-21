@@ -36,7 +36,7 @@ const main = async () => {
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [User, Credential],
   });
-  //await conn.runMigrations();
+  await conn.runMigrations();
   const app = Express();
   app.use(
     cors({
@@ -102,6 +102,8 @@ const main = async () => {
   app.use(
     morgan(":method :url :status :res[content-length] - :response-time ms")
   );
+
+  app.use(Express.static("public"));
 
   app.get("/", (_, res) => {
     return __PROD__
