@@ -67,6 +67,11 @@ const AddCredModal = () => {
         title: "Credential Added Successfully...",
         status: "success",
       });
+      setForm({
+        siteName: "",
+        email: "",
+        password: "",
+      });
       onClose();
     }
   };
@@ -101,7 +106,7 @@ const AddCredModal = () => {
                     <FormLabel>Site Name</FormLabel>
                     <Input
                       name="siteName"
-                      placeholder="https://mywebsite.com"
+                      placeholder="website.com"
                       value={form.siteName}
                       onChange={handleChange}
                       required={true}

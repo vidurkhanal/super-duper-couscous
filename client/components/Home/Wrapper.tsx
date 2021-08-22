@@ -3,6 +3,7 @@ import { MobileNav } from "./MobileNav";
 import { SidebarContent } from "./SideBarContent";
 import {
   Box,
+  Flex,
   useColorModeValue,
   Drawer,
   DrawerContent,
@@ -12,7 +13,11 @@ import {
 export const Wrapper: React.FC = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   return (
-    <Box minH="100vh" bg={useColorModeValue("gray.100", "gray.900")}>
+    <Box
+      overflowX="hidden"
+      minH="100vh"
+      bg={useColorModeValue("gray.100", "gray.900")}
+    >
       <SidebarContent
         onClose={() => onClose}
         display={{ base: "none", md: "block" }}
@@ -32,9 +37,16 @@ export const Wrapper: React.FC = ({ children }) => {
       </Drawer>
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Flex
+        direction="column"
+        //justifyContent="center"
+        //alignItems="center"
+        ml={{ base: 0, md: 300 }}
+        minWidth="100%"
+        p="4"
+      >
         {children}
-      </Box>
+      </Flex>
     </Box>
   );
 };

@@ -6,6 +6,7 @@ import {
   InputGroup,
   InputRightElement,
   Text,
+  Image,
   useClipboard,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
@@ -51,12 +52,8 @@ export const Password = ({ pass }: IPassword) => {
       direction="column"
       alignItems="baseline"
       borderRadius="5px"
-      width={{ sm: "100%", md: "90%", lg: "60%" }}
-      marginLeft={{ base: "0", md: "20px" }}
+      width={{ base: "100%", md: "50%" }}
     >
-      {/* <Text p="1rem" fontSize="20px" fontWeight="bold" mr="1rem">
-        LOGO Title
-      </Text> */}
       <Flex
         bgColor="rgba(180,180,180,0.2)"
         minWidth="100%"
@@ -66,10 +63,18 @@ export const Password = ({ pass }: IPassword) => {
         justifyContent="space-between"
         borderRadius="5px"
       >
-        <Box mb="10px">
-          <Text color="darkgray">SITE</Text>
-          <Text fontWeight="bold">{pass.siteName}</Text>
-        </Box>
+        <Flex mb="10px" justifyContent="space-between">
+          <Box>
+            <Text color="darkgray">SITE</Text>
+            <Text fontWeight="bold">{pass.siteName}</Text>
+          </Box>
+          <Image
+            src={pass.siteLogo || "sitenull.png"}
+            objectFit="cover"
+            boxSize="50px"
+            borderRadius="5px"
+          />
+        </Flex>
         <Box mb="10px">
           <Text color="darkgray">USERNAME</Text>
           <InputGroup>

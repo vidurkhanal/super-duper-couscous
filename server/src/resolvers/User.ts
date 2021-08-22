@@ -16,6 +16,8 @@ import { AuthResponse } from "./GqlObjects/AuthResponse";
 import { LoginInput } from "./GqlObjects/loginInput";
 import { RegisterInput } from "./GqlObjects/registerInput";
 import { ForgotPasswordResponse } from "./GqlObjects/ForgotPasswordResponse";
+import { createOTP } from "../utility/createOTP";
+import { otpTemplate } from "../static/otpTemplate";
 
 @Resolver()
 export class UserResolver {
@@ -153,6 +155,46 @@ export class UserResolver {
 
   @Mutation(() => ChangePasswordResolver)
   async forgotPasswordChange(
+    @Arg("key") key: string,
+    @Arg("newPassword") newPassword: string,
+    @Ctx() { PwdRedisClient: redisClient }: ApolloContext
+  ): Promise<ChangePasswordResolver> {
+    const userID = await redisClient.get(key);
+    if (!userID)
+      return { error: "Provided Token is valid or expired.", isChanged: false };
+
+    const { error } = PasswordSchema.validate({ password: newPassword });
+    console.log(error);
+    if (error) {
+      return { error: "New Password isn't secure enough.", isChanged: false };
+    }
+
+    await redisClient.del(key);
+    await User.update({ userID }, { password: await hash(newPassword) });
+    return { isChanged: true };
+  }
+
+  @Mutation(() => ForgotPasswordResponse)
+  async changePassword(
+    @Arg("password") password: string,
+    @Ctx() { req, redisClient }: ApolloContext
+  ): Promise<ForgotPasswordResponse> {
+    const user = await User.findOne({ where: { userID: req.session.userID } });
+
+    if (user) {
+      const verifyPassword = await verify(user.password, password);
+      if (verifyPassword) {
+        const token = await createOTP(redisClient, user.userID);
+        const emailContent = otpTemplate(token);
+        await sendEmail(user.email, "Change Password", emailContent);
+        return { isSent: true };
+      }
+    }
+    return { error: "Incorrect Password", isSent: false };
+  }
+
+  @Mutation(() => ChangePasswordResolver)
+  async optPasswordChange(
     @Arg("key") key: string,
     @Arg("newPassword") newPassword: string,
     @Ctx() { PwdRedisClient: redisClient }: ApolloContext

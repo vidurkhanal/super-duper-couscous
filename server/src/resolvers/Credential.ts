@@ -24,15 +24,23 @@ export class CredentialResolver {
       password,
       siteName,
     });
+
     if (JoiError) {
       return {
         error: JoiError.message,
       };
     }
-    const { data } = await axios.get(ICON_FETCHER + siteName);
-    const siteLogo = data[0].url;
+    let siteLogo;
+
+    try {
+      const { data } = await axios.get(ICON_FETCHER + siteName);
+      siteLogo = data[0].url;
+    } catch {}
+
     const encodedPass = encode(password);
+
     const userID = req.session.userID;
+
     if (!userID) {
       return { error: "User Not Authenticated" };
     }
