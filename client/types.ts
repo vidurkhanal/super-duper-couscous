@@ -67,4 +67,5 @@ export type PassObj = {
   password: string;
   strength: number;
   credentialID: string;
+  siteLogo?: string | null;
 };

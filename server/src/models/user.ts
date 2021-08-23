@@ -36,9 +36,10 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @Column({ nullable: true })
+  @Column()
   masterPIN: string;
 
+  @Field()
   @Column({ default: false })
   isVerified: boolean;
 

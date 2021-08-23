@@ -4,7 +4,6 @@ import { __PROD__ } from "../constants";
 import { betterUpdateQuery } from "./betterUpdateQuery";
 import {
   AddCredentialMutation,
-  DeleteCredentialDocument,
   DeleteCredentialMutation,
   MeDocument,
   MeQuery,

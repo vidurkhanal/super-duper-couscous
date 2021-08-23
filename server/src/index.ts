@@ -103,6 +103,8 @@ const main = async () => {
     morgan(":method :url :status :res[content-length] - :response-time ms")
   );
 
+  app.use(Express.static("public"));
+
   app.get("/", (_, res) => {
     return __PROD__
       ? res.send("<b>Hello THERE</b>")
@@ -112,10 +114,9 @@ const main = async () => {
   app.get("/confirm-email/:id", async (req: Request, res: Response) => {
     const { id } = req.params;
     const userID = await redisClient.get(id);
-    redisClient.del(id);
+    await redisClient.del(id);
 
     if (userID) User.update({ userID }, { isVerified: true });
-
     res.send(verifiedPageTemplate());
   });
 

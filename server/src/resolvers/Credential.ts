@@ -1,5 +1,5 @@
 import { CredentialSchema } from "../Joi/CredentialsSchema";
-import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
+import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
 import { getConnection } from "typeorm";
 import { Credential } from "../models/credential";
 import { User } from "../models/user";
@@ -24,15 +24,24 @@ export class CredentialResolver {
       password,
       siteName,
     });
+
     if (JoiError) {
       return {
         error: JoiError.message,
       };
     }
-    const { data } = await axios.get(ICON_FETCHER + siteName);
-    const siteLogo = data[0].url;
+    let siteLogo;
+
+    try {
+      const { data } = await axios.get(ICON_FETCHER + siteName, {
+        timeout: 5000,
+      });
+      siteLogo = data[0].url;
+    } catch {}
+
     const encodedPass = encode(password);
     const userID = req.session.userID;
+
     if (!userID) {
       return { error: "User Not Authenticated" };
     }
@@ -90,12 +99,5 @@ export class CredentialResolver {
       console.log(e);
       return { error: "Internal Server Error" };
     }
-  }
-
-  @Query(() => String, { nullable: true })
-  async getFavicon() {
-    const { data } = await axios.get(ICON_FETCHER + "instagram.com");
-    console.log(data[0].url);
-    return null;
   }
 }

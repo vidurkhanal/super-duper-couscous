@@ -17,6 +17,7 @@ import {
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { BsFillEyeFill } from "react-icons/bs";
+import { useVerifyMasterPinMutation } from "../../generated/graphql";
 interface MasterPasswordPopOverProps {
   passwordUnlockerFn: () => void;
   variant: "delete" | "open";
@@ -28,10 +29,15 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
 }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [masterPIN, setMasterPIN] = useState<"" | string>("");
+  const [, verifyMasterPIN] = useVerifyMasterPinMutation();
   const [formErr, setFormErr] = useState<null | string>(null);
-  const masterPINChecker = (e: React.FormEvent) => {
+
+  const masterPINChecker = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (masterPIN === "1234") {
+
+    const { data } = await verifyMasterPIN({ masterPIN });
+
+    if (data?.verifyMasterPIN?.isValid) {
       passwordUnlockerFn();
       onClose();
     } else {
@@ -75,7 +81,7 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
                     setMasterPIN(e.target.value);
                     const foo = e.target.value;
-                    if (foo.length > 8) {
+                    if (foo.length > 20) {
                       setMasterPIN("");
                       setFormErr(
                         "Master PIN too long. Please enter carefully."
