@@ -18,6 +18,7 @@ import { RegisterInput } from "./GqlObjects/registerInput";
 import { ForgotPasswordResponse } from "./GqlObjects/ForgotPasswordResponse";
 import { createOTP } from "../utility/createOTP";
 import { otpTemplate } from "../static/otpTemplate";
+import { MasterPINResponse } from "./GqlObjects/MasterPINResponse";
 
 @Resolver()
 export class UserResolver {
@@ -82,6 +83,7 @@ export class UserResolver {
           fullName: registerInput.fullName,
           email: registerInput.email,
           password: await hash(registerInput.password),
+          masterPIN: await hash(registerInput.masterPIN),
         })
         .returning("*")
         .execute();
@@ -212,5 +214,28 @@ export class UserResolver {
     await redisClient.del(key);
     await User.update({ userID }, { password: await hash(newPassword) });
     return { isChanged: true };
+  }
+
+  @Mutation(() => MasterPINResponse)
+  async verifyMasterPIN(
+    @Arg("masterPIN") masterPIN: string,
+    @Ctx() { req }: ApolloContext
+  ): Promise<MasterPINResponse> {
+    const user = await User.findOne({ where: { userID: req.session.userID } });
+
+    if (!user) {
+      return {
+        error: "User Not Found. Try making an account.",
+        isValid: false,
+      };
+    }
+
+    const verifyMasterPIN = await verify(user.masterPIN, masterPIN);
+
+    if (!verifyMasterPIN) {
+      return { error: "Wrong Master PIN. Try Again.", isValid: false };
+    }
+
+    return { isValid: true };
   }
 }

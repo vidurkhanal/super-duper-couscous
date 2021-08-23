@@ -11,11 +11,6 @@ import {
 } from "typeorm";
 import { User } from "./user";
 
-//Fields to be added
-//Website name
-//Website url
-//Website favicon url
-
 @ObjectType()
 @Entity()
 export class Credential extends BaseEntity {

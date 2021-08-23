@@ -60,6 +60,12 @@ export type LoginInput = {
   password: Scalars["String"];
 };
 
+export type MasterPinResponse = {
+  __typename?: "MasterPINResponse";
+  error?: Maybe<Scalars["String"]>;
+  isValid: Scalars["Boolean"];
+};
+
 export type Mutation = {
   __typename?: "Mutation";
   registerUser: AuthResponse;
@@ -67,6 +73,9 @@ export type Mutation = {
   logoutUser: Scalars["Boolean"];
   forgotPassword: ForgotPasswordResponse;
   forgotPasswordChange: ChangePasswordResolver;
+  changePassword: ForgotPasswordResponse;
+  optPasswordChange: ChangePasswordResolver;
+  verifyMasterPIN: MasterPinResponse;
   addCredential: CredentialResponse;
   delCredentials: CredentialResponse;
 };
@@ -86,6 +95,19 @@ export type MutationForgotPasswordArgs = {
 export type MutationForgotPasswordChangeArgs = {
   newPassword: Scalars["String"];
   key: Scalars["String"];
+};
+
+export type MutationChangePasswordArgs = {
+  password: Scalars["String"];
+};
+
+export type MutationOptPasswordChangeArgs = {
+  newPassword: Scalars["String"];
+  key: Scalars["String"];
+};
+
+export type MutationVerifyMasterPinArgs = {
+  masterPIN: Scalars["String"];
 };
 
 export type MutationAddCredentialArgs = {
@@ -114,6 +136,7 @@ export type RegisterInput = {
   fullName: Scalars["String"];
   email: Scalars["String"];
   password: Scalars["String"];
+  masterPIN: Scalars["String"];
 };
 
 export type User = {
@@ -214,6 +237,7 @@ export type RegisterUserMutationVariables = Exact<{
   email: Scalars["String"];
   password: Scalars["String"];
   fullName: Scalars["String"];
+  masterPIN: Scalars["String"];
 }>;
 
 export type RegisterUserMutation = { __typename?: "Mutation" } & {
@@ -232,6 +256,17 @@ export type ResetPasswordMutation = { __typename?: "Mutation" } & {
   forgotPasswordChange: { __typename?: "ChangePasswordResolver" } & Pick<
     ChangePasswordResolver,
     "error" | "isChanged"
+  >;
+};
+
+export type VerifyMasterPinMutationVariables = Exact<{
+  masterPIN: Scalars["String"];
+}>;
+
+export type VerifyMasterPinMutation = { __typename?: "Mutation" } & {
+  verifyMasterPIN: { __typename?: "MasterPINResponse" } & Pick<
+    MasterPinResponse,
+    "isValid" | "error"
   >;
 };
 
@@ -362,9 +397,15 @@ export const RegisterUserDocument = gql`
     $email: String!
     $password: String!
     $fullName: String!
+    $masterPIN: String!
   ) {
     registerUser(
-      registerInput: { fullName: $fullName, email: $email, password: $password }
+      registerInput: {
+        fullName: $fullName
+        email: $email
+        password: $password
+        masterPIN: $masterPIN
+      }
     ) {
       error
       user {
@@ -393,6 +434,21 @@ export function useResetPasswordMutation() {
     ResetPasswordMutation,
     ResetPasswordMutationVariables
   >(ResetPasswordDocument);
+}
+export const VerifyMasterPinDocument = gql`
+  mutation VerifyMasterPIN($masterPIN: String!) {
+    verifyMasterPIN(masterPIN: $masterPIN) {
+      isValid
+      error
+    }
+  }
+`;
+
+export function useVerifyMasterPinMutation() {
+  return Urql.useMutation<
+    VerifyMasterPinMutation,
+    VerifyMasterPinMutationVariables
+  >(VerifyMasterPinDocument);
 }
 export const HelloQueryDocument = gql`
   query HelloQuery($helloName: String!) {

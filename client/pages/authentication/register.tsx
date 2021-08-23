@@ -19,6 +19,7 @@ type FormValues = {
   email: string;
   password: string;
   fullName: string;
+  masterPIN: string;
 };
 
 const Login = () => {
@@ -56,7 +57,12 @@ const Login = () => {
         <Stack spacing={4} w={"full"} maxW={"md"}>
           <Heading fontSize={"2xl"}>Register your account</Heading>
           <Formik
-            initialValues={{ email: "", password: "", fullName: "" }}
+            initialValues={{
+              email: "",
+              password: "",
+              fullName: "",
+              masterPIN: "",
+            }}
             onSubmit={handleSubmit}
           >
             {({ isSubmitting }) => (
@@ -99,6 +105,20 @@ const Login = () => {
                         id="password"
                         {...field}
                         placeholder="Enter your Password"
+                      />
+                    </FormControl>
+                  )}
+                </Field>
+                <Field name="masterPIN">
+                  {({ field, form: _ }: any) => (
+                    <FormControl id="masterPIN" name="masterPIN">
+                      <FormLabel htmlFor="masterPIN">Master PIN</FormLabel>
+                      <Input
+                        type="password"
+                        mb={3}
+                        id="masterPIN"
+                        {...field}
+                        placeholder="Enter your Master PIN"
                       />
                     </FormControl>
                   )}

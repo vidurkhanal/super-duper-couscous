@@ -10,4 +10,7 @@ export class RegisterInput {
 
   @Field()
   password: string;
+
+  @Field()
+  masterPIN: string;
 }

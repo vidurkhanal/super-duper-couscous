@@ -1,0 +1,6 @@
+mutation VerifyMasterPIN($masterPIN : String!){
+  verifyMasterPIN(masterPIN: $masterPIN){
+      isValid
+      error
+    }
+}
