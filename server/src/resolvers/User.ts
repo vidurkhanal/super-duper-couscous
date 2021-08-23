@@ -20,6 +20,7 @@ import { createOTP } from "../utility/createOTP";
 import { otpTemplate } from "../static/otpTemplate";
 import { MasterPINResponse } from "./GqlObjects/MasterPINResponse";
 
+//We need comments, this shit is getting hard to read
 @Resolver()
 export class UserResolver {
   @Query(() => [User])
@@ -27,6 +28,7 @@ export class UserResolver {
     return User.find({});
   }
 
+  //Me querry used as the entry point for the app
   @Query(() => User, { nullable: true })
   async me(@Ctx() { req }: ApolloContext): Promise<User | void> {
     return User.findOne({
@@ -37,6 +39,7 @@ export class UserResolver {
     });
   }
 
+  //Registers the user if condititons are fullfilled
   @Mutation(() => AuthResponse)
   async registerUser(
     @Arg("registerInput") registerInput: RegisterInput,
@@ -108,6 +111,7 @@ export class UserResolver {
     return { user };
   }
 
+  //Logs in the user and sends a session
   @Mutation(() => AuthResponse)
   async loginUser(
     @Arg("loginInput") loginInput: LoginInput,
@@ -117,6 +121,7 @@ export class UserResolver {
     if (!user) {
       return { error: "User Not Found. Try making an account." };
     }
+
     const verifyPassword = await verify(user.password, loginInput.password);
     if (!verifyPassword) {
       return { error: "Wrong Password. Try Again." };
@@ -141,6 +146,7 @@ export class UserResolver {
     });
   }
 
+  //Forgot password thingy
   @Mutation(() => ForgotPasswordResponse)
   async forgotPassword(
     @Arg("email") email: string,
@@ -155,6 +161,7 @@ export class UserResolver {
     return { isSent: true };
   }
 
+  //Changes password throught forgot password
   @Mutation(() => ChangePasswordResolver)
   async forgotPasswordChange(
     @Arg("key") key: string,
@@ -176,10 +183,11 @@ export class UserResolver {
     return { isChanged: true };
   }
 
+  //We first check if the user knows the password and send the thing that lets him change it
   @Mutation(() => ForgotPasswordResponse)
-  async changePassword(
+  async changePasswordInit(
     @Arg("password") password: string,
-    @Ctx() { req, redisClient }: ApolloContext
+    @Ctx() { req, PwdRedisClient: redisClient }: ApolloContext
   ): Promise<ForgotPasswordResponse> {
     const user = await User.findOne({ where: { userID: req.session.userID } });
 
@@ -195,15 +203,19 @@ export class UserResolver {
     return { error: "Incorrect Password", isSent: false };
   }
 
+  //We check if the tokens match and change the password
   @Mutation(() => ChangePasswordResolver)
-  async optPasswordChange(
+  async changePasswordFinal(
     @Arg("key") key: string,
     @Arg("newPassword") newPassword: string,
     @Ctx() { PwdRedisClient: redisClient }: ApolloContext
   ): Promise<ChangePasswordResolver> {
     const userID = await redisClient.get(key);
     if (!userID)
-      return { error: "Provided Token is valid or expired.", isChanged: false };
+      return {
+        error: "Provided Token is not valid or has expired.",
+        isChanged: false,
+      };
 
     const { error } = PasswordSchema.validate({ password: newPassword });
     console.log(error);
@@ -216,6 +228,7 @@ export class UserResolver {
     return { isChanged: true };
   }
 
+  //This verifies if the masterPIN is correct
   @Mutation(() => MasterPINResponse)
   async verifyMasterPIN(
     @Arg("masterPIN") masterPIN: string,
