@@ -40,24 +40,25 @@ const Forgetpassword = () => {
     >
       <form onSubmit={forgetPasswordSubmitter}>
         <Stack spacing={8} mx={"auto"} w="xl" maxW={"lg"} py={12} px={6}>
-          <Stack align={"center"}>
-            <Heading fontSize={"4xl"}>Reset Your Password</Heading>
-          </Stack>
           <Box
             rounded={"lg"}
             bg={useColorModeValue("white", "gray.700")}
             boxShadow={"lg"}
             p={8}
           >
+            <Stack mb="20px">
+              <Heading fontSize={"3xl"}>Forgot Your Password?</Heading>
+            </Stack>
             <Stack spacing={4}>
               <FormControl id="email">
-                <FormLabel>Enter Your Email</FormLabel>
+                <FormLabel>You will get an email with a reset link</FormLabel>
                 <Input
                   type="email"
                   name="email"
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   required
+                  placeholder="youremail@provider.com"
                 />
               </FormControl>
 

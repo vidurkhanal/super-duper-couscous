@@ -12,6 +12,7 @@ import {
 } from "@chakra-ui/react";
 import { Link } from "react-scroll";
 import NextRouter from "next/router";
+import { BRAND_COLOR_RED } from "../../constants";
 
 export const MainSection = () => {
   return (
@@ -39,7 +40,7 @@ export const MainSection = () => {
           >
             Secure your
             <br />
-            <Text as={"span"} color={"green.400"}>
+            <Text as={"span"} color={BRAND_COLOR_RED}>
               digital footprint
             </Text>
           </Heading>
@@ -58,12 +59,13 @@ export const MainSection = () => {
           >
             <Button
               colorScheme={"green"}
-              bg={"green.400"}
+              bg={BRAND_COLOR_RED}
               rounded={"full"}
               px={6}
               _hover={{
-                bg: "green.500",
+                bg: "#e34d4d",
               }}
+              color="whitesmoke"
               onClick={() => NextRouter.push("/authentication/register")}
             >
               Get Started
@@ -73,11 +75,7 @@ export const MainSection = () => {
                 textDecoration: "underline",
                 cursor: "pointer",
               }}
-            >
-              <Link smooth={true} to="featureList">
-                Learn more
-              </Link>
-            </Text>
+            ></Text>
             <Box>
               <Icon
                 as={Arrow}

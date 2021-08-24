@@ -12,9 +12,11 @@ import {
   useColorModeValue,
   useBreakpointValue,
   useDisclosure,
+  Image,
 } from "@chakra-ui/react";
 import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import NextRouter from "next/router";
+import { BRAND_COLOR_RED } from "../../constants";
 
 export const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
@@ -46,14 +48,21 @@ export const NavBar = () => {
             aria-label={"Toggle Navigation"}
           />
         </Flex>
-        <Flex flex={{ base: 1 }} justify={{ base: "center", md: "start" }}>
-          <Text
-            textAlign={useBreakpointValue({ base: "center", md: "left" })}
-            fontFamily={"heading"}
-            color={useColorModeValue("gray.800", "white")}
-          >
-            CanvaLogo
-          </Text>
+        <Flex
+          flex={{ base: 1 }}
+          justifyContent={{ base: "center", md: "start" }}
+          alignItems="center"
+        >
+          <Image
+            width="70px"
+            height="auto"
+            alt="Brand Secondary Logo"
+            src={useColorModeValue(
+              "/Kpass-primary.png",
+              "/Kpass-secondary.png"
+            )}
+            loading="eager"
+          />
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
@@ -82,9 +91,9 @@ export const NavBar = () => {
             fontSize={"sm"}
             fontWeight={600}
             color={"white"}
-            bg={" #46BCBA"}
+            bg={BRAND_COLOR_RED}
             _hover={{
-              bg: "#57C7C4",
+              bg: "#e34d4d",
             }}
             onClick={() => NextRouter.push("/authentication/register")}
           >

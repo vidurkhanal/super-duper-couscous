@@ -34,9 +34,11 @@ export class CredentialResolver {
 
     try {
       const { data } = await axios.get(ICON_FETCHER + siteName, {
-        timeout: 5000,
+        timeout: 30000,
       });
-      siteLogo = data[0].url;
+      //@ts-expect-error
+      const sortedData = data?.sort((a, b) => b.size - a.size);
+      siteLogo = sortedData[0].url;
     } catch {}
 
     const encodedPass = encode(password);
