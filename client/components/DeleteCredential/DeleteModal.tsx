@@ -17,9 +17,13 @@ import { MasterPasswordPopOver } from "../Home/MasterPasswordPopOver";
 
 interface IProps {
   credentialID: string;
+  siteName: string;
 }
 
-export const DeleteCredential: React.FC<IProps> = ({ credentialID }) => {
+export const DeleteCredential: React.FC<IProps> = ({
+  credentialID,
+  siteName,
+}) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [, delCredentials] = useDeleteCredentialMutation();
   const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
@@ -41,7 +45,7 @@ export const DeleteCredential: React.FC<IProps> = ({ credentialID }) => {
         <ModalContent>
           {!isSubmitting ? (
             <>
-              <ModalHeader>Delete Credential</ModalHeader>
+              <ModalHeader>Delete {siteName} from your vault ? </ModalHeader>
               <ModalCloseButton />
               <ModalBody>
                 <Text fontWeight="bold" mb="1rem">

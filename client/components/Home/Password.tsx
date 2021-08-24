@@ -2,16 +2,15 @@ import {
   Box,
   Button,
   Flex,
+  Image,
   Input,
   InputGroup,
   InputRightElement,
   Text,
-  Image,
   useClipboard,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { MasterPasswordPopOver } from "../../components/Home/MasterPasswordPopOver";
-import { PRIVATE_KEY } from "../../constants";
 import { PassObj } from "../../types";
 import { decode } from "../../utils/decode";
 import { DeleteCredential } from "../DeleteCredential/DeleteModal";
@@ -22,7 +21,7 @@ interface IPassword {
 
 const strengthMap = ["BAD", "MEDIUM", "GOOD"];
 
-export const Password = ({ pass }: IPassword) => {
+export const Password: React.FC<IPassword> = ({ pass }) => {
   const [show, setShow] = useState<boolean>(false);
 
   const { hasCopied: copyEmail, onCopy: onCopyEmail } = useClipboard(
@@ -70,6 +69,7 @@ export const Password = ({ pass }: IPassword) => {
           </Box>
           <Image
             src={pass.siteLogo || "sitenull.png"}
+            alt=""
             objectFit="cover"
             boxSize="50px"
             borderRadius="5px"
@@ -140,7 +140,10 @@ export const Password = ({ pass }: IPassword) => {
               {strengthMap[pass.strength]}
             </Text>
           </Box>
-          <DeleteCredential credentialID={pass.credentialID} />
+          <DeleteCredential
+            credentialID={pass.credentialID}
+            siteName={pass.siteName}
+          />
         </Flex>
       </Flex>
     </Flex>
