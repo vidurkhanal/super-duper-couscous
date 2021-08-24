@@ -6,7 +6,7 @@ export const AuthSchema = Joi.object({
     .required(),
   fullName: Joi.string().min(3).max(50).required(),
   password: Joi.string().pattern(new RegExp("^(?=.*[a-zA-Z])(?=.*[0-9]).+$")),
-  masterPIN: Joi.string().min(4).required(),
+  masterPIN: Joi.string().min(4).max(8).required(),
 });
 
 export const PasswordSchema = Joi.object({

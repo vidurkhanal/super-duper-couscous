@@ -45,15 +45,16 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
 
   return (
     <Flex
-      bgColor="rgba(180,180,180,0.2)"
+      bgColor="indigo.600"
       minHeight="25vh"
-      mb="2rem"
+      marginY="2rem"
       direction="column"
       alignItems="baseline"
       borderRadius="5px"
       width={{ base: "100%", md: "50%" }}
     >
       <Flex
+        // bgColor="transparent"
         bgColor="rgba(180,180,180,0.2)"
         minWidth="100%"
         minHeight="25vh"

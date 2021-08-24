@@ -8,7 +8,7 @@ function MyApp({ Component, pageProps }: any) {
   return (
     <ChakraProvider theme={theme}>
       <Head>
-        <title>NAME OF THE APP</title>
+        <title>KPass, Best Free Password Manager</title>
       </Head>
       <CSSReset />
       <Component {...pageProps} />

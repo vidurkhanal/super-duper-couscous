@@ -13,6 +13,7 @@ import {
   Box,
   MenuList,
   MenuDivider,
+  Image,
 } from "@chakra-ui/react";
 import { FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
 import NextRouter from "next/router";
@@ -51,22 +52,22 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         icon={<FiMenu />}
       />
 
-      <Text
-        display={{ base: "flex", md: "none" }}
-        fontSize="2xl"
-        fontFamily="monospace"
-        fontWeight="bold"
-      >
-        Logo
-      </Text>
+      <Image
+        src={useColorModeValue("/Kpass-primary.png", "/Kpass-secondary.png")}
+        loading="eager"
+        width="70px"
+        height="auto"
+        alt="Brand Secondary Logo"
+        display={{ base: "initial", md: "none" }}
+      />
 
       <HStack spacing={{ base: "0", md: "6" }}>
-        {/* <IconButton
+        <IconButton
           size="lg"
           variant="ghost"
           aria-label="open menu"
           icon={<FiBell />}
-        /> */}
+        />
         <Flex alignItems={"center"}>
           <Menu>
             <MenuButton
