@@ -7,6 +7,7 @@ import { LoadingPage } from "../components/LoadingPage";
 import { useMeQuery } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 import NextRouter from "next/router";
+import Head from "next/head";
 
 const PasswordPage = () => {
   const [{ data, fetching }] = useMeQuery();
@@ -19,6 +20,9 @@ const PasswordPage = () => {
   if (!fetching && data?.me) {
     return (
       <Box>
+        <Head>
+          <title>Dashboard - KPass</title>
+        </Head>
         <Wrapper>
           {credentialArray.map((item, index) => (
             //@ts-expect-error

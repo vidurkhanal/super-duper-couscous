@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title> Pass Manager</title>
+        <title>KPass: The Best Free Password Manager</title>
       </Head>
       <NavBar />
       <MainSection />
