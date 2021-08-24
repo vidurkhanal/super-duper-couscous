@@ -46,7 +46,7 @@ export async function sendEmail(
 
   //   // send mail with defined transport object
   let info = await transporter.sendMail({
-    from: '"K Pass 12" <noreply@kpass12.com>', // sender address
+    from: '"K Pass 12" <noreply@kpass12.ninja>', // sender address
     to: emailToSendTo, // list of receivers
     subject: emailTitle, // Subject line
     html: emailContent, // html body
