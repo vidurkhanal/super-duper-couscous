@@ -25,8 +25,6 @@ export class CredentialResolver {
       siteName,
     });
 
-    console.log("Hello there hwo areyou ");
-
     if (JoiError) {
       return {
         error: JoiError.message,
@@ -40,7 +38,6 @@ export class CredentialResolver {
       });
       //@ts-expect-error
       const sortedData = data?.sort((a, b) => b.size - a.size);
-      console.log(sortedData);
       siteLogo = sortedData[0].url;
     } catch {}
 
