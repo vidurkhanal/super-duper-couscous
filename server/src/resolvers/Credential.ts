@@ -25,6 +25,8 @@ export class CredentialResolver {
       siteName,
     });
 
+    console.log("Hello there hwo areyou ");
+
     if (JoiError) {
       return {
         error: JoiError.message,
@@ -34,9 +36,12 @@ export class CredentialResolver {
 
     try {
       const { data } = await axios.get(ICON_FETCHER + siteName, {
-        timeout: 5000,
+        timeout: 30000,
       });
-      siteLogo = data[0].url;
+      //@ts-expect-error
+      const sortedData = data?.sort((a, b) => b.size - a.size);
+      console.log(sortedData);
+      siteLogo = sortedData[0].url;
     } catch {}
 
     const encodedPass = encode(password);

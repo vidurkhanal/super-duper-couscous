@@ -7,7 +7,6 @@ import {
   InputGroup,
   InputRightElement,
   Text,
-  Image,
   useClipboard,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
