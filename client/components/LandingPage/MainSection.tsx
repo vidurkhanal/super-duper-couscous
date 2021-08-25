@@ -4,13 +4,14 @@ import {
   Heading,
   Container,
   Text,
+  Link,
   Button,
   Stack,
   Icon,
   useColorModeValue,
   createIcon,
 } from "@chakra-ui/react";
-import { Link } from "react-scroll";
+import { Link as ScrollLink } from "react-scroll";
 import NextRouter from "next/router";
 import { BRAND_COLOR_RED } from "../../constants";
 
@@ -57,19 +58,20 @@ export const MainSection = () => {
             alignSelf={"center"}
             position={"relative"}
           >
-            <Button
-              colorScheme={"green"}
-              bg={BRAND_COLOR_RED}
-              rounded={"full"}
-              px={6}
-              _hover={{
-                bg: "#e34d4d",
-              }}
-              color="whitesmoke"
-              onClick={() => NextRouter.push("/authentication/register")}
-            >
-              Get Started
-            </Button>
+            <Link href="/authentication/register">
+              <Button
+                colorScheme={"green"}
+                bg={BRAND_COLOR_RED}
+                rounded={"full"}
+                px={6}
+                _hover={{
+                  bg: "#e34d4d",
+                }}
+                color="whitesmoke"
+              >
+                Get Started
+              </Button>
+            </Link>
             <Text
               _hover={{
                 textDecoration: "underline",

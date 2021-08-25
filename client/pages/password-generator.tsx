@@ -108,7 +108,7 @@ const PasswordGenerator: React.FC = () => {
   return (
     <Box pb={{ base: "1rem" }}>
       <Head>
-        <title>Create A Secure Password</title>
+        <title>Create A Secure Password - KPass</title>
       </Head>
 
       <NavBar />

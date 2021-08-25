@@ -3,6 +3,7 @@ import { Box } from "@chakra-ui/react";
 import { getAllPosts, getSinglePost } from "../../../ghost/fetchers";
 import Head from "next/head";
 import { Post } from "../../../types";
+import { NavBar } from "../../../components/LandingPage/NavBar";
 
 interface ISinglePage {
   postToRender: Post;
@@ -14,6 +15,7 @@ const SinglePage: React.FC<ISinglePage> = ({ postToRender }) => {
       <Head>
         <title>{postToRender.title}</title>
       </Head>
+      <NavBar />
       <SingleBlogHero postToRender={postToRender} />
     </Box>
   );
