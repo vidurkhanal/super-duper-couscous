@@ -3,6 +3,7 @@ import {
   Box,
   Stack,
   HStack,
+  Link,
   Heading,
   Text,
   VStack,
@@ -13,6 +14,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { FaCheckCircle } from "react-icons/fa";
+import { BRAND_COLOR_RED } from "../../constants";
 
 function PriceWrapper({ children }: { children: ReactNode }) {
   return (
@@ -34,10 +36,10 @@ export const PricingComp = () => {
     <Box py={12} minHeight="95vh">
       <VStack spacing={2} textAlign="center">
         <Heading as="h1" fontSize="4xl">
-          Plans that fit your need
+          Everything is free.
         </Heading>
         <Text fontSize="lg" color={"gray.500"} p="1rem">
-          Start with 14-day free trial. No credit card needed. Cancel at
+          Start with a unlimited free trial. No credit card needed. Cancel at
           anytime.
         </Text>
       </VStack>
@@ -58,7 +60,7 @@ export const PricingComp = () => {
                 $
               </Text>
               <Text fontSize="5xl" fontWeight="900">
-                79
+                0
               </Text>
               <Text fontSize="3xl" color="gray.500">
                 /month
@@ -73,21 +75,27 @@ export const PricingComp = () => {
             <List spacing={3} textAlign="start" px={12}>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
-                unlimited build minutes
+                Unlimited passwords
               </ListItem>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
-                Lorem, ipsum dolor.
+                Browser extension
               </ListItem>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
-                5TB Lorem, ipsum dolor.
+                Access on any device
               </ListItem>
             </List>
             <Box w="80%" pt={7}>
-              <Button w="full" colorScheme="red" variant="outline">
-                Start trial
-              </Button>
+              <Link href="/authentication/register">
+                <Button
+                  w="full"
+                  borderColor={BRAND_COLOR_RED}
+                  variant="outline"
+                >
+                  Start trial
+                </Button>
+              </Link>
             </Box>
           </VStack>
         </PriceWrapper>
@@ -122,7 +130,7 @@ export const PricingComp = () => {
                   $
                 </Text>
                 <Text fontSize="5xl" fontWeight="900">
-                  149
+                  0
                 </Text>
                 <Text fontSize="3xl" color="gray.500">
                   /month
@@ -137,29 +145,29 @@ export const PricingComp = () => {
               <List spacing={3} textAlign="start" px={12}>
                 <ListItem>
                   <ListIcon as={FaCheckCircle} color="green.500" />
-                  unlimited build minutes
+                  Unlimited passwords
                 </ListItem>
                 <ListItem>
                   <ListIcon as={FaCheckCircle} color="green.500" />
-                  Lorem, ipsum dolor.
+                  Browser extension
                 </ListItem>
                 <ListItem>
                   <ListIcon as={FaCheckCircle} color="green.500" />
-                  5TB Lorem, ipsum dolor.
-                </ListItem>
-                <ListItem>
-                  <ListIcon as={FaCheckCircle} color="green.500" />
-                  5TB Lorem, ipsum dolor.
-                </ListItem>
-                <ListItem>
-                  <ListIcon as={FaCheckCircle} color="green.500" />
-                  5TB Lorem, ipsum dolor.
+                  Access on any device
                 </ListItem>
               </List>
               <Box w="80%" pt={7}>
-                <Button w="full" colorScheme="red">
-                  Start trial
-                </Button>
+                <Link href="/authentication/register">
+                  <Button
+                    w="full"
+                    bgColor={BRAND_COLOR_RED}
+                    _hover={{
+                      bg: "#e34d4d",
+                    }}
+                  >
+                    Start trial
+                  </Button>
+                </Link>
               </Box>
             </VStack>
           </Box>
@@ -174,7 +182,7 @@ export const PricingComp = () => {
                 $
               </Text>
               <Text fontSize="5xl" fontWeight="900">
-                349
+                0
               </Text>
               <Text fontSize="3xl" color="gray.500">
                 /month
@@ -189,21 +197,27 @@ export const PricingComp = () => {
             <List spacing={3} textAlign="start" px={12}>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
-                unlimited build minutes
+                Unlimited passwords
               </ListItem>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
-                Lorem, ipsum dolor.
+                Browser extension
               </ListItem>
               <ListItem>
                 <ListIcon as={FaCheckCircle} color="green.500" />
-                5TB Lorem, ipsum dolor.
+                Access on any device
               </ListItem>
             </List>
             <Box w="80%" pt={7}>
-              <Button w="full" colorScheme="red" variant="outline">
-                Start trial
-              </Button>
+              <Link href="/authentication/register">
+                <Button
+                  w="full"
+                  borderColor={BRAND_COLOR_RED}
+                  variant="outline"
+                >
+                  Start trial
+                </Button>
+              </Link>
             </Box>
           </VStack>
         </PriceWrapper>

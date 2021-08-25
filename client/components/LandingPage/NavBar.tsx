@@ -53,16 +53,18 @@ export const NavBar = () => {
           justifyContent={{ base: "center", md: "start" }}
           alignItems="center"
         >
-          <Image
-            width="70px"
-            height="auto"
-            alt="Brand Secondary Logo"
-            src={useColorModeValue(
-              "/Kpass-primary.png",
-              "/Kpass-secondary.png"
-            )}
-            loading="eager"
-          />
+          <Link href="/">
+            <Image
+              width="70px"
+              height="auto"
+              alt="Brand Secondary Logo"
+              src={useColorModeValue(
+                "/Kpass-primary.png",
+                "/Kpass-secondary.png"
+              )}
+              loading="eager"
+            />
+          </Link>
 
           <Flex display={{ base: "none", md: "flex" }} ml={10}>
             <DesktopNav />
@@ -193,8 +195,8 @@ const NAV_ITEMS: Array<NavItem> = [
     href: "#",
   },
   {
-    label: "Chakra for the win",
-    href: "#",
+    label: "Password Generator",
+    href: "/password-generator",
   },
   {
     label: "Blog",

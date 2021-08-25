@@ -19,6 +19,7 @@ import { Post } from "../../../types";
 import Head from "next/head";
 import NextLink from "next/link";
 import { useRouter } from "next/router";
+import { NavBar } from "../../../components/LandingPage/NavBar";
 
 const Index: React.FC<{ posts: Post[] }> = ({ posts }) => {
   const router = useRouter();
@@ -29,6 +30,7 @@ const Index: React.FC<{ posts: Post[] }> = ({ posts }) => {
   };
   return (
     <Box>
+      <NavBar />
       <Head>
         <title>Supposed Engineering Blog</title>
       </Head>
@@ -45,6 +47,7 @@ const Index: React.FC<{ posts: Post[] }> = ({ posts }) => {
             flex="1"
             marginRight="3"
             position="relative"
+            zIndex="-1"
             alignItems="center"
           >
             <Box

@@ -56,7 +56,6 @@ const Register = () => {
     actions.setSubmitting(false);
   };
 
-<<<<<<< HEAD
   return (
     <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
       <Flex p={8} flex={1} align={"center"} justify={"center"}>
@@ -159,7 +158,6 @@ const Register = () => {
       </Flex>
     </Stack>
   );
-=======
   if (!MeFetching && MeData?.me) {
     NextRouter.push("/passwords");
   }
@@ -263,6 +261,7 @@ const Register = () => {
             src={
               "https://images.unsplash.com/photo-1626643590239-4d5051bafbcc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
             }
+            loading="eager"
           />
         </Flex>
       </Stack>
@@ -270,7 +269,6 @@ const Register = () => {
   }
 
   return <LoadingPage />;
->>>>>>> upstream/main
 };
 
 export default withUrqlClient(URQLClient)(Register);
