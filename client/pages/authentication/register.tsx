@@ -60,6 +60,10 @@ const Register = () => {
   if (!MeFetching && MeData?.me) {
     NextRouter.push("/passwords");
   }
+  const logoSrc = useColorModeValue(
+    "/Kpass-primary.png",
+    "/Kpass-secondary.png"
+  );
 
   if (!MeFetching && !MeData?.me) {
     return (
@@ -68,10 +72,7 @@ const Register = () => {
           <Stack spacing={4} w={"full"} maxW={"md"}>
             <Link href="/" _focus={{}}>
               <Image
-                src={useColorModeValue(
-                  "/Kpass-primary.png",
-                  "/Kpass-secondary.png"
-                )}
+                src={logoSrc}
                 loading="eager"
                 width="70px"
                 height="auto"

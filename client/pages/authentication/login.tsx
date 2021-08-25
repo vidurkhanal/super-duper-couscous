@@ -62,6 +62,11 @@ const Login = () => {
     actions.setSubmitting(false);
   };
 
+  const logoSrc = useColorModeValue(
+    "/Kpass-primary.png",
+    "/Kpass-secondary.png"
+  );
+
   if (!MeFetching && !MeData?.me) {
     return (
       <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
@@ -69,10 +74,7 @@ const Login = () => {
           <Stack spacing={4} w={"full"} maxW={"md"}>
             <Link href="/" _focus={{}}>
               <Image
-                src={useColorModeValue(
-                  "/Kpass-primary.png",
-                  "/Kpass-secondary.png"
-                )}
+                src={logoSrc}
                 loading="eager"
                 width="70px"
                 height="auto"
