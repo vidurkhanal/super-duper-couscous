@@ -18,6 +18,7 @@ import { useLoginUserMutation, useMeQuery } from "../../generated/graphql";
 import { URQLClient } from "../../utils/createClient";
 import NextRouter from "next/router";
 import { LoadingPage } from "../../components/LoadingPage";
+import { useColorModeValue } from "@chakra-ui/react";
 
 type FormValues = {
   email: string;
@@ -66,6 +67,18 @@ const Login = () => {
       <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
         <Flex p={8} flex={1} align={"center"} justify={"center"}>
           <Stack spacing={4} w={"full"} maxW={"md"}>
+            <Link href="/" _focus={{}}>
+              <Image
+                src={useColorModeValue(
+                  "/Kpass-primary.png",
+                  "/Kpass-secondary.png"
+                )}
+                loading="eager"
+                width="70px"
+                height="auto"
+                alt="Brand Secondary Logo"
+              />
+            </Link>
             <Heading fontSize={"2xl"}>Sign in to your account</Heading>
             <Formik
               initialValues={{ email: "", password: "" }}
@@ -123,15 +136,20 @@ const Login = () => {
                     <Text align="center" userSelect="none" fontWeight="bold">
                       OR
                     </Text>
-                    <Button
-                      colorScheme={"blue"}
-                      variant={"solid"}
-                      onClick={() =>
-                        NextRouter.push("/authentication/register")
-                      }
+                    <Link
+                      href="/authentication/register"
+                      _hover={{
+                        textDecoration: "none",
+                      }}
                     >
-                      Need An Account?
-                    </Button>
+                      <Button
+                        colorScheme={"blue"}
+                        variant={"solid"}
+                        width="100%"
+                      >
+                        Need An Account?
+                      </Button>
+                    </Link>
                   </Stack>
                 </Form>
               )}
@@ -142,11 +160,16 @@ const Login = () => {
           <Image
             alt={"Login Image"}
             objectFit={"cover"}
+            height="100vh"
             draggable="false"
             src={
               "https://images.unsplash.com/photo-1626643590239-4d5051bafbcc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
             }
+            //src={
+            //"https://images.unsplash.com/photo-1621317152214-40692e65bda2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
+            //}
             loading="eager"
+            display={{ base: "none", md: "block" }}
           />
         </Flex>
       </Stack>
