@@ -1,0 +1,50 @@
+{
+  "name": "pwd_manager_server",
+  "version": "1.0.0",
+  "description": "NODE SERVER FOR PASSWORD MANAGER",
+  "main": "dist/index.js",
+  "scripts": {
+    "start:dev": "nodemon .",
+    "start:prod": "node .",
+    "watch:ts": "tsc -w",
+    "build:ts": "tsc",
+    "typeorm": "node --require ts-node/register ./node_modules/typeorm/cli.js"
+  },
+  "author": "Vidur Khanal, Sangit Manandhar",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/connect-redis": "^0.0.17",
+    "@types/express": "^4.17.12",
+    "@types/morgan": "^1.9.2",
+    "@types/node": "^15.12.5",
+    "@types/nodemailer": "^6.4.4",
+    "@types/uuid": "^8.3.1",
+    "cross-env": "^7.0.3",
+    "nodemon": "^2.0.9",
+    "ts-node": "^10.1.0",
+    "typescript": "^4.3.5"
+  },
+  "dependencies": {
+    "apollo-server-express": "^2.25.2",
+    "argon2": "^0.28.2",
+    "axios": "^0.21.1",
+    "big-integer": "^1.6.48",
+    "class-validator": "^0.13.1",
+    "connect-redis": "^6.0.0",
+    "dotenv": "^10.0.0",
+    "dotenv-safe": "^8.2.0",
+    "express": "^4.17.1",
+    "express-session": "^1.17.2",
+    "graphql": "^15.5.1",
+    "helmet": "^4.6.0",
+    "ioredis": "^4.27.6",
+    "joi": "^17.4.1",
+    "morgan": "^1.10.0",
+    "nodemailer": "^6.6.3",
+    "pg": "^8.6.0",
+    "reflect-metadata": "^0.1.13",
+    "type-graphql": "^1.1.1",
+    "typeorm": "^0.2.34",
+    "uuid": "^8.3.2"
+  }
+}

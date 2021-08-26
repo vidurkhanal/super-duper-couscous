@@ -1,0 +1,14 @@
+query Me {
+  me {
+    userID
+    fullName
+    credentials {
+      email
+      password
+      siteName
+      strength
+      credentialID
+      siteLogo
+    }
+  }
+}
