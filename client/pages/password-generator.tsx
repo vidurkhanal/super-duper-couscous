@@ -114,7 +114,7 @@ const PasswordGenerator: React.FC = () => {
       <NavBar />
       <main>
         <Flex
-          backgroundColor={"#293A52"}
+          backgroundColor={"#171923"}
           alignItems="center"
           justifyContent="center"
           py="0.6rem"
@@ -199,7 +199,7 @@ const PasswordGenerator: React.FC = () => {
         </Flex>
 
         <Box
-          bgColor="#293A52"
+          bgColor="#171923"
           width={{ base: "90%", md: "43rem", lg: "55rem" }}
           mx="auto"
           borderRadius="5px"
@@ -272,13 +272,6 @@ const PasswordGenerator: React.FC = () => {
               </Flex>
             </Box>
           </Flex>
-        </Box>
-        <Box
-          width={{ base: "90%", md: "43rem", lg: "55rem" }}
-          mx="auto"
-          mt="1rem"
-        >
-          <CopyModal variant="text" pass={password} />
         </Box>
       </main>
     </Box>

@@ -10,6 +10,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
+import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
 
 interface ISuccessfulModel {
   email: string;
@@ -26,10 +27,10 @@ const SuccessfulModel: React.FC<ISuccessfulModel> = ({
     <>
       <Button
         type="submit"
-        bg={"blue.400"}
+        bg={BRAND_COLOR_RED}
         color={"white"}
         _hover={{
-          bg: "blue.500",
+          bg: HOVER_BRAND_COLOR_RED,
         }}
       >
         Send Password Request Email

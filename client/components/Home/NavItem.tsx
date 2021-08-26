@@ -1,6 +1,7 @@
 import { ReactText } from "react";
 import { IconType } from "react-icons";
 import { FlexProps, Link, Flex, Icon } from "@chakra-ui/react";
+import { BRAND_COLOR_RED } from "../../constants";
 
 interface NavItemProps extends FlexProps {
   icon: IconType;
@@ -17,7 +18,7 @@ export const NavItem = ({ icon, children, ...rest }: NavItemProps) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "cyan.400",
+          bg: BRAND_COLOR_RED,
           color: "white",
         }}
         {...rest}

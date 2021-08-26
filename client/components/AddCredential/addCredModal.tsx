@@ -17,6 +17,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { FormEvent, useState } from "react";
+import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
 import { useAddCredentialMutation } from "../../generated/graphql";
 import { LoadingModal } from "../LoadingModal";
 
@@ -82,8 +83,13 @@ const AddCredModal = () => {
         mt={1}
         ml={"6"}
         onClick={onOpen}
-        variant="solid"
-        colorScheme="blue"
+        variant="outline"
+        borderColor={BRAND_COLOR_RED}
+        color={BRAND_COLOR_RED}
+        _hover={{
+          background: HOVER_BRAND_COLOR_RED,
+          color: "white",
+        }}
       >
         Add Credentials
       </Button>

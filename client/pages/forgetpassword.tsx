@@ -5,6 +5,7 @@ import {
   FormControl,
   FormLabel,
   Heading,
+  Image,
   Input,
   Link,
   Stack,
@@ -31,21 +32,34 @@ const Forgetpassword = () => {
       onOpen();
     }
   };
+  const logoSrc = useColorModeValue(
+    "/Kpass-primary.png",
+    "/Kpass-secondary.png"
+  );
   return (
     <Flex
       minH={"100vh"}
       align={"center"}
       justify={"center"}
-      bg={useColorModeValue("gray.50", "gray.800")}
+      // bg={useColorModeValue("gray.50", "gray.800")}
     >
       <form onSubmit={forgetPasswordSubmitter}>
         <Stack spacing={8} mx={"auto"} w="xl" maxW={"lg"} py={12} px={6}>
           <Box
             rounded={"lg"}
-            bg={useColorModeValue("white", "gray.700")}
+            bg={useColorModeValue("white", "#171923")}
             boxShadow={"lg"}
             p={8}
           >
+            <a href="/" rel="" target="_parent">
+              <Image
+                src={logoSrc}
+                loading="eager"
+                width="70px"
+                height="auto"
+                alt="Brand Secondary Logo"
+              />
+            </a>
             <Stack mb="20px">
               <Heading fontSize={"3xl"}>Forgot Your Password?</Heading>
             </Stack>
@@ -68,7 +82,7 @@ const Forgetpassword = () => {
                   align={"start"}
                   justify={"space-between"}
                 >
-                  <Link color={"blue.400"} href="/authentication/login">
+                  <Link href="/authentication/login">
                     Oh!! Remember Your Password?
                   </Link>
                 </Stack>

@@ -19,6 +19,7 @@ import { URQLClient } from "../../utils/createClient";
 import NextRouter from "next/router";
 import { LoadingPage } from "../../components/LoadingPage";
 import { useColorModeValue } from "@chakra-ui/react";
+import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
 
 type FormValues = {
   email: string;
@@ -122,13 +123,14 @@ const Login = () => {
                       align={"start"}
                       justify={"space-between"}
                     >
-                      <Checkbox>Remember me</Checkbox>
-                      <Link color={"blue.500"} href="/forgetpassword">
-                        Forgot password?
-                      </Link>
+                      <Checkbox colorScheme="red">Remember me</Checkbox>
+                      <Link href="/forgetpassword">Forgot password?</Link>
                     </Stack>
                     <Button
-                      colorScheme={"blue"}
+                      background={BRAND_COLOR_RED}
+                      _hover={{
+                        background: HOVER_BRAND_COLOR_RED,
+                      }}
                       variant={"solid"}
                       type="submit"
                       isLoading={isSubmitting}
@@ -145,8 +147,8 @@ const Login = () => {
                       }}
                     >
                       <Button
-                        colorScheme={"blue"}
-                        variant={"solid"}
+                        colorScheme={"facebook"}
+                        variant={"outline"}
                         width="100%"
                       >
                         Need An Account?
@@ -164,12 +166,7 @@ const Login = () => {
             objectFit={"cover"}
             height="100vh"
             draggable="false"
-            src={
-              "https://images.unsplash.com/photo-1626643590239-4d5051bafbcc?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
-            }
-            //src={
-            //"https://images.unsplash.com/photo-1621317152214-40692e65bda2?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=1650&q=80"
-            //}
+            src={"/login-bg.jpeg"}
             loading="eager"
             display={{ base: "none", md: "block" }}
           />

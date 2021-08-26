@@ -16,7 +16,7 @@ export const Wrapper: React.FC = ({ children }) => {
     <Box
       overflowX="hidden"
       minH="100vh"
-      bg={useColorModeValue("gray.100", "gray.900")}
+      // bg={useColorModeValue("gray.100", "gray.900")}
     >
       <SidebarContent
         onClose={() => onClose}

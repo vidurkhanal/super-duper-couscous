@@ -24,13 +24,14 @@ export const NavBar = () => {
   return (
     <Box position="sticky" top="0" zIndex="1">
       <Flex
-        bg={useColorModeValue("white", "gray.800")}
+        bg={useColorModeValue("white", "black")}
         color={useColorModeValue("gray.600", "white")}
         minH={"60px"}
         py={{ base: 2 }}
         px={{ base: 4 }}
         borderBottom={1}
         borderStyle={"solid"}
+        zIndex="100"
         borderColor={useColorModeValue("gray.200", "gray.900")}
         align={"center"}
       >
@@ -145,7 +146,7 @@ const DesktopNav = () => {
 const MobileNav = () => {
   return (
     <Stack
-      bg={useColorModeValue("white", "gray.800")}
+      // bg={useColorModeValue("white", "gray.800")}
       p={4}
       display={{ md: "none" }}
     >

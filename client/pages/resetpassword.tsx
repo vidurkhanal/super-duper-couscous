@@ -5,6 +5,7 @@ import {
   FormControl,
   FormLabel,
   Heading,
+  Image,
   Input,
   Link,
   Spinner,
@@ -15,6 +16,7 @@ import {
 import { withUrqlClient } from "next-urql";
 import { useRouter } from "next/router";
 import { FormEvent, useEffect, useState } from "react";
+import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../constants";
 import { useResetPasswordMutation } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 
@@ -84,6 +86,10 @@ const ResetPassword: React.FC = () => {
       }, 3000);
     }
   };
+  const logoSrc = useColorModeValue(
+    "/Kpass-primary.png",
+    "/Kpass-secondary.png"
+  );
 
   if (token?.length < 1) {
     return (
@@ -98,25 +104,28 @@ const ResetPassword: React.FC = () => {
     );
   } else {
     return (
-      <Flex
-        minH={"100vh"}
-        align={"center"}
-        justify={"center"}
-        // eslint-disable-next-line react-hooks/rules-of-hooks
-        bg={useColorModeValue("gray.50", "gray.800")}
-      >
+      <Flex minH={"100vh"} align={"center"} justify={"center"}>
         <form onSubmit={resetPasswordSubmitter}>
           <Stack spacing={8} mx={"auto"} maxW={"lg"} py={12} px={6}>
-            <Stack align={"center"}>
-              <Heading fontSize={"4xl"}>Reset Your Password</Heading>
-            </Stack>
             <Box
               rounded={"lg"}
               // eslint-disable-next-line react-hooks/rules-of-hooks
-              bg={useColorModeValue("white", "gray.700")}
+              bg={useColorModeValue("white", "#171923")}
               boxShadow={"lg"}
               p={8}
             >
+              <a href="/" rel="" target="_parent">
+                <Image
+                  src={logoSrc}
+                  loading="eager"
+                  width="70px"
+                  height="auto"
+                  alt="Brand Secondary Logo"
+                />
+              </a>
+              <Stack mb="20px">
+                <Heading fontSize={"3xl"}>Reset Your Password</Heading>
+              </Stack>
               <Stack spacing={4}>
                 <FormControl id="password">
                   <FormLabel>Enter New Password</FormLabel>
@@ -154,15 +163,15 @@ const ResetPassword: React.FC = () => {
                     align={"start"}
                     justify={"space-between"}
                   >
-                    <Link color={"blue.400"} href="/authentication/login">
+                    <Link href="/authentication/login">
                       Do not need to reset it?
                     </Link>
                   </Stack>
                   <Button
-                    bg={"blue.400"}
+                    bg={BRAND_COLOR_RED}
                     color={"white"}
                     _hover={{
-                      bg: "blue.500",
+                      bg: HOVER_BRAND_COLOR_RED,
                     }}
                     type="submit"
                     isLoading={isSubmitting}
