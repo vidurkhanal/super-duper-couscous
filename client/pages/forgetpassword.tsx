@@ -17,6 +17,7 @@ import React, { useState } from "react";
 import SuccessfulModel from "../components/ForgetPassword/SuccessfulModel";
 import { useForgetPasswordMutation } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
+import NextLink from "next/link";
 
 const Forgetpassword = () => {
   const [, forgetPassword] = useForgetPasswordMutation();
@@ -51,7 +52,7 @@ const Forgetpassword = () => {
             boxShadow={"lg"}
             p={8}
           >
-            <a href="/" rel="" target="_parent">
+            <NextLink href="/">
               <Image
                 src={logoSrc}
                 loading="eager"
@@ -59,7 +60,7 @@ const Forgetpassword = () => {
                 height="auto"
                 alt="Brand Secondary Logo"
               />
-            </a>
+            </NextLink>
             <Stack mb="20px">
               <Heading fontSize={"3xl"}>Forgot Your Password?</Heading>
             </Stack>

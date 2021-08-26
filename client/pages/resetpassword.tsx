@@ -19,6 +19,7 @@ import { FormEvent, useEffect, useState } from "react";
 import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../constants";
 import { useResetPasswordMutation } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
+import NextLink from "next/link";
 
 const ResetPassword: React.FC = () => {
   const [token, setToken] = useState<string>("");
@@ -114,7 +115,7 @@ const ResetPassword: React.FC = () => {
               boxShadow={"lg"}
               p={8}
             >
-              <a href="/" rel="" target="_parent">
+              <NextLink href="/">
                 <Image
                   src={logoSrc}
                   loading="eager"
@@ -122,7 +123,7 @@ const ResetPassword: React.FC = () => {
                   height="auto"
                   alt="Brand Secondary Logo"
                 />
-              </a>
+              </NextLink>
               <Stack mb="20px">
                 <Heading fontSize={"3xl"}>Reset Your Password</Heading>
               </Stack>
