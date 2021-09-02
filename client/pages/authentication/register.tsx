@@ -10,60 +10,76 @@ import {
   Image,
   useToast,
   Link,
-} from "@chakra-ui/react";
-import { Formik, Form, Field } from "formik";
-import { withUrqlClient } from "next-urql";
-import { useMeQuery, useRegisterUserMutation } from "../../generated/graphql";
-import { URQLClient } from "../../utils/createClient";
-import NextRouter from "next/router";
-import { LoadingPage } from "../../components/LoadingPage";
+} from "@chakra-ui/react"
+import { Formik, Form, Field } from "formik"
+import { withUrqlClient } from "next-urql"
+import { useMeQuery, useRegisterUserMutation } from "../../generated/graphql"
+import { URQLClient } from "../../utils/createClient"
+import NextRouter from "next/router"
+import { LoadingPage } from "../../components/LoadingPage"
 
 type FormValues = {
-  email: string;
-  password: string;
-  fullName: string;
-  masterPIN: string;
-};
+  email: string
+  password: string
+  fullName: string
+  masterPIN: string
+}
 
 const Register = () => {
-  const [{ data: MeData, fetching: MeFetching }] = useMeQuery();
+  const [{ data: MeData, fetching: MeFetching }] = useMeQuery()
 
-  const [, registerUser] = useRegisterUserMutation();
-  const toast = useToast();
+  const [, registerUser] = useRegisterUserMutation()
+  const toast = useToast()
 
   const handleSubmit = async (values: FormValues, actions: any) => {
-    const { data, error } = await registerUser(values);
-    if (error) {
-      toast({
-        title: error.message,
-        status: "error",
-      });
+    let flag = false
+    const arr = values.masterPIN.split("")
+
+    for (const n of arr) {
+      if (n.charCodeAt(0) > 57 || n.charCodeAt(0) < 48) flag = true
     }
 
-    if (data?.registerUser.error) {
+    if (flag) {
       toast({
-        title: data.registerUser.error,
+        title: "Master PIN should be of a digit numeric.",
         status: "error",
-      });
-    }
+        duration: 2000,
+        isClosable: true,
+      })
+    } else {
+      const { data, error } = await registerUser(values)
+      if (error) {
+        toast({
+          title: error.message,
+          status: "error",
+        })
+      }
 
-    if (data?.registerUser.user) {
-      NextRouter.push("/authentication/login");
-      toast({
-        title: "Account registered succesfully. You may login now.",
-        status: "success",
-      });
+      if (data?.registerUser.error) {
+        toast({
+          title: data.registerUser.error,
+          status: "error",
+        })
+      }
+
+      if (data?.registerUser.user) {
+        NextRouter.push("/authentication/login")
+        toast({
+          title: "Account registered succesfully. You may login now.",
+          status: "success",
+        })
+      }
+      actions.setSubmitting(false)
     }
-    actions.setSubmitting(false);
-  };
+  }
 
   if (!MeFetching && MeData?.me) {
-    NextRouter.push("/passwords");
+    NextRouter.push("/passwords")
   }
   const logoSrc = useColorModeValue(
     "/Kpass-primary.png",
     "/Kpass-secondary.png"
-  );
+  )
 
   if (!MeFetching && !MeData?.me) {
     return (
@@ -101,6 +117,7 @@ const Register = () => {
                           id="fullName"
                           {...field}
                           placeholder="Enter your Full Name"
+                          required
                         />
                       </FormControl>
                     )}
@@ -115,6 +132,7 @@ const Register = () => {
                           id="email"
                           {...field}
                           placeholder="Enter your email"
+                          required
                         />
                       </FormControl>
                     )}
@@ -129,6 +147,7 @@ const Register = () => {
                           id="password"
                           {...field}
                           placeholder="Enter your Password"
+                          required
                         />
                       </FormControl>
                     )}
@@ -141,8 +160,10 @@ const Register = () => {
                           type="password"
                           mb={3}
                           id="masterPIN"
+                          maxLength={4}
                           {...field}
                           placeholder="Enter your Master PIN"
+                          required
                         />
                       </FormControl>
                     )}
@@ -178,10 +199,10 @@ const Register = () => {
           />
         </Flex>
       </Stack>
-    );
+    )
   }
 
-  return <LoadingPage />;
-};
+  return <LoadingPage />
+}
 
-export default withUrqlClient(URQLClient)(Register);
+export default withUrqlClient(URQLClient)(Register)
