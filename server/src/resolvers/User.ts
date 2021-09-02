@@ -251,4 +251,30 @@ export class UserResolver {
 
     return { isValid: true };
   }
+
+  //This changes the master PIN
+  @Mutation(() => MasterPINResponse)
+  async changeMasterPIN(
+    @Arg("password") password: string,
+    @Arg("masterPIN") masterPIN: string,
+    @Ctx() { req }: ApolloContext
+  ): Promise<MasterPINResponse> {
+    const user = await User.findOne({ where: { userID: req.session.userID } });
+    if (!user) {
+      return {
+        error: "User Not Found. Try making an account.",
+        isValid: false,
+      };
+    }
+    const { password: dbpassword, userID } = user;
+
+    const verifyPassword = await verify(dbpassword, password);
+
+    if (!verifyPassword) {
+      return { error: "Wrong Password. Try Again.", isValid: false };
+    }
+
+    await User.update({ userID }, { masterPIN: await hash(masterPIN) });
+    return { isValid: true };
+  }
 }
