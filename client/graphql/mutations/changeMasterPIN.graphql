@@ -1,0 +1,6 @@
+mutation ChangeMasterPIN($password: String! , $masterPIN: String!){
+  changeMasterPIN(password: $password, masterPIN: $masterPIN) {
+      isValid
+      error
+    }
+}

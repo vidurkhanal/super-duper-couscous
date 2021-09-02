@@ -6,24 +6,25 @@ import {
   Text,
   CloseButton,
   Image,
-} from "@chakra-ui/react";
-import { FiHome, FiSettings } from "react-icons/fi";
-import { NavItem } from "./NavItem";
-import { IconType } from "react-icons";
-import AddCredModal from "../AddCredential/addCredModal";
+} from "@chakra-ui/react"
+import { FiHome, FiSettings } from "react-icons/fi"
+import { NavItem } from "./NavItem"
+import { IconType } from "react-icons"
+import AddCredModal from "../AddCredential/addCredModal"
 
 interface LinkItemProps {
-  name: string;
-  icon: IconType;
+  name: string
+  icon: IconType
+  href: string
 }
 
 const LinkItems: Array<LinkItemProps> = [
-  { name: "Password", icon: FiHome },
-  { name: "Settings", icon: FiSettings },
-];
+  { name: "Password", icon: FiHome, href: "/passwords" },
+  { name: "Settings", icon: FiSettings, href: "/settings" },
+]
 
 interface SidebarProps extends BoxProps {
-  onClose: () => void;
+  onClose: () => void
 }
 
 export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
@@ -50,11 +51,11 @@ export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         <CloseButton display={{ base: "flex", md: "none" }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <NavItem link={link.href} key={link.name} icon={link.icon}>
           {link.name}
         </NavItem>
       ))}
       <AddCredModal />
     </Box>
-  );
-};
+  )
+}

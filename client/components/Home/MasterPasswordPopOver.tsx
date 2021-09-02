@@ -1,6 +1,7 @@
 import {
   Button,
   FormControl,
+  Link,
   FormHelperText,
   FormLabel,
   Input,
@@ -14,37 +15,39 @@ import {
   useDisclosure,
   FormErrorMessage,
   useColorModeValue,
-} from "@chakra-ui/react";
-import React, { useState } from "react";
-import { BsFillEyeFill } from "react-icons/bs";
-import { useVerifyMasterPinMutation } from "../../generated/graphql";
+} from "@chakra-ui/react"
+import React, { useState } from "react"
+import { BsFillEyeFill } from "react-icons/bs"
+import { useVerifyMasterPinMutation } from "../../generated/graphql"
+import NextRouter from "next/router"
+
 interface MasterPasswordPopOverProps {
-  passwordUnlockerFn: () => void;
-  variant: "delete" | "open";
+  passwordUnlockerFn: () => void
+  variant: "delete" | "open"
 }
 
 export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
   passwordUnlockerFn,
   variant = "open",
 }) => {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-  const [masterPIN, setMasterPIN] = useState<"" | string>("");
-  const [, verifyMasterPIN] = useVerifyMasterPinMutation();
-  const [formErr, setFormErr] = useState<null | string>(null);
+  const { isOpen, onOpen, onClose } = useDisclosure()
+  const [masterPIN, setMasterPIN] = useState<"" | string>("")
+  const [, verifyMasterPIN] = useVerifyMasterPinMutation()
+  const [formErr, setFormErr] = useState<null | string>(null)
 
   const masterPINChecker = async (e: React.FormEvent) => {
-    e.preventDefault();
+    e.preventDefault()
 
-    const { data } = await verifyMasterPIN({ masterPIN });
+    const { data } = await verifyMasterPIN({ masterPIN })
 
     if (data?.verifyMasterPIN?.isValid) {
-      passwordUnlockerFn();
-      onClose();
+      passwordUnlockerFn()
+      onClose()
     } else {
-      setFormErr("You Entered The Wrong Master PIN, Try Again!!");
-      setMasterPIN("");
+      setFormErr("You Entered The Wrong Master PIN, Try Again!!")
+      setMasterPIN("")
     }
-  };
+  }
 
   return (
     <>
@@ -60,9 +63,9 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
       <Modal
         isOpen={isOpen}
         onClose={() => {
-          setMasterPIN("");
-          setFormErr(null);
-          onClose();
+          setMasterPIN("")
+          setFormErr(null)
+          onClose()
         }}
       >
         <ModalOverlay />
@@ -78,21 +81,17 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
                   inputMode="numeric"
                   value={masterPIN}
                   type="password"
+                  maxLength={4}
                   onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-                    setMasterPIN(e.target.value);
-                    const foo = e.target.value;
-                    if (foo.length > 20) {
-                      setMasterPIN("");
-                      setFormErr(
-                        "Master PIN too long. Please enter carefully."
-                      );
-                    }
+                    setMasterPIN(e.target.value)
                   }}
                 />
                 {formErr && <FormErrorMessage>{formErr}</FormErrorMessage>}
-                <FormHelperText cursor="pointer">
-                  Forgot your master PIN !?
-                </FormHelperText>
+                <Link href="/settings" _hover={{}}>
+                  <FormHelperText cursor="pointer">
+                    Forgot your master PIN !?
+                  </FormHelperText>
+                </Link>
               </FormControl>
             </ModalBody>
 
@@ -113,5 +112,5 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
         </ModalContent>
       </Modal>
     </>
-  );
-};
+  )
+}
