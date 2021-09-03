@@ -7,21 +7,30 @@ import {
   Link,
   Stack,
   useToast,
-} from "@chakra-ui/react"
-import { Formik, Form, Field } from "formik"
-import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants"
+} from "@chakra-ui/react";
+import { Formik, Form, Field, FormikHelpers } from "formik";
+import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
+
+type FormikValues = {
+  oldPassword: string;
+  password: string;
+  passwordReenter: string;
+};
 
 export const ChangePassword: React.FC = () => {
-  const toast = useToast()
-  const handleSubmit = async (values: any, actions: any) => {
+  const toast = useToast();
+  const handleSubmit = async (
+    values: FormikValues,
+    actions: FormikHelpers<FormikValues>
+  ) => {
     toast({
       title: "DO WHAT YOU WANTED TO DO HERE",
       status: "error",
       duration: 1000,
-    })
-
-    actions.setSubmitting(false)
-  }
+    });
+    actions.resetForm();
+    actions.setSubmitting(false);
+  };
 
   return (
     <>
@@ -102,5 +111,5 @@ export const ChangePassword: React.FC = () => {
         )}
       </Formik>
     </>
-  )
-}
+  );
+};

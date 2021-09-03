@@ -11,8 +11,10 @@ import {
   Text,
   Tooltip,
   useClipboard,
+  useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
+import { modalDarkBackground } from "../../constants";
 
 export const CopyModal: React.FC<{ pass: string; variant: "icon" | "text" }> =
   ({ pass, variant = "text" }) => {
@@ -49,7 +51,10 @@ export const CopyModal: React.FC<{ pass: string; variant: "icon" | "text" }> =
           size="2xl"
         >
           <ModalOverlay />
-          <ModalContent borderRadius="10px">
+          <ModalContent
+            borderRadius="10px"
+            background={useColorModeValue("gray.200", modalDarkBackground)}
+          >
             <ModalBody p={0}>
               <Flex height="400px">
                 <Box flex="1">

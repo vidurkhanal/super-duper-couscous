@@ -93,7 +93,7 @@ export const PricingComp = () => {
                   borderColor={BRAND_COLOR_RED}
                   variant="outline"
                 >
-                  Start trial
+                  Get Started
                 </Button>
               </Link>
             </Box>
@@ -165,7 +165,7 @@ export const PricingComp = () => {
                       bg: "#e34d4d",
                     }}
                   >
-                    Start trial
+                    Join Today
                   </Button>
                 </Link>
               </Box>
@@ -215,7 +215,7 @@ export const PricingComp = () => {
                   borderColor={BRAND_COLOR_RED}
                   variant="outline"
                 >
-                  Start trial
+                  Take Me There
                 </Button>
               </Link>
             </Box>

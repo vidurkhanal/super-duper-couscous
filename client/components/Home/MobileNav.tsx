@@ -18,6 +18,7 @@ import {
 import { FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
 import NextRouter from "next/router";
 import { useLogoutUserMutation, useMeQuery } from "../../generated/graphql";
+import NextLink from "next/link";
 
 interface MobileProps extends FlexProps {
   onOpen: () => void;
@@ -101,8 +102,12 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
               bg={useColorModeValue("white", "gray.900")}
               borderColor={useColorModeValue("gray.200", "gray.700")}
             >
-              <MenuItem>Profile</MenuItem>
-              <MenuItem>Settings</MenuItem>
+              <MenuItem>
+                <NextLink href="/profile">Profile</NextLink>
+              </MenuItem>
+              <MenuItem>
+                <NextLink href="/settings">Settings</NextLink>
+              </MenuItem>
               {/* <MenuItem>Billing</MenuItem> */}
               <MenuDivider />
               <MenuItem onClick={handleLogout}>Sign out</MenuItem>

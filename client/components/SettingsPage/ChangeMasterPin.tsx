@@ -7,44 +7,60 @@ import {
   Link,
   Stack,
   useToast,
-} from "@chakra-ui/react"
-import { Formik, Form, Field } from "formik"
-import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants"
-import { useChangeMasterPinMutation } from "../../generated/graphql"
+} from "@chakra-ui/react";
+import { Formik, Form, Field } from "formik";
+import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
+import { useChangeMasterPinMutation } from "../../generated/graphql";
 
 interface FormValues {
-  password: string
-  masterPIN: string
+  password: string;
+  masterPIN: string;
 }
 
 export const ChangeMasterPIN: React.FC = () => {
-  const [, changeMasterPIN] = useChangeMasterPinMutation()
-  const toast = useToast()
+  const [, changeMasterPIN] = useChangeMasterPinMutation();
+  const toast = useToast();
 
   const handleSubmit = async (values: FormValues, actions: any) => {
-    const { data, error } = await changeMasterPIN(values)
-    if (error) {
-      toast({
-        title: error.message,
-        status: "error",
-        duration: 1000,
-      })
-    }
-    if (data?.changeMasterPIN.error) {
-      toast({
-        title: data.changeMasterPIN.error,
-        status: "error",
-        duration: 1000,
-      })
-    } else
-      toast({
-        title: "Master PIN Changed Succesfully",
-        status: "error",
-        duration: 1000,
-      })
+    let flag = false;
+    const arr = values.masterPIN.split("");
 
-    actions.setSubmitting(false)
-  }
+    for (const n of arr) {
+      if (n.charCodeAt(0) > 57 || n.charCodeAt(0) < 48) flag = true;
+    }
+
+    if (flag) {
+      toast({
+        title: "Master PIN should be of a digit numeric.",
+        status: "error",
+        duration: 2000,
+        isClosable: true,
+      });
+    } else {
+      const { data, error } = await changeMasterPIN(values);
+      if (error) {
+        toast({
+          title: error.message,
+          status: "error",
+          duration: 1000,
+        });
+      }
+      if (data?.changeMasterPIN.error) {
+        toast({
+          title: data.changeMasterPIN.error,
+          status: "error",
+          duration: 1000,
+        });
+      } else
+        toast({
+          title: "Master PIN Changed Succesfully",
+          status: "error",
+          duration: 1000,
+        });
+
+      actions.setSubmitting(false);
+    }
+  };
 
   return (
     <>
@@ -117,6 +133,7 @@ export const ChangeMasterPIN: React.FC = () => {
                 variant={"solid"}
                 type="submit"
                 isLoading={isSubmitting}
+                justifySelf="flex-end"
               >
                 Change Master PIN
               </Button>
@@ -125,5 +142,5 @@ export const ChangeMasterPIN: React.FC = () => {
         )}
       </Formik>
     </>
-  )
-}
+  );
+};
