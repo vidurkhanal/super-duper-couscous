@@ -21,8 +21,15 @@ import { useResetPasswordMutation } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 import NextLink from "next/link";
 
+type IQueryVars = {
+  token: string;
+  variant: "reset" | "unfreeze" | "";
+};
 const ResetPassword: React.FC = () => {
-  const [token, setToken] = useState<string>("");
+  const [queryVars, setQueryVars] = useState<IQueryVars>({
+    token: "",
+    variant: "",
+  });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [passwords, setPasswords] = useState<{
     password: string;
@@ -32,8 +39,10 @@ const ResetPassword: React.FC = () => {
   const [, resetPassword] = useResetPasswordMutation();
   const toast = useToast();
   useEffect(() => {
-    setToken(router?.query?.token as string);
-    console.log(router.query);
+    setQueryVars({
+      token: router.query.token,
+      variant: router.query.variant,
+    } as IQueryVars);
   }, [router]);
   const formResetter = () => {
     setPasswords({ confirm_password: "", password: "" });
@@ -56,7 +65,7 @@ const ResetPassword: React.FC = () => {
     }
 
     const { data } = await resetPassword({
-      key: token,
+      key: queryVars.token,
       newPassword: passwords.password,
     });
 
@@ -92,7 +101,7 @@ const ResetPassword: React.FC = () => {
     "/Kpass-secondary.png"
   );
 
-  if (token?.length < 1) {
+  if (queryVars.token?.length < 1) {
     return (
       <Flex
         height="100vh"
