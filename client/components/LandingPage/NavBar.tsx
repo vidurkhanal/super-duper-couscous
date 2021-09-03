@@ -1,25 +1,27 @@
+import { CloseIcon, HamburgerIcon } from "@chakra-ui/icons";
 import {
   Box,
-  Flex,
-  Text,
-  IconButton,
   Button,
-  Stack,
   Collapse,
+  Flex,
+  IconButton,
+  Image,
   Link,
   Popover,
   PopoverTrigger,
+  Stack,
+  Text,
   useColorModeValue,
-  useBreakpointValue,
   useDisclosure,
-  Image,
 } from "@chakra-ui/react";
-import { HamburgerIcon, CloseIcon } from "@chakra-ui/icons";
 import NextRouter from "next/router";
 import { BRAND_COLOR_RED } from "../../constants";
+import { useMeQuery } from "../../generated/graphql";
+import { BsBoxArrowUpRight } from "react-icons/bs";
 
 export const NavBar = () => {
   const { isOpen, onToggle } = useDisclosure();
+  const [{ data }] = useMeQuery();
 
   return (
     <Box position="sticky" top="0" zIndex="1">
@@ -78,30 +80,49 @@ export const NavBar = () => {
           direction={"row"}
           spacing={6}
         >
-          <Button
-            as={"a"}
-            fontSize={"sm"}
-            fontWeight={400}
-            variant={"link"}
-            _focus={{}}
-            href="/authentication/login"
-          >
-            Sign In
-          </Button>
+          {data ? (
+            <>
+              <Button
+                as={"a"}
+                fontSize={"sm"}
+                fontWeight={400}
+                variant={"link"}
+                _focus={{}}
+                href="/authentication/login"
+              >
+                Sign In
+              </Button>
 
-          <Button
-            display={{ base: "none", md: "inline-flex" }}
-            fontSize={"sm"}
-            fontWeight={600}
-            color={"white"}
-            bg={BRAND_COLOR_RED}
-            _hover={{
-              bg: "#e34d4d",
-            }}
-            onClick={() => NextRouter.push("/authentication/register")}
-          >
-            Sign Up
-          </Button>
+              <Button
+                display={{ base: "none", md: "inline-flex" }}
+                fontSize={"sm"}
+                fontWeight={600}
+                color={"white"}
+                bg={BRAND_COLOR_RED}
+                _hover={{
+                  bg: "#e34d4d",
+                }}
+                onClick={() => NextRouter.push("/authentication/register")}
+              >
+                Sign Up
+              </Button>
+            </>
+          ) : (
+            <Button
+              display={{ base: "none", md: "inline-flex" }}
+              fontSize={"sm"}
+              fontWeight={600}
+              color={"white"}
+              bg={BRAND_COLOR_RED}
+              _hover={{
+                bg: "#e34d4d",
+              }}
+              onClick={() => NextRouter.push("/passwords")}
+            >
+              <Text mr="7px">Go To Dashboard</Text>
+              <BsBoxArrowUpRight />
+            </Button>
+          )}
         </Stack>
       </Flex>
 

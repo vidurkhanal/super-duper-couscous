@@ -9,11 +9,13 @@ import {
   ModalHeader,
   Text,
   ModalFooter,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { useDeleteCredentialMutation } from "../../generated/graphql";
 import { useState } from "react";
 import { LoadingModal } from "../LoadingModal";
 import { MasterPasswordPopOver } from "../Home/MasterPasswordPopOver";
+import { modalDarkBackground } from "../../constants";
 
 interface IProps {
   credentialID: string;
@@ -42,7 +44,9 @@ export const DeleteCredential: React.FC<IProps> = ({
       </Button>
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent
+          background={useColorModeValue("gray.200", modalDarkBackground)}
+        >
           {!isSubmitting ? (
             <>
               <ModalHeader>Delete {siteName} from your vault ? </ModalHeader>

@@ -15,9 +15,14 @@ import {
   useDisclosure,
   Text,
   useToast,
+  useColorModeValue,
 } from "@chakra-ui/react";
 import { FormEvent, useState } from "react";
-import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
+import {
+  BRAND_COLOR_RED,
+  HOVER_BRAND_COLOR_RED,
+  modalDarkBackground,
+} from "../../constants";
 import { useAddCredentialMutation } from "../../generated/graphql";
 import { LoadingModal } from "../LoadingModal";
 
@@ -96,7 +101,9 @@ const AddCredModal = () => {
 
       <Modal isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent
+          background={useColorModeValue("gray.200", modalDarkBackground)}
+        >
           <form onSubmit={handleSubmit}>
             {!isSubmitting && (
               <>
