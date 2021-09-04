@@ -115,16 +115,35 @@ export class UserResolver {
   @Mutation(() => AuthResponse)
   async loginUser(
     @Arg("loginInput") loginInput: LoginInput,
-    @Ctx() { req }: ApolloContext
+    @Ctx() { req, PwdRedisClient: redisClient }: ApolloContext
   ): Promise<AuthResponse> {
     const user = await User.findOne({ where: { email: loginInput.email } });
     if (!user) {
       return { error: "User Not Found. Try making an account." };
     }
 
+    if (user.isFrozen) {
+      const token = await createOTP(redisClient, user.userID);
+      const emailContent = otpTemplate(token);
+      await sendEmail(user.email, "Unfreeze Your Account", emailContent);
+      return {
+        error:
+          "Your Account has been frozen. Please check your email for further instructions.",
+      };
+    }
+
     const verifyPassword = await verify(user.password, loginInput.password);
     if (!verifyPassword) {
+      if (user.loginAttemts > 6) {
+        User.update(user.userID, { isFrozen: true });
+      } else {
+        User.update(user.userID, { loginAttemts: (user.loginAttemts += 1) });
+      }
       return { error: "Wrong Password. Try Again." };
+    }
+
+    if (user.loginAttemts > 0) {
+      User.update(user.userID, { loginAttemts: 0 });
     }
 
     req.session.userID = user.userID;
@@ -208,6 +227,7 @@ export class UserResolver {
   async changePasswordFinal(
     @Arg("key") key: string,
     @Arg("newPassword") newPassword: string,
+    @Arg("variant") variant: "reset" | "unfreeze",
     @Ctx() { PwdRedisClient: redisClient }: ApolloContext
   ): Promise<ChangePasswordResolver> {
     const userID = await redisClient.get(key);
@@ -218,13 +238,17 @@ export class UserResolver {
       };
 
     const { error } = PasswordSchema.validate({ password: newPassword });
-    console.log(error);
     if (error) {
       return { error: "New Password isn't secure enough.", isChanged: false };
     }
-
     await redisClient.del(key);
-    await User.update({ userID }, { password: await hash(newPassword) });
+    variant === "reset" &&
+      (await User.update({ userID }, { password: await hash(newPassword) }));
+    variant === "unfreeze" &&
+      (await User.update(
+        { userID },
+        { password: await hash(newPassword), isFrozen: false, loginAttemts: 0 }
+      ));
     return { isChanged: true };
   }
 
