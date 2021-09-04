@@ -42,7 +42,7 @@ const Register = () => {
 
     if (flag) {
       toast({
-        title: "Master PIN should be of a digit numeric.",
+        title: "Master PIN should be a 4 digit number.",
         status: "error",
         duration: 2000,
         isClosable: true,

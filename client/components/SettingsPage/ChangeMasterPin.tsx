@@ -49,7 +49,7 @@ export const ChangeMasterPIN: React.FC = () => {
 
     if (flag)
       toast({
-        title: "Master PIN should be of a digit numeric.",
+        title: "Master PIN should be a 4 digit number.",
         status: "error",
         duration: 2000,
         isClosable: true,
@@ -113,6 +113,7 @@ export const ChangeMasterPIN: React.FC = () => {
                     mb={3}
                     type="password"
                     id="password"
+                    maxLength={4}
                     {...field}
                     placeholder="Enter your new Master PIN"
                   />
@@ -129,6 +130,7 @@ export const ChangeMasterPIN: React.FC = () => {
                     mb={3}
                     type="password"
                     id="password"
+                    maxLength={4}
                     {...field}
                     placeholder="Re enter your new Master PIN"
                   />
