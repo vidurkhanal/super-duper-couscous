@@ -70,7 +70,6 @@ export type Mutation = {
   forgotPassword: ForgotPasswordResponse;
   forgotPasswordChange: ChangePasswordResolver;
   changePasswordInit: ForgotPasswordResponse;
-  changePasswordFinal: ChangePasswordResolver;
   verifyMasterPIN: MasterPinResponse;
   changeMasterPIN: MasterPinResponse;
   addCredential: CredentialResponse;
@@ -95,19 +94,13 @@ export type MutationForgotPasswordArgs = {
 
 export type MutationForgotPasswordChangeArgs = {
   newPassword: Scalars['String'];
+  variant: Scalars['String'];
   key: Scalars['String'];
 };
 
 
 export type MutationChangePasswordInitArgs = {
   password: Scalars['String'];
-};
-
-
-export type MutationChangePasswordFinalArgs = {
-  variant: Scalars['String'];
-  newPassword: Scalars['String'];
-  key: Scalars['String'];
 };
 
 
@@ -170,7 +163,21 @@ export type AddCredentialMutationVariables = Exact<{
 }>;
 
 
-export type AddCredentialMutation = { __typename?: 'Mutation', addCredential: { __typename?: 'CredentialResponse', error?: Maybe<string>, user?: Maybe<{ __typename?: 'User', userID: string, fullName: string, credentials?: Maybe<Array<{ __typename?: 'Credential', email: string, password: string, siteName: string, strength: number, credentialID: string, siteLogo?: Maybe<string> }>> }> } };
+export type AddCredentialMutation = (
+  { __typename?: 'Mutation' }
+  & { addCredential: (
+    { __typename?: 'CredentialResponse' }
+    & Pick<CredentialResponse, 'error'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'userID' | 'fullName'>
+      & { credentials?: Maybe<Array<(
+        { __typename?: 'Credential' }
+        & Pick<Credential, 'email' | 'password' | 'siteName' | 'strength' | 'credentialID' | 'siteLogo'>
+      )>> }
+    )> }
+  ) }
+);
 
 export type ChangeMasterPinMutationVariables = Exact<{
   password: Scalars['String'];
@@ -178,21 +185,47 @@ export type ChangeMasterPinMutationVariables = Exact<{
 }>;
 
 
-export type ChangeMasterPinMutation = { __typename?: 'Mutation', changeMasterPIN: { __typename?: 'MasterPINResponse', isValid: boolean, error?: Maybe<string> } };
+export type ChangeMasterPinMutation = (
+  { __typename?: 'Mutation' }
+  & { changeMasterPIN: (
+    { __typename?: 'MasterPINResponse' }
+    & Pick<MasterPinResponse, 'isValid' | 'error'>
+  ) }
+);
 
 export type DeleteCredentialMutationVariables = Exact<{
   credentialID: Scalars['String'];
 }>;
 
 
-export type DeleteCredentialMutation = { __typename?: 'Mutation', delCredentials: { __typename?: 'CredentialResponse', error?: Maybe<string>, user?: Maybe<{ __typename?: 'User', userID: string, fullName: string, credentials?: Maybe<Array<{ __typename?: 'Credential', email: string, password: string }>> }> } };
+export type DeleteCredentialMutation = (
+  { __typename?: 'Mutation' }
+  & { delCredentials: (
+    { __typename?: 'CredentialResponse' }
+    & Pick<CredentialResponse, 'error'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'userID' | 'fullName'>
+      & { credentials?: Maybe<Array<(
+        { __typename?: 'Credential' }
+        & Pick<Credential, 'email' | 'password'>
+      )>> }
+    )> }
+  ) }
+);
 
 export type ForgetPasswordMutationVariables = Exact<{
   email: Scalars['String'];
 }>;
 
 
-export type ForgetPasswordMutation = { __typename?: 'Mutation', forgotPassword: { __typename?: 'ForgotPasswordResponse', error?: Maybe<string>, isSent: boolean } };
+export type ForgetPasswordMutation = (
+  { __typename?: 'Mutation' }
+  & { forgotPassword: (
+    { __typename?: 'ForgotPasswordResponse' }
+    & Pick<ForgotPasswordResponse, 'error' | 'isSent'>
+  ) }
+);
 
 export type LoginUserMutationVariables = Exact<{
   email: Scalars['String'];
@@ -200,12 +233,25 @@ export type LoginUserMutationVariables = Exact<{
 }>;
 
 
-export type LoginUserMutation = { __typename?: 'Mutation', loginUser: { __typename?: 'AuthResponse', error?: Maybe<string>, user?: Maybe<{ __typename?: 'User', email: string }> } };
+export type LoginUserMutation = (
+  { __typename?: 'Mutation' }
+  & { loginUser: (
+    { __typename?: 'AuthResponse' }
+    & Pick<AuthResponse, 'error'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'email'>
+    )> }
+  ) }
+);
 
 export type LogoutUserMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type LogoutUserMutation = { __typename?: 'Mutation', logoutUser: boolean };
+export type LogoutUserMutation = (
+  { __typename?: 'Mutation' }
+  & Pick<Mutation, 'logoutUser'>
+);
 
 export type RegisterUserMutationVariables = Exact<{
   email: Scalars['String'];
@@ -215,34 +261,70 @@ export type RegisterUserMutationVariables = Exact<{
 }>;
 
 
-export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'AuthResponse', error?: Maybe<string>, user?: Maybe<{ __typename?: 'User', email: string }> } };
+export type RegisterUserMutation = (
+  { __typename?: 'Mutation' }
+  & { registerUser: (
+    { __typename?: 'AuthResponse' }
+    & Pick<AuthResponse, 'error'>
+    & { user?: Maybe<(
+      { __typename?: 'User' }
+      & Pick<User, 'email'>
+    )> }
+  ) }
+);
 
 export type ResetPasswordMutationVariables = Exact<{
+  variant: Scalars['String'];
   newPassword: Scalars['String'];
   key: Scalars['String'];
 }>;
 
 
-export type ResetPasswordMutation = { __typename?: 'Mutation', forgotPasswordChange: { __typename?: 'ChangePasswordResolver', error?: Maybe<string>, isChanged: boolean } };
+export type ResetPasswordMutation = (
+  { __typename?: 'Mutation' }
+  & { forgotPasswordChange: (
+    { __typename?: 'ChangePasswordResolver' }
+    & Pick<ChangePasswordResolver, 'error' | 'isChanged'>
+  ) }
+);
 
 export type VerifyMasterPinMutationVariables = Exact<{
   masterPIN: Scalars['String'];
 }>;
 
 
-export type VerifyMasterPinMutation = { __typename?: 'Mutation', verifyMasterPIN: { __typename?: 'MasterPINResponse', isValid: boolean, error?: Maybe<string> } };
+export type VerifyMasterPinMutation = (
+  { __typename?: 'Mutation' }
+  & { verifyMasterPIN: (
+    { __typename?: 'MasterPINResponse' }
+    & Pick<MasterPinResponse, 'isValid' | 'error'>
+  ) }
+);
 
 export type HelloQueryQueryVariables = Exact<{
   helloName: Scalars['String'];
 }>;
 
 
-export type HelloQueryQuery = { __typename?: 'Query', hello: string };
+export type HelloQueryQuery = (
+  { __typename?: 'Query' }
+  & Pick<Query, 'hello'>
+);
 
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', userID: string, fullName: string, credentials?: Maybe<Array<{ __typename?: 'Credential', email: string, password: string, siteName: string, strength: number, credentialID: string, siteLogo?: Maybe<string> }>> }> };
+export type MeQuery = (
+  { __typename?: 'Query' }
+  & { me?: Maybe<(
+    { __typename?: 'User' }
+    & Pick<User, 'userID' | 'fullName'>
+    & { credentials?: Maybe<Array<(
+      { __typename?: 'Credential' }
+      & Pick<Credential, 'email' | 'password' | 'siteName' | 'strength' | 'credentialID' | 'siteLogo'>
+    )>> }
+  )> }
+);
 
 
 export const AddCredentialDocument = gql`
@@ -351,8 +433,8 @@ export function useRegisterUserMutation() {
   return Urql.useMutation<RegisterUserMutation, RegisterUserMutationVariables>(RegisterUserDocument);
 };
 export const ResetPasswordDocument = gql`
-    mutation ResetPassword($newPassword: String!, $key: String!) {
-  forgotPasswordChange(newPassword: $newPassword, key: $key) {
+    mutation ResetPassword($variant: String!, $newPassword: String!, $key: String!) {
+  forgotPasswordChange(newPassword: $newPassword, key: $key, variant: $variant) {
     error
     isChanged
   }

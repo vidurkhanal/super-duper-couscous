@@ -27,6 +27,7 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
   const { hasCopied: copyEmail, onCopy: onCopyEmail } = useClipboard(
     pass.email
   );
+
   const { hasCopied: copyPassword, onCopy: onCopyPassword } = useClipboard(
     pass.password
   );

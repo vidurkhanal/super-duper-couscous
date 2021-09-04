@@ -5,7 +5,7 @@ import { Credential } from "../models/credential";
 import { User } from "../models/user";
 import { ApolloContext } from "../types";
 import { encode } from "../utility/encode";
-import { CredentialResponse } from "./GqlObjects/CredentialResponse";
+import { CredentialResponse } from "./_types";
 import { passwordStrengthCalculator } from "../utility/passwordStrength";
 import axios from "axios";
 import { ICON_FETCHER } from "../constants";
@@ -30,11 +30,11 @@ export class CredentialResolver {
         error: JoiError.message,
       };
     }
-    let siteLogo;
 
+    let siteLogo;
     try {
       const { data } = await axios.get(ICON_FETCHER + siteName, {
-        timeout: 30000,
+        timeout: 10000,
       });
       //@ts-expect-error
       const sortedData = data?.sort((a, b) => b.size - a.size);

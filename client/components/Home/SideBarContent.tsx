@@ -3,35 +3,33 @@ import {
   Box,
   useColorModeValue,
   Flex,
-  Text,
   CloseButton,
   Image,
-} from "@chakra-ui/react"
-import { FiHome, FiSettings } from "react-icons/fi"
-import { NavItem } from "./NavItem"
-import { IconType } from "react-icons"
-import AddCredModal from "../AddCredential/addCredModal"
+} from "@chakra-ui/react";
+import { FiHome, FiSettings } from "react-icons/fi";
+import { NavItem } from "./NavItem";
+import { IconType } from "react-icons";
+import AddCredModal from "../AddCredential/addCredModal";
 
 interface LinkItemProps {
-  name: string
-  icon: IconType
-  href: string
+  name: string;
+  icon: IconType;
+  href: string;
 }
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Password", icon: FiHome, href: "/passwords" },
   { name: "Settings", icon: FiSettings, href: "/settings" },
-]
+];
 
 interface SidebarProps extends BoxProps {
-  onClose: () => void
+  onClose: () => void;
 }
 
 export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
   return (
     <Box
       transition="3s ease"
-      // bg={useColorModeValue("white", "gray.900")}
       borderRight="1px"
       borderRightColor={useColorModeValue("gray.200", "gray.700")}
       w={{ base: "full", md: 60 }}
@@ -57,5 +55,5 @@ export const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       ))}
       <AddCredModal />
     </Box>
-  )
-}
+  );
+};

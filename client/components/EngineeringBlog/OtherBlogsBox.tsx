@@ -2,7 +2,6 @@ import { Box, Heading, Image, Link, Text, WrapItem } from "@chakra-ui/react";
 import { Post } from "../../types";
 import { BlogAuthor } from "./Author";
 import { BlogTags } from "./Tags";
-import NextLink from "next/link";
 import { useRouter } from "next/router";
 
 interface IOtherBlogsBox {
@@ -11,6 +10,7 @@ interface IOtherBlogsBox {
 
 export const OtherBlogsBox: React.FC<IOtherBlogsBox> = ({ postToRender }) => {
   const router = useRouter();
+  const path = router.route;
   const tagsBuilder = (): string[] => {
     let tags: string[] = [];
     postToRender.tags.forEach((tag) => tags.push(tag.name));
@@ -20,25 +20,30 @@ export const OtherBlogsBox: React.FC<IOtherBlogsBox> = ({ postToRender }) => {
     <WrapItem width={{ base: "100%", sm: "100%", md: "20rem", lg: "20rem" }}>
       <Box w="100%">
         <Box borderRadius="lg" overflow="hidden">
-          <Link textDecoration="none" _hover={{ textDecoration: "none" }}>
-            <NextLink href={`${router.route}/${postToRender.slug}`}>
-              <Image
-                transform="scale(1.0)"
-                src={postToRender.feature_image}
-                alt="some text"
-                objectFit="contain"
-                width="100%"
-                transition="0.3s ease-in-out"
-                _hover={{
-                  transform: "scale(1.05)",
-                }}
-              />
-            </NextLink>
+          <Link href={`${path}/${postToRender.slug}`}>
+            <Image
+              transform="scale(1.0)"
+              src={postToRender.feature_image}
+              alt="some text"
+              objectFit="contain"
+              width="100%"
+              transition="0.3s ease-in-out"
+              _hover={{
+                transform: "scale(1.05)",
+              }}
+            />
           </Link>
         </Box>
         <BlogTags tags={tagsBuilder()} marginTop="3" />
         <Heading fontSize="xl" marginTop="2">
-          <Link textDecoration="none" _hover={{ textDecoration: "none" }}>
+          <Link
+            _hover={{
+              textDecoration: "none",
+            }}
+            _active={{}}
+            _focus={{}}
+            href={`${path}/${postToRender.slug}`}
+          >
             {postToRender.title}
           </Link>
         </Heading>

@@ -1,6 +1,18 @@
+import {
+  ALLOWED_LOGIN_ATTEMPTS,
+  COOKIE_NAME,
+  SERVER_URL,
+} from "./../constants";
+import {
+  ForgotPasswordResponse,
+  LoginInput,
+  ChangePasswordResolver,
+  AuthResponse,
+  MasterPINResponse,
+  RegisterInput,
+} from "./_types";
 import { forgetPasswordTemplate } from "./../static/forgotPasswordTemplate";
 import { PasswordSchema } from "./../Joi/AuthSchema";
-import { ChangePasswordResolver } from "./GqlObjects/ChangePasswordResponse";
 import { createForgetPasswordLink } from "./../utility/createForgotPasswordLink";
 import { hash, verify } from "argon2";
 import { Arg, Ctx, Mutation, Query, Resolver } from "type-graphql";
@@ -10,15 +22,9 @@ import { User } from "../models/user";
 import { ApolloContext } from "../types";
 import { sendEmail } from "../utility/sendEmail";
 import { verifyEmailHTMLGenerator } from "../static/verifyEmailTemplate";
-import { COOKIE_NAME, SERVER_URL } from "./../constants";
 import { createEmailLink } from "../utility/createVerifyEmailLink";
-import { AuthResponse } from "./GqlObjects/AuthResponse";
-import { LoginInput } from "./GqlObjects/loginInput";
-import { RegisterInput } from "./GqlObjects/registerInput";
-import { ForgotPasswordResponse } from "./GqlObjects/ForgotPasswordResponse";
-import { createOTP } from "../utility/createOTP";
-import { otpTemplate } from "../static/otpTemplate";
-import { MasterPINResponse } from "./GqlObjects/MasterPINResponse";
+import { resetPasswordTemplate } from "../static/resetPasswordTemplate";
+import { unfreezeAccountTemplate } from "../static/unfreezeAccountTemplate";
 
 //We need comments, this shit is getting hard to read
 @Resolver()
@@ -111,7 +117,7 @@ export class UserResolver {
     return { user };
   }
 
-  //Logs in the user and sends a session
+  //Logs the user in and sends a session
   @Mutation(() => AuthResponse)
   async loginUser(
     @Arg("loginInput") loginInput: LoginInput,
@@ -123,9 +129,16 @@ export class UserResolver {
     }
 
     if (user.isFrozen) {
-      const token = await createOTP(redisClient, user.userID);
-      const emailContent = otpTemplate(token);
+      const token = await createForgetPasswordLink(
+        redisClient,
+        user.userID,
+        "unfreeze"
+      );
+
+      const emailContent = unfreezeAccountTemplate(token);
+
       await sendEmail(user.email, "Unfreeze Your Account", emailContent);
+
       return {
         error:
           "Your Account has been frozen. Please check your email for further instructions.",
@@ -133,20 +146,19 @@ export class UserResolver {
     }
 
     const verifyPassword = await verify(user.password, loginInput.password);
+
     if (!verifyPassword) {
-      if (user.loginAttemts > 6) {
-        User.update(user.userID, { isFrozen: true });
-      } else {
-        User.update(user.userID, { loginAttemts: (user.loginAttemts += 1) });
-      }
+      user.loginAttemts > ALLOWED_LOGIN_ATTEMPTS
+        ? await User.update(user.userID, { isFrozen: true })
+        : await User.update(user.userID, {
+            loginAttemts: (user.loginAttemts += 1),
+          });
+
       return { error: "Wrong Password. Try Again." };
     }
 
-    if (user.loginAttemts > 0) {
-      User.update(user.userID, { loginAttemts: 0 });
-    }
-
     req.session.userID = user.userID;
+
     return { user };
   }
 
@@ -172,18 +184,25 @@ export class UserResolver {
     @Ctx() { PwdRedisClient: redisClient }: ApolloContext
   ): Promise<ForgotPasswordResponse> {
     const user = await User.findOne({ where: { email } });
+
     if (!user) return { error: "User doesn't exist", isSent: false };
 
-    const link = await createForgetPasswordLink(redisClient, user.userID);
+    const link = await createForgetPasswordLink(
+      redisClient,
+      user.userID,
+      "reset"
+    );
+
     const emailContent = forgetPasswordTemplate(link);
     await sendEmail(email, "Forgot Password", emailContent);
     return { isSent: true };
   }
 
-  //Changes password throught forgot password
+  //Changes password
   @Mutation(() => ChangePasswordResolver)
   async forgotPasswordChange(
     @Arg("key") key: string,
+    @Arg("variant") variant: "reset" | "unfreeze",
     @Arg("newPassword") newPassword: string,
     @Ctx() { PwdRedisClient: redisClient }: ApolloContext
   ): Promise<ChangePasswordResolver> {
@@ -198,13 +217,29 @@ export class UserResolver {
     }
 
     await redisClient.del(key);
-    await User.update({ userID }, { password: await hash(newPassword) });
+
+    variant === "reset" &&
+      (await User.update({ userID }, { password: await hash(newPassword) }));
+
+    variant === "unfreeze" &&
+      (await User.update(
+        { userID },
+        { password: await hash(newPassword), isFrozen: false, loginAttemts: 0 }
+      ));
+
     return { isChanged: true };
   }
 
   //We first check if the user knows the password and send the thing that lets him change it
+  // Do the JWT thing if you want to
+
+  // I think  we can use the same reset password for all of these
+  // And just have a reset password button in the FRONT ENDs SETINGS
+
+  // Same as forgot as password but we take the user from the session rather than the email
+  // And have him enter the current password
   @Mutation(() => ForgotPasswordResponse)
-  async changePasswordInit(
+  async changePasswordInitialize(
     @Arg("password") password: string,
     @Ctx() { req, PwdRedisClient: redisClient }: ApolloContext
   ): Promise<ForgotPasswordResponse> {
@@ -213,43 +248,19 @@ export class UserResolver {
     if (user) {
       const verifyPassword = await verify(user.password, password);
       if (verifyPassword) {
-        const token = await createOTP(redisClient, user.userID);
-        const emailContent = otpTemplate(token);
+        const token = await createForgetPasswordLink(
+          redisClient,
+          user.userID,
+          "reset"
+        );
+
+        const emailContent = resetPasswordTemplate(token);
         await sendEmail(user.email, "Change Password", emailContent);
         return { isSent: true };
       }
     }
+
     return { error: "Incorrect Password", isSent: false };
-  }
-
-  //We check if the tokens match and change the password
-  @Mutation(() => ChangePasswordResolver)
-  async changePasswordFinal(
-    @Arg("key") key: string,
-    @Arg("newPassword") newPassword: string,
-    @Arg("variant") variant: "reset" | "unfreeze",
-    @Ctx() { PwdRedisClient: redisClient }: ApolloContext
-  ): Promise<ChangePasswordResolver> {
-    const userID = await redisClient.get(key);
-    if (!userID)
-      return {
-        error: "Provided Token is not valid or has expired.",
-        isChanged: false,
-      };
-
-    const { error } = PasswordSchema.validate({ password: newPassword });
-    if (error) {
-      return { error: "New Password isn't secure enough.", isChanged: false };
-    }
-    await redisClient.del(key);
-    variant === "reset" &&
-      (await User.update({ userID }, { password: await hash(newPassword) }));
-    variant === "unfreeze" &&
-      (await User.update(
-        { userID },
-        { password: await hash(newPassword), isFrozen: false, loginAttemts: 0 }
-      ));
-    return { isChanged: true };
   }
 
   //This verifies if the masterPIN is correct

@@ -10,33 +10,34 @@ import {
   Image,
   useToast,
   Link,
-} from "@chakra-ui/react"
-import { Formik, Form, Field } from "formik"
-import { withUrqlClient } from "next-urql"
-import { useMeQuery, useRegisterUserMutation } from "../../generated/graphql"
-import { URQLClient } from "../../utils/createClient"
-import NextRouter from "next/router"
-import { LoadingPage } from "../../components/LoadingPage"
+} from "@chakra-ui/react";
+import { Formik, Form, Field } from "formik";
+import { withUrqlClient } from "next-urql";
+import { useMeQuery, useRegisterUserMutation } from "../../generated/graphql";
+import { URQLClient } from "../../utils/createClient";
+import NextRouter from "next/router";
+import { LoadingPage } from "../../components/LoadingPage";
+import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
 
 type FormValues = {
-  email: string
-  password: string
-  fullName: string
-  masterPIN: string
-}
+  email: string;
+  password: string;
+  fullName: string;
+  masterPIN: string;
+};
 
 const Register = () => {
-  const [{ data: MeData, fetching: MeFetching }] = useMeQuery()
+  const [{ data: MeData, fetching: MeFetching }] = useMeQuery();
 
-  const [, registerUser] = useRegisterUserMutation()
-  const toast = useToast()
+  const [, registerUser] = useRegisterUserMutation();
+  const toast = useToast();
 
   const handleSubmit = async (values: FormValues, actions: any) => {
-    let flag = false
-    const arr = values.masterPIN.split("")
+    let flag = false;
+    const arr = values.masterPIN.split("");
 
     for (const n of arr) {
-      if (n.charCodeAt(0) > 57 || n.charCodeAt(0) < 48) flag = true
+      if (n.charCodeAt(0) > 57 || n.charCodeAt(0) < 48) flag = true;
     }
 
     if (flag) {
@@ -45,41 +46,41 @@ const Register = () => {
         status: "error",
         duration: 2000,
         isClosable: true,
-      })
+      });
     } else {
-      const { data, error } = await registerUser(values)
+      const { data, error } = await registerUser(values);
       if (error) {
         toast({
           title: error.message,
           status: "error",
-        })
+        });
       }
 
       if (data?.registerUser.error) {
         toast({
           title: data.registerUser.error,
           status: "error",
-        })
+        });
       }
 
       if (data?.registerUser.user) {
-        NextRouter.push("/authentication/login")
+        NextRouter.push("/authentication/login");
         toast({
           title: "Account registered succesfully. You may login now.",
           status: "success",
-        })
+        });
       }
-      actions.setSubmitting(false)
+      actions.setSubmitting(false);
     }
-  }
+  };
 
   if (!MeFetching && MeData?.me) {
-    NextRouter.push("/passwords")
+    NextRouter.push("/passwords");
   }
   const logoSrc = useColorModeValue(
     "/Kpass-primary.png",
     "/Kpass-secondary.png"
-  )
+  );
 
   if (!MeFetching && !MeData?.me) {
     return (
@@ -168,12 +169,15 @@ const Register = () => {
                       </FormControl>
                     )}
                   </Field>
-                  <Link color={"blue.500"} href="/authentication/login">
+                  <Link href="/authentication/login">
                     Already Have An Account?
                   </Link>
                   <Stack spacing={6} mt={6}>
                     <Button
-                      colorScheme={"blue"}
+                      background={BRAND_COLOR_RED}
+                      _hover={{
+                        background: HOVER_BRAND_COLOR_RED,
+                      }}
                       variant={"solid"}
                       type="submit"
                       isLoading={isSubmitting}
@@ -199,10 +203,10 @@ const Register = () => {
           />
         </Flex>
       </Stack>
-    )
+    );
   }
 
-  return <LoadingPage />
-}
+  return <LoadingPage />;
+};
 
-export default withUrqlClient(URQLClient)(Register)
+export default withUrqlClient(URQLClient)(Register);
