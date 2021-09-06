@@ -4,28 +4,36 @@ import { getAllPosts, getSinglePost } from "../../../ghost/fetchers";
 import Head from "next/head";
 import { Post } from "../../../types";
 import { NavBar } from "../../../components/LandingPage/NavBar";
+import { withUrqlClient } from "next-urql";
+import { useMeQuery } from "../../../generated/graphql";
+import { URQLClient } from "../../../utils/createClient";
+import { LoadingPage } from "../../../components/LoadingPage";
 
 interface ISinglePage {
   postToRender: Post;
 }
 
 const SinglePage: React.FC<ISinglePage> = ({ postToRender }) => {
-  return (
-    <Box>
-      <Head>
-        <title>{postToRender.title}</title>
-      </Head>
-      <NavBar />
-      <SingleBlogHero postToRender={postToRender} />
-    </Box>
-  );
+  const [{ data: MeData, fetching: MeFetching }] = useMeQuery();
+
+  if (!MeFetching)
+    return (
+      <Box>
+        <Head>
+          <title>{postToRender.title}</title>
+        </Head>
+        <NavBar authState={MeData?.me?.userID} />
+        <SingleBlogHero postToRender={postToRender} />
+      </Box>
+    );
+  return <LoadingPage />;
 };
 
-export default SinglePage;
+export default withUrqlClient(URQLClient)(SinglePage);
 
 export async function getStaticPaths() {
   const posts = await getAllPosts();
-  //@ts-ignore
+  //@ts-expect-error
   const paths = posts.map((post: Post) => ({
     params: { slug: post.slug },
   }));

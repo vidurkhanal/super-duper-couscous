@@ -8,20 +8,38 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
-import { Formik, Form, Field } from "formik";
+import { Formik, FormikHelpers, Form, Field } from "formik";
 import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
 import { useChangeMasterPinMutation } from "../../generated/graphql";
 
 interface FormValues {
   password: string;
   masterPIN: string;
+  mastePINReenter: string;
 }
 
 export const ChangeMasterPIN: React.FC = () => {
   const [, changeMasterPIN] = useChangeMasterPinMutation();
   const toast = useToast();
 
-  const handleSubmit = async (values: FormValues, actions: any) => {
+  const handleSubmit = async (
+    values: FormValues,
+    actions: FormikHelpers<FormValues>
+  ) => {
+    const { mastePINReenter, masterPIN, password } = values;
+
+    if (mastePINReenter !== masterPIN) {
+      toast({
+        title: "Hmm, The passwords didn't match...",
+        status: "error",
+        isClosable: true,
+        duration: 5000,
+      });
+      actions.resetForm();
+      actions.setSubmitting(false);
+      return;
+    }
+
     let flag = false;
     const arr = values.masterPIN.split("");
 
@@ -29,35 +47,35 @@ export const ChangeMasterPIN: React.FC = () => {
       if (n.charCodeAt(0) > 57 || n.charCodeAt(0) < 48) flag = true;
     }
 
-    if (flag) {
+    if (flag)
       toast({
-        title: "Master PIN should be of a digit numeric.",
+        title: "Master PIN should be a 4 digit number.",
         status: "error",
         duration: 2000,
         isClosable: true,
       });
-    } else {
-      const { data, error } = await changeMasterPIN(values);
-      if (error) {
+    else {
+      const { data, error } = await changeMasterPIN({ masterPIN, password });
+
+      if (error)
         toast({
           title: error.message,
           status: "error",
           duration: 1000,
         });
-      }
-      if (data?.changeMasterPIN.error) {
+      else if (data?.changeMasterPIN.error)
         toast({
           title: data.changeMasterPIN.error,
           status: "error",
           duration: 1000,
         });
-      } else
+      else
         toast({
           title: "Master PIN Changed Succesfully",
           status: "error",
           duration: 1000,
         });
-
+      actions.resetForm();
       actions.setSubmitting(false);
     }
   };
@@ -95,6 +113,7 @@ export const ChangeMasterPIN: React.FC = () => {
                     mb={3}
                     type="password"
                     id="password"
+                    maxLength={4}
                     {...field}
                     placeholder="Enter your new Master PIN"
                   />
@@ -111,6 +130,7 @@ export const ChangeMasterPIN: React.FC = () => {
                     mb={3}
                     type="password"
                     id="password"
+                    maxLength={4}
                     {...field}
                     placeholder="Re enter your new Master PIN"
                   />

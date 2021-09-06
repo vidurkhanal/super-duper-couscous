@@ -28,6 +28,7 @@ export const ChangePassword: React.FC = () => {
       status: "error",
       duration: 1000,
     });
+
     actions.resetForm();
     actions.setSubmitting(false);
   };

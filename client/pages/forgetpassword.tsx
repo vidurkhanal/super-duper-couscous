@@ -1,6 +1,5 @@
 import {
   Box,
-  Button,
   Flex,
   FormControl,
   FormLabel,
@@ -23,27 +22,27 @@ const Forgetpassword = () => {
   const [, forgetPassword] = useForgetPasswordMutation();
   const [email, setEmail] = useState("");
   const { isOpen, onOpen } = useDisclosure();
+  const [isSubmitting, setIsSubmitting] = useState<boolean>(false);
 
   const forgetPasswordSubmitter = async (
     e: React.FormEvent<HTMLFormElement>
   ) => {
     e.preventDefault();
+    setIsSubmitting(true);
     const { data } = await forgetPassword({ email });
     if (data) {
       onOpen();
     }
+    setIsSubmitting(false);
   };
+
   const logoSrc = useColorModeValue(
     "/Kpass-primary.png",
     "/Kpass-secondary.png"
   );
+
   return (
-    <Flex
-      minH={"100vh"}
-      align={"center"}
-      justify={"center"}
-      // bg={useColorModeValue("gray.50", "gray.800")}
-    >
+    <Flex minH={"100vh"} align={"center"} justify={"center"}>
       <form onSubmit={forgetPasswordSubmitter}>
         <Stack spacing={8} mx={"auto"} w="xl" maxW={"lg"} py={12} px={6}>
           <Box
@@ -91,6 +90,7 @@ const Forgetpassword = () => {
                   email={email}
                   isOpen={isOpen}
                   onOpen={onOpen}
+                  isSubmitting={isSubmitting}
                 />
               </Stack>
             </Stack>
