@@ -34,6 +34,13 @@ const Index: React.FC<{ posts: Post[] }> = ({ posts }) => {
     return tags;
   };
 
+  const bg = useColorModeValue(
+    "radial(orange.600 1px, transparent 1px)",
+    "radial(orange.300 1px, transparent 1px)"
+  );
+
+  const color = useColorModeValue("gray.700", "gray.200");
+
   const [{ data: MeData, fetching: MeFetching }] = useMeQuery();
 
   if (!MeFetching)
@@ -74,10 +81,7 @@ const Index: React.FC<{ posts: Post[] }> = ({ posts }) => {
               </Box>
               <Box zIndex="1" width="100%" position="absolute" height="100%">
                 <Box
-                  bgGradient={useColorModeValue(
-                    "radial(orange.600 1px, transparent 1px)",
-                    "radial(orange.300 1px, transparent 1px)"
-                  )}
+                  bgGradient={bg}
                   backgroundSize="20px 20px"
                   opacity="0.4"
                   height="100%"
@@ -104,12 +108,7 @@ const Index: React.FC<{ posts: Post[] }> = ({ posts }) => {
                   {posts[0].title}
                 </Link>
               </Heading>
-              <Text
-                as="p"
-                marginTop="2"
-                color={useColorModeValue("gray.700", "gray.200")}
-                fontSize="lg"
-              >
+              <Text as="p" marginTop="2" color={color} fontSize="lg">
                 {posts[0].excerpt}
               </Text>
               <BlogAuthor

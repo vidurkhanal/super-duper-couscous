@@ -10,6 +10,7 @@ import Head from "next/head";
 import { Input } from "@chakra-ui/react";
 import { useState } from "react";
 import { nanoid } from "nanoid";
+import { memo } from "react";
 
 const PasswordPage = () => {
   const [{ data, fetching }] = useMeQuery();
@@ -23,6 +24,7 @@ const PasswordPage = () => {
   if (!fetching && data?.me) {
     return (
       <Box>
+        {" "}
         <Head>
           <title>Dashboard - KPass</title>
         </Head>
@@ -53,4 +55,4 @@ const PasswordPage = () => {
   return <LoadingPage />;
 };
 
-export default withUrqlClient(URQLClient)(PasswordPage);
+export default withUrqlClient(URQLClient)(memo(PasswordPage));

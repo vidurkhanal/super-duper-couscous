@@ -1,5 +1,3 @@
-import { useColorModeValue } from "@chakra-ui/react";
-
 export const BLOG_URL = process.env.BLOG_URL!;
 export const CONTENT_API = process.env.CONTENT_API!;
 export const PRIVATE_KEY = process.env.NEXT_PUBLIC_PRIVATE_KEY!;

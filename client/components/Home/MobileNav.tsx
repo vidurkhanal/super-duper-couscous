@@ -5,6 +5,7 @@ import {
   IconButton,
   Text,
   HStack,
+  Link,
   Menu,
   MenuButton,
   VStack,
@@ -29,13 +30,18 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
     await logoutUser();
     NextRouter.reload();
   };
+
+  const logoSrc = useColorModeValue(
+    "/Kpass-primary.png",
+    "/Kpass-secondary.png"
+  );
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
       px={{ base: 4, md: 4 }}
       height="20"
       alignItems="center"
-      // bg={useColorModeValue("white", "gray.900")}
       borderBottomWidth="1px"
       borderBottomColor={useColorModeValue("gray.200", "gray.700")}
       justifyContent={{ base: "space-between", md: "flex-end" }}
@@ -52,14 +58,16 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
         icon={<FiMenu />}
       />
 
-      <Image
-        src={useColorModeValue("/Kpass-primary.png", "/Kpass-secondary.png")}
-        loading="eager"
-        width="70px"
-        height="auto"
-        alt="Brand Secondary Logo"
-        display={{ base: "initial", md: "none" }}
-      />
+      <Link href="/" _focus={{}}>
+        <Image
+          src={logoSrc}
+          loading="eager"
+          width="70px"
+          height="auto"
+          alt="Brand Secondary Logo"
+          display={{ base: "initial", md: "none" }}
+        />
+      </Link>
 
       <HStack spacing={{ base: "0", md: "6" }}>
         <IconButton
