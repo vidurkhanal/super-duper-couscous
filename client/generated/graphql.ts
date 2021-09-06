@@ -70,7 +70,6 @@ export type Mutation = {
   forgotPassword: ForgotPasswordResponse;
   forgotPasswordChange: ChangePasswordResolver;
   changePasswordInit: ForgotPasswordResponse;
-  changePasswordFinal: ChangePasswordResolver;
   verifyMasterPIN: MasterPinResponse;
   changeMasterPIN: MasterPinResponse;
   addCredential: CredentialResponse;
@@ -95,18 +94,13 @@ export type MutationForgotPasswordArgs = {
 
 export type MutationForgotPasswordChangeArgs = {
   newPassword: Scalars['String'];
+  variant: Scalars['String'];
   key: Scalars['String'];
 };
 
 
 export type MutationChangePasswordInitArgs = {
   password: Scalars['String'];
-};
-
-
-export type MutationChangePasswordFinalArgs = {
-  newPassword: Scalars['String'];
-  key: Scalars['String'];
 };
 
 
@@ -280,6 +274,7 @@ export type RegisterUserMutation = (
 );
 
 export type ResetPasswordMutationVariables = Exact<{
+  variant: Scalars['String'];
   newPassword: Scalars['String'];
   key: Scalars['String'];
 }>;
@@ -438,8 +433,8 @@ export function useRegisterUserMutation() {
   return Urql.useMutation<RegisterUserMutation, RegisterUserMutationVariables>(RegisterUserDocument);
 };
 export const ResetPasswordDocument = gql`
-    mutation ResetPassword($newPassword: String!, $key: String!) {
-  forgotPasswordChange(newPassword: $newPassword, key: $key) {
+    mutation ResetPassword($variant: String!, $newPassword: String!, $key: String!) {
+  forgotPasswordChange(newPassword: $newPassword, key: $key, variant: $variant) {
     error
     isChanged
   }

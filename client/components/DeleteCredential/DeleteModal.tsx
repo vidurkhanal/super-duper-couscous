@@ -15,7 +15,7 @@ import { useDeleteCredentialMutation } from "../../generated/graphql";
 import { useState } from "react";
 import { LoadingModal } from "../LoadingModal";
 import { MasterPasswordPopOver } from "../Home/MasterPasswordPopOver";
-import { modalDarkBackground } from "../../constants";
+import { MODAL_DARK_BACKGROUND } from "../../constants";
 
 interface IProps {
   credentialID: string;
@@ -45,7 +45,7 @@ export const DeleteCredential: React.FC<IProps> = ({
       <Modal blockScrollOnMount={false} isOpen={isOpen} onClose={onClose}>
         <ModalOverlay />
         <ModalContent
-          background={useColorModeValue("gray.200", modalDarkBackground)}
+          background={useColorModeValue("gray.200", MODAL_DARK_BACKGROUND)}
         >
           {!isSubmitting ? (
             <>

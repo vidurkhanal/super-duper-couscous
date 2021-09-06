@@ -53,19 +53,11 @@ export type Post = {
   ];
 };
 
-export type password_category =
-  | "entertainment"
-  | "business"
-  | "payment and banking"
-  | "personal"
-  | "travel"
-  | "other";
-
 export type PassObj = {
   siteName: string;
   email: string;
   password: string;
   strength: number;
   credentialID: string;
-  siteLogo?: string;
+  siteLogo?: string | null;
 };

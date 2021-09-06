@@ -99,11 +99,10 @@ const main = async () => {
   apollo.applyMiddleware({ app, cors: false });
 
   app.use(helmet());
+
   app.use(
     morgan(":method :url :status :res[content-length] - :response-time ms")
   );
-
-  app.use(Express.static("public"));
 
   app.get("/", (_, res) => {
     return __PROD__

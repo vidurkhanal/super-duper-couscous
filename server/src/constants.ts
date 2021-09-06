@@ -25,3 +25,4 @@ export const SESSIONS_REDIS_CLIENT_HOST =
 export const SESSIONS_REDIS_PASSWORD = process.env.SESSIONS_REDIS_PASSWORD;
 export const ICON_FETCHER =
   "https://grab-favicons.herokuapp.com/api/v1/grab-favicons?url=";
+export const ALLOWED_LOGIN_ATTEMPTS = 6;

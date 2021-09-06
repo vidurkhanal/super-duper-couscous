@@ -4,24 +4,29 @@ import {
   Modal,
   ModalBody,
   ModalContent,
+  useColorModeValue,
   ModalHeader,
   ModalOverlay,
   Text,
-  useDisclosure,
 } from "@chakra-ui/react";
 import { CheckCircleIcon } from "@chakra-ui/icons";
-import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
+import {
+  BRAND_COLOR_RED,
+  MODAL_DARK_BACKGROUND,
+  HOVER_BRAND_COLOR_RED,
+} from "../../constants";
 
 interface ISuccessfulModel {
   email: string;
   isOpen: boolean;
   onOpen: () => void;
+  isSubmitting: boolean;
 }
 
 const SuccessfulModel: React.FC<ISuccessfulModel> = ({
+  isSubmitting,
   email,
   isOpen,
-  onOpen,
 }) => {
   return (
     <>
@@ -32,13 +37,16 @@ const SuccessfulModel: React.FC<ISuccessfulModel> = ({
         _hover={{
           bg: HOVER_BRAND_COLOR_RED,
         }}
+        isLoading={isSubmitting}
       >
         Send Password Request Email
       </Button>
 
       <Modal closeOnOverlayClick={false} isOpen={isOpen} onClose={() => null}>
         <ModalOverlay />
-        <ModalContent>
+        <ModalContent
+          background={useColorModeValue("gray.200", MODAL_DARK_BACKGROUND)}
+        >
           <ModalHeader textAlign="center">
             Password Reset Submitted!!
           </ModalHeader>

@@ -27,6 +27,7 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
   const { hasCopied: copyEmail, onCopy: onCopyEmail } = useClipboard(
     pass.email
   );
+
   const { hasCopied: copyPassword, onCopy: onCopyPassword } = useClipboard(
     pass.password
   );
@@ -43,6 +44,8 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
     }
   }, [show]);
 
+  const logoSrc = pass.siteLogo || "sitenull.png";
+
   return (
     <Flex
       bgColor="indigo.600"
@@ -54,7 +57,6 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
       width={{ base: "100%", md: "50%" }}
     >
       <Flex
-        // bgColor="transparent"
         bgColor="rgba(180,180,180,0.2)"
         minWidth="100%"
         minHeight="25vh"
@@ -69,11 +71,12 @@ export const Password: React.FC<IPassword> = ({ pass }) => {
             <Text fontWeight="bold">{pass.siteName}</Text>
           </Box>
           <Image
-            src={pass.siteLogo || "sitenull.png"}
+            src={logoSrc}
             alt=""
             objectFit="cover"
             boxSize="50px"
             borderRadius="5px"
+            loading="eager"
           />
         </Flex>
         <Box mb="10px">

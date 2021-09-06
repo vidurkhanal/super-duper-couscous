@@ -43,6 +43,12 @@ export class User extends BaseEntity {
   @Column({ default: false })
   isVerified: boolean;
 
+  @Column({ default: 0 })
+  loginAttemts: number;
+
+  @Column({ default: false })
+  isFrozen: boolean;
+
   @Field(() => [Credential], { nullable: true })
   @OneToMany(() => Credential, (credential) => credential.user)
   credentials: Credential[];

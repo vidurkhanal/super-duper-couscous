@@ -16,12 +16,14 @@ import {
 } from "@chakra-ui/react";
 import NextRouter from "next/router";
 import { BRAND_COLOR_RED } from "../../constants";
-import { useMeQuery } from "../../generated/graphql";
 import { BsBoxArrowUpRight } from "react-icons/bs";
 
-export const NavBar = () => {
+interface IProps {
+  authState: string | undefined;
+}
+
+export const NavBar: React.FC<IProps> = ({ authState }) => {
   const { isOpen, onToggle } = useDisclosure();
-  const [{ data }] = useMeQuery();
 
   return (
     <Box position="sticky" top="0" zIndex="1">
@@ -80,7 +82,22 @@ export const NavBar = () => {
           direction={"row"}
           spacing={6}
         >
-          {data ? (
+          {authState ? (
+            <Button
+              display={{ base: "none", md: "inline-flex" }}
+              fontSize={"sm"}
+              fontWeight={600}
+              color={"white"}
+              bg={BRAND_COLOR_RED}
+              _hover={{
+                bg: "#e34d4d",
+              }}
+              onClick={() => NextRouter.push("/passwords")}
+            >
+              <Text mr="7px">Go To Dashboard</Text>
+              <BsBoxArrowUpRight />
+            </Button>
+          ) : (
             <>
               <Button
                 as={"a"}
@@ -107,21 +124,6 @@ export const NavBar = () => {
                 Sign Up
               </Button>
             </>
-          ) : (
-            <Button
-              display={{ base: "none", md: "inline-flex" }}
-              fontSize={"sm"}
-              fontWeight={600}
-              color={"white"}
-              bg={BRAND_COLOR_RED}
-              _hover={{
-                bg: "#e34d4d",
-              }}
-              onClick={() => NextRouter.push("/passwords")}
-            >
-              <Text mr="7px">Go To Dashboard</Text>
-              <BsBoxArrowUpRight />
-            </Button>
           )}
         </Stack>
       </Flex>

@@ -23,7 +23,7 @@ export const URQLClient = (ssrExchange: any, _ctx: any) => ({
     cacheExchange({
       updates: {
         Mutation: {
-          addCredential: (_result, args, cache, info) => {
+          addCredential: (_result, _args, cache, _info) => {
             betterUpdateQuery<AddCredentialMutation, MeQuery>(
               cache,
               { query: MeDocument },
@@ -39,7 +39,7 @@ export const URQLClient = (ssrExchange: any, _ctx: any) => ({
               }
             );
           },
-          delCredentials: (_result, args, cache, info) => {
+          delCredentials: (_result, _args, cache, _info) => {
             betterUpdateQuery<DeleteCredentialMutation, MeQuery>(
               cache,
               { query: MeDocument },
