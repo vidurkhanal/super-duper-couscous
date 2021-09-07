@@ -915,7 +915,7 @@ chokidar@^3.2.2:
 
 chownr@^2.0.0:
   version "2.0.0"
-  resolved "https://registry.npmjs.org/chownr/-/chownr-2.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/chownr/-/chownr-2.0.0.tgz#15bfbe53d2eab4cf70f18a8cd68ebe5b3cb1dece"
   integrity sha512-bIomtDF5KGpdogkLd9VspvFzk9KfpyyGlS8YFVZl7TGPBHL5snIOnxeshwVgPteQ9b4Eydl+pVbIyE1DcvCWgQ==
 
 ci-info@^2.0.0:
@@ -2842,9 +2842,9 @@ symbol-observable@^1.0.4:
   integrity sha512-e900nM8RRtGhlV36KGEU9k65K3mPb1WV70OdjfxlG2EAuM1noi/E/BaW/uMhL7bPEssK8QV57vN3esixjUvcXQ==
 
 tar@^6.1.0:
-  version "6.1.2"
-  resolved "https://registry.yarnpkg.com/tar/-/tar-6.1.2.tgz#1f045a90a6eb23557a603595f41a16c57d47adc6"
-  integrity sha512-EwKEgqJ7nJoS+s8QfLYVGMDmAsj+StbI2AM/RTHeUSsOw6Z8bwNBRv5z3CY0m7laC5qUAqruLX5AhMuc5deY3Q==
+  version "6.1.11"
+  resolved "https://registry.yarnpkg.com/tar/-/tar-6.1.11.tgz#6760a38f003afa1b2ffd0ffe9e9abbd0eab3d621"
+  integrity sha512-an/KZQzQUkZCkuoAA64hM92X0Urb6VpRhAFllDzz44U2mcD5scmT3zBc4VgVpkugF580+DQn8eAFSyoQt0tznA==
   dependencies:
     chownr "^2.0.0"
     fs-minipass "^2.0.0"
@@ -3195,7 +3195,7 @@ y18n@^5.0.5:
 
 yallist@^4.0.0:
   version "4.0.0"
-  resolved "https://registry.npmjs.org/yallist/-/yallist-4.0.0.tgz"
+  resolved "https://registry.yarnpkg.com/yallist/-/yallist-4.0.0.tgz#9bb92790d9c0effec63be73519e11a35019a3a72"
   integrity sha512-3wdGidZyq5PB084XLES5TpOSRA3wjXAlIWMhum2kRcv/41Sn2emQ0dycQW4uZXLejwKvg6EsvbdlVL+FYEct7A==
 
 yargonaut@^1.1.4:

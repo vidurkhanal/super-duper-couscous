@@ -70,6 +70,7 @@ const ResetPassword: React.FC = () => {
       key: queryVars.token,
       variant: queryVars.variant,
       newPassword: passwords.password,
+      variant: queryVars.variant,
     });
 
     if (data?.forgotPasswordChange.error) {
