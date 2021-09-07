@@ -8,18 +8,27 @@ import { URQLClient } from "../utils/createClient";
 import NextRouter from "next/router";
 import Head from "next/head";
 import { Input } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { nanoid } from "nanoid";
 import { memo } from "react";
+import { PassObj } from "../types";
+import FuzzySearch from "fuzzy-search";
 
 const PasswordPage = () => {
   const [{ data, fetching }] = useMeQuery();
   const credentialArray = data?.me?.credentials || [];
   const [query, setQuery] = useState<string>("");
+  const [result, setResult] = useState<PassObj[]>([]);
 
   if (!fetching && !data?.me) {
     NextRouter.push("/authentication/login");
   }
+
+  useEffect(() => {
+    //@ts-expect-error
+    const searcher = new FuzzySearch(data?.me?.credentials, ["siteName"]);
+    setResult(searcher.search(query));
+  }, [data?.me, query]);
 
   if (!fetching && data?.me) {
     return (
@@ -41,12 +50,7 @@ const PasswordPage = () => {
             ? credentialArray.map((item) => (
                 <Password key={nanoid()} pass={item} />
               ))
-            : credentialArray
-                .filter(
-                  (item) =>
-                    item.email.includes(query) || item.siteName.includes(query)
-                )
-                .map((hit) => <Password key={nanoid()} pass={hit} />)}
+            : result.map((hit) => <Password key={nanoid()} pass={hit} />)}
         </Wrapper>
       </Box>
     );
