@@ -72,6 +72,8 @@ export type Mutation = {
   changePasswordInitialize: ForgotPasswordResponse;
   verifyMasterPIN: MasterPinResponse;
   changeMasterPIN: MasterPinResponse;
+  resendVerifyEmail: Scalars['Boolean'];
+  verifyEmail: Scalars['Boolean'];
   addCredential: CredentialResponse;
   delCredentials: CredentialResponse;
 };
@@ -112,6 +114,11 @@ export type MutationVerifyMasterPinArgs = {
 export type MutationChangeMasterPinArgs = {
   masterPIN: Scalars['String'];
   password: Scalars['String'];
+};
+
+
+export type MutationVerifyEmailArgs = {
+  token: Scalars['String'];
 };
 
 
@@ -210,6 +217,11 @@ export type RegisterUserMutationVariables = Exact<{
 
 export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'AuthResponse', error?: Maybe<string>, user?: Maybe<{ __typename?: 'User', email: string }> } };
 
+export type ResendVerificationEmailMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ResendVerificationEmailMutation = { __typename?: 'Mutation', resendVerifyEmail: boolean };
+
 export type ResetPasswordMutationVariables = Exact<{
   variant: Scalars['String'];
   newPassword: Scalars['String'];
@@ -218,6 +230,13 @@ export type ResetPasswordMutationVariables = Exact<{
 
 
 export type ResetPasswordMutation = { __typename?: 'Mutation', forgotPasswordChange: { __typename?: 'ChangePasswordResolver', error?: Maybe<string>, isChanged: boolean } };
+
+export type VerifyEmailMutationVariables = Exact<{
+  token: Scalars['String'];
+}>;
+
+
+export type VerifyEmailMutation = { __typename?: 'Mutation', verifyEmail: boolean };
 
 export type VerifyMasterPinMutationVariables = Exact<{
   masterPIN: Scalars['String'];
@@ -350,6 +369,15 @@ export const RegisterUserDocument = gql`
 export function useRegisterUserMutation() {
   return Urql.useMutation<RegisterUserMutation, RegisterUserMutationVariables>(RegisterUserDocument);
 };
+export const ResendVerificationEmailDocument = gql`
+    mutation ResendVerificationEmail {
+  resendVerifyEmail
+}
+    `;
+
+export function useResendVerificationEmailMutation() {
+  return Urql.useMutation<ResendVerificationEmailMutation, ResendVerificationEmailMutationVariables>(ResendVerificationEmailDocument);
+};
 export const ResetPasswordDocument = gql`
     mutation ResetPassword($variant: String!, $newPassword: String!, $key: String!) {
   forgotPasswordChange(newPassword: $newPassword, key: $key, variant: $variant) {
@@ -361,6 +389,15 @@ export const ResetPasswordDocument = gql`
 
 export function useResetPasswordMutation() {
   return Urql.useMutation<ResetPasswordMutation, ResetPasswordMutationVariables>(ResetPasswordDocument);
+};
+export const VerifyEmailDocument = gql`
+    mutation VerifyEmail($token: String!) {
+  verifyEmail(token: $token)
+}
+    `;
+
+export function useVerifyEmailMutation() {
+  return Urql.useMutation<VerifyEmailMutation, VerifyEmailMutationVariables>(VerifyEmailDocument);
 };
 export const VerifyMasterPinDocument = gql`
     mutation VerifyMasterPIN($masterPIN: String!) {

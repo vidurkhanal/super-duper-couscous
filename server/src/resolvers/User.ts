@@ -1,5 +1,6 @@
 import {
   ALLOWED_LOGIN_ATTEMPTS,
+  CLIENT_URL,
   COOKIE_NAME,
   SERVER_URL,
 } from "./../constants";
@@ -311,5 +312,42 @@ export class UserResolver {
 
     await User.update({ userID }, { masterPIN: await hash(masterPIN) });
     return { isValid: true };
+  }
+
+  //Resends verification email
+  @Mutation(() => Boolean)
+  async resendVerifyEmail(
+    @Ctx() { req, redisClient }: ApolloContext
+  ): Promise<boolean> {
+    const user = await User.findOne({ where: { userID: req.session.userID } });
+
+    if (user) {
+      const link = await createEmailLink(CLIENT_URL, redisClient, user.userID);
+
+      const emailContent = verifyEmailHTMLGenerator(link);
+
+      await sendEmail(user.email, "Verify Your KPass12 Email", emailContent);
+
+      return true;
+    }
+    return false;
+  }
+
+  //Verify user emails
+  @Mutation(() => Boolean)
+  async verifyEmail(
+    @Arg("token") token: string,
+    @Ctx() { redisClient }: ApolloContext
+  ): Promise<boolean> {
+    const userID = await redisClient.get(token);
+
+    await redisClient.del(token);
+
+    if (userID) {
+      User.update({ userID }, { isVerified: true });
+      return true;
+    }
+
+    return false;
   }
 }

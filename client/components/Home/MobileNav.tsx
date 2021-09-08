@@ -15,7 +15,7 @@ import {
   MenuDivider,
   Image,
 } from "@chakra-ui/react";
-import { FiMenu, FiBell, FiChevronDown } from "react-icons/fi";
+import { FiMenu, FiChevronDown } from "react-icons/fi";
 import NextRouter from "next/router";
 import { useLogoutUserMutation, useMeQuery } from "../../generated/graphql";
 import NextLink from "next/link";

@@ -110,15 +110,6 @@ const main = async () => {
       : res.send("<b>CONSTRUCTION GOING ON...</b>");
   });
 
-  app.get("/confirm-email/:id", async (req: Request, res: Response) => {
-    const { id } = req.params;
-    const userID = await redisClient.get(id);
-    await redisClient.del(id);
-
-    if (userID) User.update({ userID }, { isVerified: true });
-    res.send(verifiedPageTemplate());
-  });
-
   app.listen(__PORT__, () => {
     console.log("Server has been initialized in port", __PORT__);
   });
