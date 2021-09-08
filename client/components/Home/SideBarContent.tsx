@@ -7,13 +7,12 @@ import {
   Image,
   Link,
 } from "@chakra-ui/react";
-import { FiHome, FiSettings } from "react-icons/fi";
+import { FiHome } from "react-icons/fi";
 import { RiLockPasswordLine } from "react-icons/ri";
 import { Si1Password } from "react-icons/si";
 import { NavItem } from "./NavItem";
 import { IconType } from "react-icons";
 import AddCredModal from "../AddCredential/addCredModal";
-import { MODAL_DARK_BACKGROUND } from "../../constants";
 
 interface LinkItemProps {
   name: string;

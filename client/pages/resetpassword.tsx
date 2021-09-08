@@ -38,12 +38,14 @@ const ResetPassword: React.FC = () => {
   const router = useRouter();
   const [, resetPassword] = useResetPasswordMutation();
   const toast = useToast();
+
   useEffect(() => {
     setQueryVars({
       token: router.query.token,
       variant: router.query.variant,
     } as IQueryVars);
   }, [router]);
+
   const formResetter = () => {
     setPasswords({ confirm_password: "", password: "" });
   };
@@ -66,8 +68,8 @@ const ResetPassword: React.FC = () => {
 
     const { data } = await resetPassword({
       key: queryVars.token,
-      newPassword: passwords.password,
       variant: queryVars.variant,
+      newPassword: passwords.password,
     });
 
     if (data?.forgotPasswordChange.error) {
