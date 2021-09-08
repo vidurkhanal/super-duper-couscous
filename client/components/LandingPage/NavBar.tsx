@@ -83,20 +83,31 @@ export const NavBar: React.FC<IProps> = ({ authState }) => {
           spacing={6}
         >
           {authState ? (
-            <Button
-              display={{ base: "none", md: "inline-flex" }}
-              fontSize={"sm"}
-              fontWeight={600}
-              color={"white"}
-              bg={BRAND_COLOR_RED}
-              _hover={{
-                bg: "#e34d4d",
-              }}
-              onClick={() => NextRouter.push("/passwords")}
-            >
-              <Text mr="7px">Go To Dashboard</Text>
-              <BsBoxArrowUpRight />
-            </Button>
+            <>
+              <Button
+                display={{ base: "none", md: "inline-flex" }}
+                fontSize={"sm"}
+                fontWeight={600}
+                color={"white"}
+                bg={BRAND_COLOR_RED}
+                _hover={{
+                  bg: "#e34d4d",
+                }}
+                onClick={() => NextRouter.push("/passwords")}
+              >
+                <Text mr="7px">Go To Dashboard</Text>
+                <BsBoxArrowUpRight />
+              </Button>
+              <Button
+                bg={BRAND_COLOR_RED}
+                _hover={{
+                  bg: "#e34d4d",
+                }}
+                display={{ base: "initial", md: "none" }}
+              >
+                <BsBoxArrowUpRight />
+              </Button>
+            </>
           ) : (
             <>
               <Button

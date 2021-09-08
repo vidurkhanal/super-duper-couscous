@@ -70,12 +70,12 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
       </Link>
 
       <HStack spacing={{ base: "0", md: "6" }}>
-        <IconButton
+        {/* <IconButton
           size="lg"
           variant="ghost"
           aria-label="open menu"
           icon={<FiBell />}
-        />
+        /> */}
         <Flex alignItems={"center"}>
           <Menu>
             <MenuButton
@@ -94,7 +94,7 @@ export const MobileNav = ({ onOpen, ...rest }: MobileProps) => {
                     {data?.me?.fullName}
                   </Text>
                 </VStack>
-                <Box display={{ base: "none", md: "flex" }}>
+                <Box display="flex">
                   <FiChevronDown />
                 </Box>
               </HStack>
