@@ -27,7 +27,7 @@ export const VerifiedEmail = () => {
           />
           <Text textAlign="center" width="70vw">
             <Text color="blue.500" fontSize="3rem">
-              Yayyyy!!!
+              Yayyyy
             </Text>
             You have been verified. You can now you our services without any
             issues. You ll now be redirected to login.
@@ -36,7 +36,7 @@ export const VerifiedEmail = () => {
             <Link color="blue.500" href="/authentication/login">
               here
             </Link>{" "}
-            if it doesn't happen on its own.
+            if it does not happen on its own.
           </Text>
         </Flex>
       </Flex>

@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useEffect, useCallback } from "react";
 import { __PROD__ } from "../constants";
 import { withUrqlClient } from "next-urql";
 import { useState } from "react";
@@ -16,17 +16,20 @@ const VerifyEmail: React.FC = ({}) => {
   const [isSubmittin, setIsSubmitting] = useState<boolean>(false);
   const router = useRouter();
 
-  const fetch = async () => {
-    setIsSubmitting(true);
-    const { data } = await verifyEmail({ token });
-    data && setIsVerified(data?.verifyEmail);
-    setIsSubmitting(false);
-  };
+  const memoFetch = useCallback(() => {
+    const fetch = async () => {
+      setIsSubmitting(true);
+      const { data } = await verifyEmail({ token });
+      data && setIsVerified(data?.verifyEmail);
+      setIsSubmitting(false);
+    };
+    fetch();
+  }, [token, verifyEmail]);
 
   useEffect(() => {
     setToken(router?.query?.token as string);
-    fetch();
-  }, [router]);
+    memoFetch();
+  }, [router, memoFetch]);
 
   if (!isSubmittin)
     return <>{isVerified ? <VerifiedEmail /> : <TokenError />}</>;

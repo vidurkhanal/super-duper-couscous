@@ -1,6 +1,6 @@
 import "reflect-metadata";
 require("dotenv-safe").config();
-import Express, { Request, Response } from "express";
+import Express from "express";
 import {
   COOKIE_NAME,
   PWD_REDIS_CLIENT_HOST,
@@ -25,7 +25,6 @@ import { ApolloContext } from "./types";
 import cors from "cors";
 import { CredentialResolver } from "./resolvers/Credential";
 import helmet from "helmet";
-import { verifiedPageTemplate } from "./static/verifiedPageTemplate";
 import path from "path";
 
 const main = async () => {
