@@ -1,4 +1,3 @@
-import React from "react";
 import { MobileNav } from "./MobileNav";
 import { SidebarContent } from "./SideBarContent";
 import {

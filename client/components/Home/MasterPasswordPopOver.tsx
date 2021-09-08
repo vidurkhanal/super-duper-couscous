@@ -89,7 +89,7 @@ export const MasterPasswordPopOver: React.FC<MasterPasswordPopOverProps> = ({
                   }}
                 />
                 {formErr && <FormErrorMessage>{formErr}</FormErrorMessage>}
-                <Link href="/settings" _hover={{}}>
+                <Link href="/change-pin" _hover={{}}>
                   <FormHelperText cursor="pointer">
                     Forgot your master PIN !?
                   </FormHelperText>

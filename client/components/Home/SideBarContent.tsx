@@ -8,6 +8,8 @@ import {
   Link,
 } from "@chakra-ui/react";
 import { FiHome, FiSettings } from "react-icons/fi";
+import { RiLockPasswordLine } from "react-icons/ri";
+import { Si1Password } from "react-icons/si";
 import { NavItem } from "./NavItem";
 import { IconType } from "react-icons";
 import AddCredModal from "../AddCredential/addCredModal";
@@ -21,7 +23,12 @@ interface LinkItemProps {
 
 const LinkItems: Array<LinkItemProps> = [
   { name: "Password", icon: FiHome, href: "/passwords" },
-  { name: "Settings", icon: FiSettings, href: "/settings" },
+  {
+    name: "Change Password",
+    icon: RiLockPasswordLine,
+    href: "/change-password",
+  },
+  { name: "Change PIN", icon: Si1Password, href: "/change-pin" },
 ];
 
 interface SidebarProps extends BoxProps {
