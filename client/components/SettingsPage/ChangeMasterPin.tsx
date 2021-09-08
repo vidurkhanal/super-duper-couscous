@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
@@ -8,7 +9,7 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
-import { Formik, FormikHelpers, Form, Field } from "formik";
+import { Field, Form, Formik, FormikHelpers } from "formik";
 import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
 import { useChangeMasterPinMutation } from "../../generated/graphql";
 
@@ -30,7 +31,7 @@ export const ChangeMasterPIN: React.FC = () => {
 
     if (mastePINReenter !== masterPIN) {
       toast({
-        title: "Hmm, The passwords didn't match...",
+        title: "Hmm, The new PINs don't match...",
         status: "error",
         isClosable: true,
         duration: 5000,
@@ -82,7 +83,7 @@ export const ChangeMasterPIN: React.FC = () => {
 
   return (
     <>
-      <Heading py="3rem" fontSize={"2xl"}>
+      <Heading pb="3rem" fontSize={{ base: "4xl", md: "5xl" }}>
         Change Your Master PIN
       </Heading>
       <Formik
@@ -94,13 +95,14 @@ export const ChangeMasterPIN: React.FC = () => {
             <Field name="password">
               {({ field, form: _ }: any) => (
                 <FormControl id="password" name="password">
-                  <FormLabel htmlFor="password">Password</FormLabel>
+                  <FormLabel htmlFor="password">Current Password</FormLabel>
                   <Input
                     mb={3}
+                    required
                     type="password"
                     id="password"
                     {...field}
-                    placeholder="Enter your password"
+                    placeholder="Enter your current password"
                   />
                 </FormControl>
               )}
@@ -108,10 +110,11 @@ export const ChangeMasterPIN: React.FC = () => {
             <Field name="masterPIN">
               {({ field, form: _ }: any) => (
                 <FormControl id="password" name="password">
-                  <FormLabel htmlFor="password">Master PIN</FormLabel>
+                  <FormLabel htmlFor="password">New Master PIN</FormLabel>
                   <Input
                     mb={3}
                     type="password"
+                    required
                     id="password"
                     maxLength={4}
                     {...field}
@@ -124,11 +127,12 @@ export const ChangeMasterPIN: React.FC = () => {
               {({ field, form: _ }: any) => (
                 <FormControl id="password" name="password">
                   <FormLabel htmlFor="password">
-                    Re Enter your Master PIN
+                    Re Enter your new Master PIN
                   </FormLabel>
                   <Input
                     mb={3}
                     type="password"
+                    required
                     id="password"
                     maxLength={4}
                     {...field}
@@ -145,18 +149,29 @@ export const ChangeMasterPIN: React.FC = () => {
               >
                 <Link href="/forgetpassword">Forgot password?</Link>
               </Stack>
-              <Button
-                background={BRAND_COLOR_RED}
-                _hover={{
-                  background: HOVER_BRAND_COLOR_RED,
-                }}
-                variant={"solid"}
-                type="submit"
-                isLoading={isSubmitting}
-                justifySelf="flex-end"
-              >
-                Change Master PIN
-              </Button>
+              <Box alignSelf="flex-end">
+                <Link
+                  href="/passwords"
+                  textDecoration="none"
+                  _hover={{ textDecoration: "none" }}
+                >
+                  <Button variant="outline" mr="10px">
+                    Cancel
+                  </Button>
+                </Link>
+                <Button
+                  background={BRAND_COLOR_RED}
+                  _hover={{
+                    background: HOVER_BRAND_COLOR_RED,
+                  }}
+                  variant={"solid"}
+                  type="submit"
+                  isLoading={isSubmitting}
+                  justifySelf="flex-end"
+                >
+                  Change Master PIN
+                </Button>
+              </Box>
             </Stack>
           </Form>
         )}

@@ -2,6 +2,7 @@ query Me {
   me {
     userID
     fullName
+    isVerified
     credentials {
       email
       password

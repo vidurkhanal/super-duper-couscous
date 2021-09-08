@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   FormControl,
   FormLabel,
@@ -8,7 +9,7 @@ import {
   Stack,
   useToast,
 } from "@chakra-ui/react";
-import { Formik, Form, Field, FormikHelpers } from "formik";
+import { Field, Form, Formik, FormikHelpers } from "formik";
 import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
 
 type FormikValues = {
@@ -34,8 +35,13 @@ export const ChangePassword: React.FC = () => {
   };
 
   return (
-    <>
-      <Heading pb="3rem" fontSize={"2xl"}>
+    <Box>
+      <Heading
+        pb="3rem"
+        fontSize={{ base: "4xl", md: "5xl" }}
+        fontWeight="bold"
+        fontFamily="heading"
+      >
         Change Your Password
       </Heading>
       <Formik
@@ -47,13 +53,13 @@ export const ChangePassword: React.FC = () => {
             <Field name="oldPassword">
               {({ field, form: _ }: any) => (
                 <FormControl id="password" name="password">
-                  <FormLabel htmlFor="password">Old Password</FormLabel>
+                  <FormLabel htmlFor="password">Current Password</FormLabel>
                   <Input
                     mb={3}
                     type="password"
                     id="password"
                     {...field}
-                    placeholder="Enter your password"
+                    placeholder="Enter your current password"
                   />
                 </FormControl>
               )}
@@ -96,21 +102,33 @@ export const ChangePassword: React.FC = () => {
               >
                 <Link href="/forgetpassword">Forgot password?</Link>
               </Stack>
-              <Button
-                background={BRAND_COLOR_RED}
-                _hover={{
-                  background: HOVER_BRAND_COLOR_RED,
-                }}
-                variant={"solid"}
-                type="submit"
-                isLoading={isSubmitting}
-              >
-                Change Password
-              </Button>
+              <Box alignSelf="flex-end">
+                <Link
+                  href="/passwords"
+                  textDecoration="none"
+                  _hover={{ textDecoration: "none" }}
+                >
+                  <Button variant="outline" mr="10px">
+                    Cancel
+                  </Button>
+                </Link>
+                <Button
+                  background={BRAND_COLOR_RED}
+                  _hover={{
+                    background: HOVER_BRAND_COLOR_RED,
+                  }}
+                  variant={"solid"}
+                  type="submit"
+                  isLoading={isSubmitting}
+                  color="white"
+                >
+                  Change Password
+                </Button>
+              </Box>
             </Stack>
           </Form>
         )}
       </Formik>
-    </>
+    </Box>
   );
 };

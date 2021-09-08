@@ -82,7 +82,7 @@ const AddCredModal = () => {
   return (
     <>
       <Button
-        mt={1}
+        mt="15px"
         ml={"6"}
         onClick={onOpen}
         variant="outline"

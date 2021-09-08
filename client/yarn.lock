@@ -1778,6 +1778,11 @@
   dependencies:
     axios "^0.21.1"
 
+"@types/fuzzy-search@^2.1.1":
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/@types/fuzzy-search/-/fuzzy-search-2.1.1.tgz#9f765f4acd249cb2a8b3b1192c196958c573f31c"
+  integrity sha512-Hxra+pa7pb9yiRT+liXIi6B1QH9tyEGliKdQWQ5O+pl0iAdn7pyxFDbNw4VdEzz/K/0jFgk69eJkOPyBF4ehyQ==
+
 "@types/js-yaml@^4.0.0":
   version "4.0.3"
   resolved "https://registry.yarnpkg.com/@types/js-yaml/-/js-yaml-4.0.3.tgz#9f33cd6fbf0d5ec575dc8c8fc69c7fec1b4eb200"
@@ -3725,6 +3730,11 @@ functional-red-black-tree@^1.0.1:
   resolved "https://registry.yarnpkg.com/functional-red-black-tree/-/functional-red-black-tree-1.0.1.tgz#1b0ab3bd553b2a0d6399d29c0e3ea0b252078327"
   integrity sha1-GwqzvVU7Kg1jmdKcDj6gslIHgyc=
 
+fuzzy-search@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/fuzzy-search/-/fuzzy-search-3.2.1.tgz#65d5faad6bc633aee86f1898b7788dfe312ac6c9"
+  integrity sha512-vAcPiyomt1ioKAsAL2uxSABHJ4Ju/e4UeDM+g1OlR0vV4YhLGMNsdLNvZTpEDY4JCSt0E4hASCNM5t2ETtsbyg==
+
 gensync@^1.0.0-beta.2:
   version "1.0.0-beta.2"
   resolved "https://registry.yarnpkg.com/gensync/-/gensync-1.0.0-beta.2.tgz#32a6ee76c3d7f52d46b2b1ae5d93fea8580a25e0"
@@ -4918,7 +4928,7 @@ mute-stream@0.0.8:
   resolved "https://registry.yarnpkg.com/mute-stream/-/mute-stream-0.0.8.tgz#1630c42b2251ff81e2a283de96a5497ea92e5e0d"
   integrity sha512-nnbWWOkoWyUsTjKrhgD0dcz22mdkSnpYqbEjIm2nhwhuxlSkpywJmBo8h0ZqJdkp73mb90SssHkN4rsRaBAfAA==
 
-nanoid@^3.1.23:
+nanoid@^3.1.23, nanoid@^3.1.25:
   version "3.1.25"
   resolved "https://registry.yarnpkg.com/nanoid/-/nanoid-3.1.25.tgz#09ca32747c0e543f0e1814b7d3793477f9c8e152"
   integrity sha512-rdwtIXaXCLFAQbnfqDRnI6jaRHp9fTcYBjtFKE8eezcZ7LuLjhUaQGNeMXf1HmRoCH32CLz6XwX0TtxEOS/A3Q==
