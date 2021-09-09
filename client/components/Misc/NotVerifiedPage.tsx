@@ -4,7 +4,7 @@ import { useState } from "react";
 import {
   useLogoutUserMutation,
   useResendVerificationEmailMutation,
-} from "../generated/graphql";
+} from "../../generated/graphql";
 
 export const NotVerifiedPage = () => {
   const [, logoutUser] = useLogoutUserMutation();
@@ -22,8 +22,6 @@ export const NotVerifiedPage = () => {
 
     setIsSubmitting(false);
   };
-
-  console.log("hey");
 
   const handleResend = async () => {
     setIsSending(true);
