@@ -16,7 +16,7 @@ import { withUrqlClient } from "next-urql";
 import { useMeQuery, useRegisterUserMutation } from "../../generated/graphql";
 import { URQLClient } from "../../utils/createClient";
 import NextRouter from "next/router";
-import { LoadingPage } from "../../components/LoadingPage";
+import { LoadingPage } from "../../components/Misc/LoadingPage";
 import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
 
 type FormValues = {

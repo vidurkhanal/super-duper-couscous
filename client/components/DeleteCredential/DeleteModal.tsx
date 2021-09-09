@@ -13,7 +13,7 @@ import {
 } from "@chakra-ui/react";
 import { useDeleteCredentialMutation } from "../../generated/graphql";
 import { useState } from "react";
-import { LoadingModal } from "../LoadingModal";
+import { LoadingModal } from "../Misc/LoadingModal";
 import { MasterPasswordPopOver } from "../Home/MasterPasswordPopOver";
 import { MODAL_DARK_BACKGROUND } from "../../constants";
 

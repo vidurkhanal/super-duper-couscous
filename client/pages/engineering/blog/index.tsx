@@ -22,7 +22,7 @@ import { NavBar } from "../../../components/LandingPage/NavBar";
 import { withUrqlClient } from "next-urql";
 import { useMeQuery } from "../../../generated/graphql";
 import { URQLClient } from "../../../utils/createClient";
-import { LoadingPage } from "../../../components/LoadingPage";
+import { LoadingPage } from "../../../components/Misc/LoadingPage";
 
 const Index: React.FC<{ posts: Post[] }> = ({ posts }) => {
   const router = useRouter();

@@ -1,19 +1,17 @@
-import { Box } from "@chakra-ui/react";
+import { Input, Box } from "@chakra-ui/react";
 import { withUrqlClient } from "next-urql";
 import { Password } from "../components/Home/Password";
 import { Wrapper } from "../components/Home/Wrapper";
-import { LoadingPage } from "../components/LoadingPage";
+import { LoadingPage } from "../components/Misc/LoadingPage";
 import { useMeQuery } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 import NextRouter from "next/router";
 import Head from "next/head";
-import { Input } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { nanoid } from "nanoid";
-import { memo } from "react";
 import { PassObj } from "../types";
 import FuzzySearch from "fuzzy-search";
-import { NotVerifiedPage } from "../components/NotVerifiedPage";
+import { NotVerifiedPage } from "../components/Misc/NotVerifiedPage";
 
 const PasswordPage = () => {
   const [{ data, fetching }] = useMeQuery();
