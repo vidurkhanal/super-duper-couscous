@@ -222,19 +222,19 @@ interface NavItem {
 
 const NAV_ITEMS: Array<NavItem> = [
   {
-    label: "About Us",
-    href: "#",
-  },
-  {
-    label: "How It Works",
-    href: "#",
-  },
-  {
     label: "Password Generator",
     href: "/password-generator",
   },
   {
     label: "Blog",
     href: "/engineering/blog",
+  },
+  {
+    label: "How It Works",
+    href: "#",
+  },
+  {
+    label: "About Us",
+    href: "/about-us",
   },
 ];
