@@ -1,5 +1,9 @@
 import { Flex, Avatar, Text } from "@chakra-ui/react";
 import { NavBar } from "../components/LandingPage/NavBar";
+import { withUrqlClient } from "next-urql";
+import { useMeQuery } from "../generated/graphql";
+import { URQLClient } from "../utils/createClient";
+import { LoadingPage } from "../components/Misc/LoadingPage";
 
 interface Founders {
   name: string;
@@ -54,16 +58,20 @@ const FoundersArr: Founders[] = [
 ];
 
 const AboutUs = () => {
-  return (
-    <Flex minH="100vh" width="100vw" direction="column">
-      <NavBar authState={"asdja"} />
-      <Flex direction={{ base: "column", md: "row" }} alignItems="center">
-        {FoundersArr.map((item) => (
-          <Card {...item} />
-        ))}
+  const [{ data: MeData, fetching: MeFetching }] = useMeQuery();
+  if (!MeFetching)
+    return (
+      <Flex minH="100vh" width="100vw" direction="column">
+        <NavBar authState={MeData?.me?.userID} />
+        <Flex direction={{ base: "column", md: "row" }} alignItems="center">
+          {FoundersArr.map((item) => (
+            <Card {...item} />
+          ))}
+        </Flex>
       </Flex>
-    </Flex>
-  );
+    );
+
+  return <LoadingPage />;
 };
 
-export default AboutUs;
+export default withUrqlClient(URQLClient)(AboutUs);
