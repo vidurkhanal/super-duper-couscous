@@ -4,6 +4,7 @@ import { withUrqlClient } from "next-urql";
 import { useMeQuery } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 import { LoadingPage } from "../components/Misc/LoadingPage";
+import { nanoid } from "nanoid";
 
 interface Founders {
   name: string;
@@ -65,7 +66,7 @@ const AboutUs = () => {
         <NavBar authState={MeData?.me?.userID} />
         <Flex direction={{ base: "column", md: "row" }} alignItems="center">
           {FoundersArr.map((item) => (
-            <Card {...item} />
+            <Card key={nanoid()} {...item} />
           ))}
         </Flex>
       </Flex>
