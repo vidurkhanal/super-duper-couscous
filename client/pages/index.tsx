@@ -7,7 +7,7 @@ import { PricingComp } from "../components/LandingPage/PricingComp";
 import { withUrqlClient } from "next-urql";
 import { useMeQuery } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
-import { LoadingPage } from "../components/LoadingPage";
+import { LoadingPage } from "../components/Misc/LoadingPage";
 
 function Home() {
   const [{ data: MeData, fetching: MeFetching }] = useMeQuery();

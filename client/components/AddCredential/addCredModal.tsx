@@ -21,7 +21,7 @@ import {
   MODAL_DARK_BACKGROUND,
 } from "../../constants";
 import { useAddCredentialMutation } from "../../generated/graphql";
-import { LoadingModal } from "../LoadingModal";
+import { LoadingModal } from "../Misc/LoadingModal";
 
 type IForm = {
   siteName: string;

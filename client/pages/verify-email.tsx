@@ -1,15 +1,13 @@
 import { useRouter } from "next/router";
-import { useEffect, useCallback } from "react";
-import { __PROD__ } from "../constants";
+import { useState, useEffect, useCallback } from "react";
 import { withUrqlClient } from "next-urql";
-import { useState } from "react";
 import { URQLClient } from "../utils/createClient";
 import { useVerifyEmailMutation } from "../generated/graphql";
-import { LoadingPage } from "../components/LoadingPage";
-import { VerifiedEmail } from "../components/VerifiedPage";
-import { TokenError } from "../components/TokenError";
+import { LoadingPage } from "../components/Misc/LoadingPage";
+import { VerifiedEmail } from "../components/Misc/VerifiedPage";
+import { TokenError } from "../components/Misc/TokenError";
 
-const VerifyEmail: React.FC = ({}) => {
+const VerifyEmail: React.FC = () => {
   const [, verifyEmail] = useVerifyEmailMutation();
   const [token, setToken] = useState<string>("");
   const [isVerified, setIsVerified] = useState<boolean>(false);

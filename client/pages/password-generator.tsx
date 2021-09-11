@@ -25,7 +25,7 @@ import { CopyModal } from "../components/password-gen/CopyModal";
 import { withUrqlClient } from "next-urql";
 import { useMeQuery } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
-import { LoadingPage } from "../components/LoadingPage";
+import { LoadingPage } from "../components/Misc/LoadingPage";
 
 const PasswordGenerator: React.FC = () => {
   const [password, setPassword] = useState<string>("");

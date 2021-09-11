@@ -10,6 +10,7 @@ import {
   Stack,
   Image,
   useToast,
+  useColorModeValue,
   Text,
 } from "@chakra-ui/react";
 import { Formik, Form, Field } from "formik";
@@ -17,8 +18,7 @@ import { withUrqlClient } from "next-urql";
 import { useLoginUserMutation, useMeQuery } from "../../generated/graphql";
 import { URQLClient } from "../../utils/createClient";
 import NextRouter from "next/router";
-import { LoadingPage } from "../../components/LoadingPage";
-import { useColorModeValue } from "@chakra-ui/react";
+import { LoadingPage } from "../../components/Misc/LoadingPage";
 import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
 
 type FormValues = {

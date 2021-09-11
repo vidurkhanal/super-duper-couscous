@@ -2,7 +2,6 @@ import {
   ALLOWED_LOGIN_ATTEMPTS,
   CLIENT_URL,
   COOKIE_NAME,
-  SERVER_URL,
 } from "./../constants";
 import {
   ForgotPasswordResponse,
@@ -105,7 +104,7 @@ export class UserResolver {
       return { error: "Some Internal Error Occurred.Try Again.", user };
     }
 
-    const link = await createEmailLink(SERVER_URL, redisClient, user.userID);
+    const link = await createEmailLink(CLIENT_URL, redisClient, user.userID);
 
     const emailContent = verifyEmailHTMLGenerator(link);
     await sendEmail(

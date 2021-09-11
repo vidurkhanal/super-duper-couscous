@@ -3,7 +3,7 @@ import { withUrqlClient } from "next-urql";
 import Head from "next/head";
 import NextRouter from "next/router";
 import { Wrapper } from "../components/Home/Wrapper";
-import { LoadingPage } from "../components/LoadingPage";
+import { LoadingPage } from "../components/Misc/LoadingPage";
 import { ChangePassword } from "../components/SettingsPage/ChangePassword";
 import { useMeQuery } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
