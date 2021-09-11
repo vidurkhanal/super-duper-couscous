@@ -220,7 +220,7 @@ interface NavItem {
   href?: string;
 }
 
-const NAV_ITEMS: Array<NavItem> = [
+const NAV_ITEMS: NavItem[] = [
   {
     label: "Password Generator",
     href: "/password-generator",
@@ -228,10 +228,6 @@ const NAV_ITEMS: Array<NavItem> = [
   {
     label: "Blog",
     href: "/engineering/blog",
-  },
-  {
-    label: "How It Works",
-    href: "#",
   },
   {
     label: "About Us",
