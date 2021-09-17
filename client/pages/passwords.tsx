@@ -12,8 +12,9 @@ import { nanoid } from "nanoid";
 import { PassObj } from "../types";
 import FuzzySearch from "fuzzy-search";
 import { NotVerifiedPage } from "../components/Misc/NotVerifiedPage";
+import { NextPage } from "next";
 
-const PasswordPage = () => {
+const PasswordPage: NextPage = () => {
   const [{ data, fetching }] = useMeQuery();
   const credentialArray = data?.me?.credentials || [];
   const isVerified = data?.me?.isVerified;
@@ -30,7 +31,11 @@ const PasswordPage = () => {
     setResult(searcher.search(query));
   }, [data?.me, query]);
 
-  if (!fetching && data?.me) {
+  if (!fetching && !data?.me?.hasMasterPIN) {
+    NextRouter.push("/authentication/create-master-pin");
+  }
+
+  if (!fetching && data?.me?.hasMasterPIN) {
     if (isVerified)
       return (
         <Box>

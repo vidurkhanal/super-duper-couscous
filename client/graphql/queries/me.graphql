@@ -3,6 +3,7 @@ query Me {
     userID
     fullName
     isVerified
+    hasMasterPIN
     credentials {
       email
       password

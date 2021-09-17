@@ -6,8 +6,9 @@ import { useVerifyEmailMutation } from "../generated/graphql";
 import { LoadingPage } from "../components/Misc/LoadingPage";
 import { VerifiedEmail } from "../components/Misc/VerifiedPage";
 import { TokenError } from "../components/Misc/TokenError";
+import { NextPage } from "next";
 
-const VerifyEmail: React.FC = () => {
+const VerifyEmail: NextPage = () => {
   const [, verifyEmail] = useVerifyEmailMutation();
   const [token, setToken] = useState<string>("");
   const [isVerified, setIsVerified] = useState<boolean>(false);

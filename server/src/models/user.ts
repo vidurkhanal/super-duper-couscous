@@ -36,8 +36,12 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
-  @Column()
+  @Column({ nullable: true })
   masterPIN: string;
+
+  @Field()
+  @Column({ default: false })
+  hasMasterPIN: boolean;
 
   @Field()
   @Column({ default: false })

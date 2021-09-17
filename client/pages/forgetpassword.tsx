@@ -17,8 +17,9 @@ import SuccessfulModel from "../components/ForgetPassword/SuccessfulModel";
 import { useForgetPasswordMutation } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 import NextLink from "next/link";
+import { NextPage } from "next";
 
-const Forgetpassword = () => {
+const Forgetpassword: NextPage = () => {
   const [, forgetPassword] = useForgetPasswordMutation();
   const [email, setEmail] = useState("");
   const { isOpen, onOpen } = useDisclosure();

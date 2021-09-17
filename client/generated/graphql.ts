@@ -74,6 +74,7 @@ export type Mutation = {
   changeMasterPIN: MasterPinResponse;
   resendVerifyEmail: Scalars['Boolean'];
   verifyEmail: Scalars['Boolean'];
+  createMasterPIN: CreateMasterPinResponse;
   addCredential: CredentialResponse;
   delCredentials: CredentialResponse;
 };
@@ -122,6 +123,11 @@ export type MutationVerifyEmailArgs = {
 };
 
 
+export type MutationCreateMasterPinArgs = {
+  masterPIN: Scalars['String'];
+};
+
+
 export type MutationAddCredentialArgs = {
   siteName: Scalars['String'];
   password: Scalars['String'];
@@ -149,7 +155,6 @@ export type RegisterInput = {
   fullName: Scalars['String'];
   email: Scalars['String'];
   password: Scalars['String'];
-  masterPIN: Scalars['String'];
 };
 
 export type User = {
@@ -159,8 +164,15 @@ export type User = {
   updatedDate: Scalars['String'];
   fullName: Scalars['String'];
   email: Scalars['String'];
+  hasMasterPIN: Scalars['Boolean'];
   isVerified: Scalars['Boolean'];
   credentials?: Maybe<Array<Credential>>;
+};
+
+export type CreateMasterPinResponse = {
+  __typename?: 'createMasterPINResponse';
+  error?: Maybe<Scalars['String']>;
+  isSuccessful: Scalars['Boolean'];
 };
 
 export type AddCredentialMutationVariables = Exact<{
@@ -170,7 +182,7 @@ export type AddCredentialMutationVariables = Exact<{
 }>;
 
 
-export type AddCredentialMutation = { __typename?: 'Mutation', addCredential: { __typename?: 'CredentialResponse', error?: Maybe<string>, user?: Maybe<{ __typename?: 'User', userID: string, fullName: string, isVerified: boolean, credentials?: Maybe<Array<{ __typename?: 'Credential', email: string, password: string, siteName: string, strength: number, credentialID: string, siteLogo?: Maybe<string> }>> }> } };
+export type AddCredentialMutation = { __typename?: 'Mutation', addCredential: { __typename?: 'CredentialResponse', error?: Maybe<string>, user?: Maybe<{ __typename?: 'User', userID: string, fullName: string, isVerified: boolean, hasMasterPIN: boolean, credentials?: Maybe<Array<{ __typename?: 'Credential', email: string, password: string, siteName: string, strength: number, credentialID: string, siteLogo?: Maybe<string> }>> }> } };
 
 export type ChangeMasterPinMutationVariables = Exact<{
   password: Scalars['String'];
@@ -180,12 +192,19 @@ export type ChangeMasterPinMutationVariables = Exact<{
 
 export type ChangeMasterPinMutation = { __typename?: 'Mutation', changeMasterPIN: { __typename?: 'MasterPINResponse', isValid: boolean, error?: Maybe<string> } };
 
+export type CreateMasterPinMutationVariables = Exact<{
+  masterPIN: Scalars['String'];
+}>;
+
+
+export type CreateMasterPinMutation = { __typename?: 'Mutation', createMasterPIN: { __typename?: 'createMasterPINResponse', error?: Maybe<string>, isSuccessful: boolean } };
+
 export type DeleteCredentialMutationVariables = Exact<{
   credentialID: Scalars['String'];
 }>;
 
 
-export type DeleteCredentialMutation = { __typename?: 'Mutation', delCredentials: { __typename?: 'CredentialResponse', error?: Maybe<string>, user?: Maybe<{ __typename?: 'User', userID: string, fullName: string, isVerified: boolean, credentials?: Maybe<Array<{ __typename?: 'Credential', email: string, password: string, siteName: string, strength: number, credentialID: string, siteLogo?: Maybe<string> }>> }> } };
+export type DeleteCredentialMutation = { __typename?: 'Mutation', delCredentials: { __typename?: 'CredentialResponse', error?: Maybe<string>, user?: Maybe<{ __typename?: 'User', userID: string, fullName: string, isVerified: boolean, hasMasterPIN: boolean, credentials?: Maybe<Array<{ __typename?: 'Credential', email: string, password: string, siteName: string, strength: number, credentialID: string, siteLogo?: Maybe<string> }>> }> } };
 
 export type ForgetPasswordMutationVariables = Exact<{
   email: Scalars['String'];
@@ -211,11 +230,10 @@ export type RegisterUserMutationVariables = Exact<{
   email: Scalars['String'];
   password: Scalars['String'];
   fullName: Scalars['String'];
-  masterPIN: Scalars['String'];
 }>;
 
 
-export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'AuthResponse', error?: Maybe<string>, user?: Maybe<{ __typename?: 'User', email: string }> } };
+export type RegisterUserMutation = { __typename?: 'Mutation', registerUser: { __typename?: 'AuthResponse', error?: Maybe<string>, user?: Maybe<{ __typename?: 'User', email: string, hasMasterPIN: boolean }> } };
 
 export type ResendVerificationEmailMutationVariables = Exact<{ [key: string]: never; }>;
 
@@ -255,7 +273,7 @@ export type HelloQueryQuery = { __typename?: 'Query', hello: string };
 export type MeQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', userID: string, fullName: string, isVerified: boolean, credentials?: Maybe<Array<{ __typename?: 'Credential', email: string, password: string, siteName: string, strength: number, credentialID: string, siteLogo?: Maybe<string> }>> }> };
+export type MeQuery = { __typename?: 'Query', me?: Maybe<{ __typename?: 'User', userID: string, fullName: string, isVerified: boolean, hasMasterPIN: boolean, credentials?: Maybe<Array<{ __typename?: 'Credential', email: string, password: string, siteName: string, strength: number, credentialID: string, siteLogo?: Maybe<string> }>> }> };
 
 
 export const AddCredentialDocument = gql`
@@ -266,6 +284,7 @@ export const AddCredentialDocument = gql`
       userID
       fullName
       isVerified
+      hasMasterPIN
       credentials {
         email
         password
@@ -294,6 +313,18 @@ export const ChangeMasterPinDocument = gql`
 export function useChangeMasterPinMutation() {
   return Urql.useMutation<ChangeMasterPinMutation, ChangeMasterPinMutationVariables>(ChangeMasterPinDocument);
 };
+export const CreateMasterPinDocument = gql`
+    mutation createMasterPin($masterPIN: String!) {
+  createMasterPIN(masterPIN: $masterPIN) {
+    error
+    isSuccessful
+  }
+}
+    `;
+
+export function useCreateMasterPinMutation() {
+  return Urql.useMutation<CreateMasterPinMutation, CreateMasterPinMutationVariables>(CreateMasterPinDocument);
+};
 export const DeleteCredentialDocument = gql`
     mutation DeleteCredential($credentialID: String!) {
   delCredentials(credentialID: $credentialID) {
@@ -302,6 +333,7 @@ export const DeleteCredentialDocument = gql`
       userID
       fullName
       isVerified
+      hasMasterPIN
       credentials {
         email
         password
@@ -354,13 +386,14 @@ export function useLogoutUserMutation() {
   return Urql.useMutation<LogoutUserMutation, LogoutUserMutationVariables>(LogoutUserDocument);
 };
 export const RegisterUserDocument = gql`
-    mutation RegisterUser($email: String!, $password: String!, $fullName: String!, $masterPIN: String!) {
+    mutation RegisterUser($email: String!, $password: String!, $fullName: String!) {
   registerUser(
-    registerInput: {fullName: $fullName, email: $email, password: $password, masterPIN: $masterPIN}
+    registerInput: {fullName: $fullName, email: $email, password: $password}
   ) {
     error
     user {
       email
+      hasMasterPIN
     }
   }
 }
@@ -426,6 +459,7 @@ export const MeDocument = gql`
     userID
     fullName
     isVerified
+    hasMasterPIN
     credentials {
       email
       password

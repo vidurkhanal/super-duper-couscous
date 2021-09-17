@@ -8,8 +8,9 @@ import { withUrqlClient } from "next-urql";
 import { useMeQuery } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 import { LoadingPage } from "../components/Misc/LoadingPage";
+import { NextPage } from "next";
 
-function Home() {
+const Home: NextPage = () => {
   const [{ data: MeData, fetching: MeFetching }] = useMeQuery();
 
   if (!MeFetching)
@@ -27,6 +28,6 @@ function Home() {
     );
 
   return <LoadingPage />;
-}
+};
 
 export default withUrqlClient(URQLClient)(Home);

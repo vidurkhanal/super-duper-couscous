@@ -26,8 +26,9 @@ import { withUrqlClient } from "next-urql";
 import { useMeQuery } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 import { LoadingPage } from "../components/Misc/LoadingPage";
+import { NextPage } from "next";
 
-const PasswordGenerator: React.FC = () => {
+const PasswordGenerator: NextPage = () => {
   const [password, setPassword] = useState<string>("");
   const [length, setLength] = useState<number>(12);
   const [radioValue, setRadioValue] = useState<"1" | "2">("2");
