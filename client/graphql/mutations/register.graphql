@@ -1,10 +1,11 @@
-mutation RegisterUser($email: String!, $password: String!, $fullName: String!,$masterPIN: String!) {
+mutation RegisterUser($email: String!, $password: String!, $fullName: String!) {
   registerUser(
-    registerInput: { fullName: $fullName, email: $email, password: $password ,masterPIN : $masterPIN}
+    registerInput: { fullName: $fullName, email: $email, password: $password }
   ) {
     error
     user {
       email
+      hasMasterPIN
     }
   }
 }

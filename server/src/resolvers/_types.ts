@@ -47,9 +47,6 @@ export class RegisterInput {
 
   @Field()
   password: string;
-
-  @Field()
-  masterPIN: string;
 }
 
 @ObjectType()
@@ -59,6 +56,15 @@ export class MasterPINResponse {
 
   @Field()
   isValid: boolean;
+}
+
+@ObjectType()
+export class createMasterPINResponse {
+  @Field({ nullable: true })
+  error?: string;
+
+  @Field()
+  isSuccessful: boolean;
 }
 
 @InputType()

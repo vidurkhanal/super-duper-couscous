@@ -5,6 +5,7 @@ import { useMeQuery } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 import { LoadingPage } from "../components/Misc/LoadingPage";
 import { nanoid } from "nanoid";
+import { NextPage } from "next";
 
 interface Founders {
   name: string;
@@ -14,7 +15,7 @@ interface Founders {
   src: string;
 }
 
-const Card: React.FC<Founders> = ({
+const Card: NextPage<Founders> = ({
   name,
   companyStatus,
   src,

@@ -20,13 +20,14 @@ import { URQLClient } from "../../utils/createClient";
 import NextRouter from "next/router";
 import { LoadingPage } from "../../components/Misc/LoadingPage";
 import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../../constants";
+import { NextPage } from "next";
 
 type FormValues = {
   email: string;
   password: string;
 };
 
-const Login = () => {
+const Login: NextPage = () => {
   const [{ data: MeData, fetching: MeFetching }] = useMeQuery();
   const [, loginUser] = useLoginUserMutation();
   const toast = useToast();

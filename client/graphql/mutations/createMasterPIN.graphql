@@ -1,0 +1,6 @@
+mutation createMasterPin($masterPIN: String!) {
+  createMasterPIN(masterPIN: $masterPIN) {
+    error
+    isSuccessful
+  }
+}
