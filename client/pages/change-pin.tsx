@@ -8,7 +8,7 @@ import { ChangeMasterPIN } from "../components/SettingsPage/ChangeMasterPin";
 import { useMeQuery } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 
-const SettingsPage = () => {
+const ChangePINPage = () => {
   const [{ data, fetching }] = useMeQuery();
 
   if (!fetching && !data?.me) {
@@ -33,4 +33,4 @@ const SettingsPage = () => {
   return <LoadingPage />;
 };
 
-export default withUrqlClient(URQLClient)(SettingsPage);
+export default withUrqlClient(URQLClient)(ChangePINPage);

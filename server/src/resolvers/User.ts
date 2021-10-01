@@ -10,6 +10,7 @@ import {
   AuthResponse,
   MasterPINResponse,
   RegisterInput,
+  createMasterPINResponse,
 } from "./_types";
 import { forgetPasswordTemplate } from "./../static/forgotPasswordTemplate";
 import { PasswordSchema } from "./../Joi/AuthSchema";
@@ -92,7 +93,6 @@ export class UserResolver {
           fullName: registerInput.fullName,
           email: registerInput.email,
           password: await hash(registerInput.password),
-          masterPIN: await hash(registerInput.masterPIN),
         })
         .returning("*")
         .execute();
@@ -135,9 +135,11 @@ export class UserResolver {
         "unfreeze"
       );
 
-      const emailContent = unfreezeAccountTemplate(token);
-
-      await sendEmail(user.email, "Unfreeze Your Account", emailContent);
+      await sendEmail(
+        user.email,
+        "Unfreeze Your Account",
+        unfreezeAccountTemplate(token)
+      );
 
       return {
         error:
@@ -348,5 +350,27 @@ export class UserResolver {
     }
 
     return false;
+  }
+
+  @Mutation(() => createMasterPINResponse)
+  async createMasterPIN(
+    @Arg("masterPIN") masterPIN: string,
+    @Ctx() { req }: ApolloContext
+  ): Promise<createMasterPINResponse> {
+    const user = await User.findOne(req.session.userID);
+    if (!user) {
+      return {
+        error: "Some Internal Error Occurred. Please Try Again.",
+        isSuccessful: false,
+      };
+    }
+    await User.update(
+      { userID: user.userID },
+      { masterPIN: await hash(masterPIN), hasMasterPIN: true }
+    );
+
+    return {
+      isSuccessful: true,
+    };
   }
 }

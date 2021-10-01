@@ -23,7 +23,6 @@ type FormValues = {
   email: string;
   password: string;
   fullName: string;
-  masterPIN: string;
 };
 
 const Register = () => {
@@ -33,45 +32,29 @@ const Register = () => {
   const toast = useToast();
 
   const handleSubmit = async (values: FormValues, actions: any) => {
-    let flag = false;
-    const arr = values.masterPIN.split("");
-
-    for (const n of arr) {
-      if (n.charCodeAt(0) > 57 || n.charCodeAt(0) < 48) flag = true;
-    }
-
-    if (flag) {
+    const { data, error } = await registerUser(values);
+    if (error) {
       toast({
-        title: "Master PIN should be a 4 digit number.",
+        title: error.message,
         status: "error",
-        duration: 2000,
-        isClosable: true,
       });
-    } else {
-      const { data, error } = await registerUser(values);
-      if (error) {
-        toast({
-          title: error.message,
-          status: "error",
-        });
-      }
-
-      if (data?.registerUser.error) {
-        toast({
-          title: data.registerUser.error,
-          status: "error",
-        });
-      }
-
-      if (data?.registerUser.user) {
-        NextRouter.push("/authentication/login");
-        toast({
-          title: "Account registered succesfully. You may login now.",
-          status: "success",
-        });
-      }
-      actions.setSubmitting(false);
     }
+
+    if (data?.registerUser.error) {
+      toast({
+        title: data.registerUser.error,
+        status: "error",
+      });
+    }
+
+    if (data?.registerUser.user) {
+      NextRouter.push("/authentication/login");
+      toast({
+        title: "Account registered succesfully. You may login now.",
+        status: "success",
+      });
+    }
+    actions.setSubmitting(false);
   };
 
   if (!MeFetching && MeData?.me) {
@@ -102,7 +85,6 @@ const Register = () => {
                 email: "",
                 password: "",
                 fullName: "",
-                masterPIN: "",
               }}
               onSubmit={handleSubmit}
             >
@@ -153,22 +135,7 @@ const Register = () => {
                       </FormControl>
                     )}
                   </Field>
-                  <Field name="masterPIN">
-                    {({ field, form: _ }: any) => (
-                      <FormControl id="masterPIN" name="masterPIN">
-                        <FormLabel htmlFor="masterPIN">Master PIN</FormLabel>
-                        <Input
-                          type="password"
-                          mb={3}
-                          id="masterPIN"
-                          maxLength={4}
-                          {...field}
-                          placeholder="Enter your Master PIN"
-                          required
-                        />
-                      </FormControl>
-                    )}
-                  </Field>
+
                   <Link href="/authentication/login">
                     Already Have An Account?
                   </Link>

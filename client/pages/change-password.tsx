@@ -1,4 +1,5 @@
 import { Box, Flex } from "@chakra-ui/react";
+import { NextPage } from "next";
 import { withUrqlClient } from "next-urql";
 import Head from "next/head";
 import NextRouter from "next/router";
@@ -8,7 +9,7 @@ import { ChangePassword } from "../components/SettingsPage/ChangePassword";
 import { useMeQuery } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 
-const SettingsPage = () => {
+const ChangePasswordPage: NextPage = () => {
   const [{ data, fetching }] = useMeQuery();
 
   if (!fetching && !data?.me) {
@@ -33,4 +34,4 @@ const SettingsPage = () => {
   return <LoadingPage />;
 };
 
-export default withUrqlClient(URQLClient)(SettingsPage);
+export default withUrqlClient(URQLClient)(ChangePasswordPage);

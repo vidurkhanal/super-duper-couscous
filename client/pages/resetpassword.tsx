@@ -20,12 +20,13 @@ import { BRAND_COLOR_RED, HOVER_BRAND_COLOR_RED } from "../constants";
 import { useResetPasswordMutation } from "../generated/graphql";
 import { URQLClient } from "../utils/createClient";
 import NextLink from "next/link";
+import { NextPage } from "next";
 
 type IQueryVars = {
   token: string;
   variant: "reset" | "unfreeze" | "";
 };
-const ResetPassword: React.FC = () => {
+const ResetPassword: NextPage = () => {
   const [queryVars, setQueryVars] = useState<IQueryVars>({
     token: "",
     variant: "",
