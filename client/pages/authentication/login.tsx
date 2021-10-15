@@ -132,7 +132,6 @@ const Login: NextPage = () => {
                       _hover={{
                         background: HOVER_BRAND_COLOR_RED,
                       }}
-                      color={useColorModeValue("white", "black")}
                       variant={"solid"}
                       type="submit"
                       isLoading={isSubmitting}
