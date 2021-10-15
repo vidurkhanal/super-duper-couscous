@@ -229,8 +229,4 @@ const NAV_ITEMS: NavItem[] = [
     label: "Blog",
     href: "/engineering/blog",
   },
-  {
-    label: "About Us",
-    href: "/about-us",
-  },
 ];
