@@ -26,6 +26,7 @@ import cors from "cors";
 import { CredentialResolver } from "./resolvers/Credential";
 import helmet from "helmet";
 import path from "path";
+import ProfilePictureRouter from "./controllers/profilePicture";
 
 const main = async () => {
   const conn = await createConnection({
@@ -102,6 +103,8 @@ const main = async () => {
   app.use(
     morgan(":method :url :status :res[content-length] - :response-time ms")
   );
+
+  app.use(ProfilePictureRouter);
 
   app.get("/", (_, res) => {
     return __PROD__
