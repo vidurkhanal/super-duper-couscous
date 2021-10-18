@@ -72,7 +72,16 @@ const Login: NextPage = () => {
   if (!MeFetching && !MeData?.me) {
     return (
       <Stack minH={"100vh"} direction={{ base: "column", md: "row" }}>
-        <Flex p={8} flex={1} align={"center"} justify={"center"}>
+        <Flex
+          p={8}
+          flex={1}
+          align={"center"}
+          justify={"center"}
+          bg={{
+            base: "linear-gradient(rgba(0,0,0,0.85),rgba(0,0,0,0.85)),url('/create-master-pin.jpeg')",
+            md: "none",
+          }}
+        >
           <Stack spacing={4} w={"full"} maxW={"md"}>
             <Link href="/" _focus={{}}>
               <Image

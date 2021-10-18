@@ -13,5 +13,9 @@ declare namespace NodeJS {
     SESSIONS_REDIS_CLIENT_HOST: string;
     SESSIONS_REDIS_PASSWORD: string;
     COOKIE_NAME: string;
+    CLOUDINARY_CLOUD_NAME: string;
+    CLOUDINARY_API_KEY: string;
+    CLOUDINARY_API_SECRET: string;
   }
 }
+

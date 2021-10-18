@@ -26,3 +26,6 @@ export const SESSIONS_REDIS_PASSWORD = process.env.SESSIONS_REDIS_PASSWORD;
 export const ICON_FETCHER =
   "https://grab-favicons.herokuapp.com/api/v1/grab-favicons?url=";
 export const ALLOWED_LOGIN_ATTEMPTS = 6;
+export const CLOUDINARY_CLOUD_NAME = process.env.CLOUDINARY_CLOUD_NAME;
+export const CLOUDINARY_API_KEY = process.env.CLOUDINARY_API_KEY;
+export const CLOUDINARY_API_SECRET = process.env.CLOUDINARY_API_SECRET;

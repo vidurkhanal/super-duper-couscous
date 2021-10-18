@@ -36,6 +36,10 @@ export class User extends BaseEntity {
   @Column()
   password: string;
 
+  @Field()
+  @Column({ nullable: true })
+  profilePictureUrl: string;
+
   @Column({ nullable: true })
   masterPIN: string;
 
