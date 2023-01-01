@@ -24,15 +24,16 @@ import { useMeQuery } from "../../../generated/graphql";
 import { URQLClient } from "../../../utils/createClient";
 import { LoadingPage } from "../../../components/Misc/LoadingPage";
 
-const Index: React.FC<{ posts: Post[] }> = ({ posts }) => {
+// const Index: React.FC<{ posts: Post[] }> = ({ posts }) => {
+const Index: React.FC = () => {
   const router = useRouter();
   const path = router.route;
 
-  const tagsBuilder = (i: number): string[] => {
-    let tags: string[] = [];
-    posts[i].tags.forEach((tag) => tags.push(tag.name));
-    return tags;
-  };
+  // const tagsBuilder = (i: number): string[] => {
+  //   let tags: string[] = [];
+  //   posts[i].tags.forEach((tag) => tags.push(tag.name));
+  //   return tags;
+  // };
 
   const bg = useColorModeValue(
     "radial(orange.600 1px, transparent 1px)",
@@ -143,16 +144,16 @@ const Index: React.FC<{ posts: Post[] }> = ({ posts }) => {
 
 export default withUrqlClient(URQLClient)(Index);
 
-export const getStaticProps = async ({ params }: any) => {
-  const posts = await getAllPosts();
+// export const getStaticProps = async ({ params }: any) => {
+//   const posts = await getAllPosts();
 
-  if (!posts) {
-    return {
-      notFound: true,
-    };
-  }
+//   if (!posts) {
+//     return {
+//       notFound: true,
+//     };
+//   }
 
-  return {
-    props: { posts },
-  };
-};
+//   return {
+//     props: { posts },
+//   };
+// };
