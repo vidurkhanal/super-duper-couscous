@@ -113,3 +113,4 @@ server/.env.production
 client/next.config.js
 client/next.config.js
 client/*/dev.tsx
+Makefile

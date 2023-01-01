@@ -28,15 +28,15 @@ import helmet from "helmet";
 import path from "path";
 
 const main = async () => {
-  await createConnection({
+  const conn = await createConnection({
     type: "postgres",
     url: process.env.DATABASE_URL,
-    // logging: true,
+    logging: true,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [User, Credential],
-    synchronize: true,
+    // synchronize: true,
   });
-  // await conn.runMigrations();
+  await conn.runMigrations();
   const app = Express();
   app.use(
     cors({
