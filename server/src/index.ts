@@ -28,10 +28,10 @@ import helmet from "helmet";
 import path from "path";
 
 const main = async () => {
-  const conn = await createConnection({
+  await createConnection({
     type: "postgres",
     url: process.env.DATABASE_URL,
-    logging: true,
+    // logging: true,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [User, Credential],
     synchronize: true,
@@ -95,6 +95,8 @@ const main = async () => {
       PwdRedisClient: PwdRedisClient,
     }),
   });
+
+  await apollo.start();
 
   apollo.applyMiddleware({ app, cors: false });
 

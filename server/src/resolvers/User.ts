@@ -38,12 +38,14 @@ export class UserResolver {
   //Me querry used as the entry point for the app
   @Query(() => User, { nullable: true })
   async me(@Ctx() { req }: ApolloContext): Promise<User | void> {
-    return User.findOne({
+    if (!req.session.userID) return;
+    const res = await User.findOne({
       relations: ["credentials"],
       where: {
         userID: req.session.userID,
       },
     });
+    return res as User;
   }
 
   //Registers the user if condititons are fullfilled
@@ -174,8 +176,22 @@ export class UserResolver {
           resolve(false);
           return;
         }
+        console.log(req.session);
         resolve(true);
       });
+
+      // const sessionID = req.session.id;
+      // req.sessionStore.destroy(sessionID, (err) => {
+      //   // callback function. If an error occurs, it will be accessible here.
+      //   res.clearCookie(COOKIE_NAME);
+      //   if (err) {
+      //     console.error(err);
+      //     resolve(false);
+      //     return;
+      //   }
+      //   resolve(true);
+      //   console.log("The session has been destroyed!");
+      // });
     });
   }
 
