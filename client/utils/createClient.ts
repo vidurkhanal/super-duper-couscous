@@ -8,12 +8,13 @@ import {
   MeDocument,
   MeQuery,
 } from "../generated/graphql";
+import { NextUrqlClientConfig } from "next-urql";
 
 const url = __PROD__
   ? "https://api.kpass12.ninja/graphql"
   : "http://localhost:8080/graphql";
 
-export const URQLClient = (ssrExchange: any, _ctx: any) => ({
+export const URQLClient: NextUrqlClientConfig = (ssrExchange, _ctx) => ({
   url,
   fetchOptions: {
     credentials: "include" as const,
