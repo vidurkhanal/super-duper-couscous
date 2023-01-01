@@ -12,7 +12,7 @@ export const SERVER_URL = __PROD__
 export const COMPANY_NAME = "K Pass 12";
 export const VERIFY_EMAIL_PREFIX = "verifyEmail:";
 export const CLIENT_URL = __PROD__
-  ? "https://kpass12.ninja"
+  ? "https://www.kpass12.ninja"
   : "http://localhost:3000";
 export const PWD_REDIS_CLIENT_HOST = process.env.PWD_REDIS_CLIENT_HOST;
 export const PWD_REDIS_PASSWORD = process.env.PWD_REDIS_PASSWORD;

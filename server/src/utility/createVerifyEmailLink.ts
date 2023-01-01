@@ -8,7 +8,7 @@ export const createEmailLink = async (
 ): Promise<string> => {
   const id = v4();
 
-  await redisClient.set(id, userID, "ex", 60 * 60 * 24);
+  await redisClient.set(id, userID, "EX", 60 * 60 * 24);
 
   return `${url}/verify-email/?token=${id}`;
 };

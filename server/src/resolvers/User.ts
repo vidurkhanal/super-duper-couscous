@@ -373,7 +373,7 @@ export class UserResolver {
     @Arg("masterPIN") masterPIN: string,
     @Ctx() { req }: ApolloContext
   ): Promise<createMasterPINResponse> {
-    const user = await User.findOne(req.session.userID);
+    const user = await User.findOne({ where: { userID: req.session.userID } });
     if (!user) {
       return {
         error: "Some Internal Error Occurred. Please Try Again.",

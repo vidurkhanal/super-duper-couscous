@@ -51,9 +51,9 @@ export class CredentialResolver {
       return { error: "User Not Authenticated" };
     }
 
-    const user = await User.findOne({
+    const user = (await User.findOne({
       where: { userID },
-    });
+    })) as User;
     await getConnection()
       .createQueryBuilder()
       .insert()
@@ -70,12 +70,12 @@ export class CredentialResolver {
       .execute();
 
     return {
-      user: await User.findOne({
+      user: (await User.findOne({
         relations: ["credentials"],
         where: {
           userID: req.session.userID,
         },
-      }),
+      })) as User,
     };
   }
 
@@ -93,12 +93,12 @@ export class CredentialResolver {
         .execute();
 
       return {
-        user: await User.findOne({
+        user: (await User.findOne({
           relations: ["credentials"],
           where: {
             userID: req.session.userID,
           },
-        }),
+        })) as User,
       };
     } catch (e) {
       console.log(e);

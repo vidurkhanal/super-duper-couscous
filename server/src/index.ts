@@ -79,6 +79,7 @@ const main = async () => {
         httpOnly: true,
         secure: __PROD__,
         sameSite: "lax",
+        domain: __PROD__ ? ".kpass12.ninja" : undefined,
       },
     })
   );
