@@ -52,7 +52,7 @@ const Index: React.FC<{ posts: Post[] }> = ({ posts }) => {
         </Head>
         <Container maxW={"7xl"} p="12">
           <Heading as="h1">Blogs From Couple Of Tech Nerds</Heading>
-          <Box
+          {/* <Box
             marginTop={{ base: "1", md: "5" }}
             display="flex"
             flexDirection={{ base: "column", md: "row" }}
@@ -133,7 +133,7 @@ const Index: React.FC<{ posts: Post[] }> = ({ posts }) => {
               We post stupid shit for the moment. Think of better shit to write
               here later.
             </Text>
-          </VStack>
+          </VStack> */}
         </Container>
         <Footer />
       </Box>
