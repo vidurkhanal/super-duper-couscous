@@ -16,13 +16,11 @@ export const CLIENT_URL = __PROD__
   : "http://localhost:3000";
 export const PWD_REDIS_CLIENT_HOST = process.env.PWD_REDIS_CLIENT_HOST;
 export const PWD_REDIS_PASSWORD = process.env.PWD_REDIS_PASSWORD;
-export const SEND_IN_BLUE_EMAIL_FOR_VERIFY =
-  process.env.SEND_IN_BLUE_EMAIL_FOR_VERIFY;
-export const SEND_IN_BLUE_PASSWORD_FOR_VERIFY =
-  process.env.SEND_IN_BLUE_PASSWORD_FOR_VERIFY;
 export const SESSIONS_REDIS_CLIENT_HOST =
   process.env.SESSIONS_REDIS_CLIENT_HOST;
 export const SESSIONS_REDIS_PASSWORD = process.env.SESSIONS_REDIS_PASSWORD;
 export const ICON_FETCHER =
   "https://grab-favicons.herokuapp.com/api/v1/grab-favicons?url=";
 export const ALLOWED_LOGIN_ATTEMPTS = 6;
+export const MAILJET_API_KEY = process.env.MAILJET_PUBLIC;
+export const MAILJET_SECRET_KEY = process.env.MAILJET_PRIVATE;

@@ -1,14 +1,12 @@
-import { CredentialSchema } from "../Joi/CredentialsSchema";
 import { Arg, Ctx, Mutation, Resolver } from "type-graphql";
 import { getConnection } from "typeorm";
+import { CredentialSchema } from "../Joi/CredentialsSchema";
 import { Credential } from "../models/credential";
 import { User } from "../models/user";
 import { ApolloContext } from "../types";
 import { encode } from "../utility/encode";
-import { CredentialResponse } from "./_types";
 import { passwordStrengthCalculator } from "../utility/passwordStrength";
-import axios from "axios";
-import { ICON_FETCHER } from "../constants";
+import { CredentialResponse } from "./_types";
 
 @Resolver()
 export class CredentialResolver {
@@ -31,18 +29,23 @@ export class CredentialResolver {
       };
     }
 
-    let siteLogo;
-    try {
-      const { data } = await axios.get(ICON_FETCHER + siteName, {
-        timeout: 10000,
-      });
-      //@ts-expect-error
-      const sortedData = data?.sort((a, b) => b.size - a.size);
-      siteLogo = sortedData[0].url;
-    } catch {}
+    // let siteLogo;
+    // try {
+    //   const { data } = await axios.get(ICON_FETCHER + siteName, {
+    //     timeout: 10000,
+    //   });
+    //   //@ts-expect-error
+    //   const sortedData = data?.sort((a, b) => b.size - a.size);
+    //   siteLogo = sortedData[0].url;
+    // } catch {}
+
+    let siteLogo =
+      "https://www.freepnglogos.com/uploads/logo-website-png/logo-website-world-wide-web-svg-png-icon-download-10.png";
 
     const encodedPass = encode(password);
     const userID = req.session.userID;
+
+    console.log(encodedPass);
 
     if (!userID) {
       return { error: "User Not Authenticated" };

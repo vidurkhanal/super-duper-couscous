@@ -34,8 +34,9 @@ const main = async () => {
     logging: true,
     migrations: [path.join(__dirname, "./migrations/*")],
     entities: [User, Credential],
+    synchronize: true,
   });
-  await conn.runMigrations();
+  // await conn.runMigrations();
   const app = Express();
   app.use(
     cors({
@@ -49,14 +50,14 @@ const main = async () => {
   );
   app.set("trust proxy", 1);
   const redisClient = new Redis({
-    port: 11173,
+    port: 18869,
     host: SESSIONS_REDIS_CLIENT_HOST,
     password: SESSIONS_REDIS_PASSWORD,
     db: 0,
   });
   const redisStore = connectRedis(session);
   const PwdRedisClient = new Redis({
-    port: 13762,
+    port: 16945,
     host: PWD_REDIS_CLIENT_HOST,
     password: PWD_REDIS_PASSWORD,
     db: 0,
