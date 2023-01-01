@@ -44,6 +44,7 @@ const main = async () => {
       origin: [
         "http://localhost:3000",
         "https://www.kpass12.ninja",
+        "https://www.kpass12.com",
         "https://super-duper-couscous.vercel.app",
       ],
     })

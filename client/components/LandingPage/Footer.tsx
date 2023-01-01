@@ -45,7 +45,9 @@ export const Footer = () => {
                 loading="eager"
               />
             </Box>
-            <Text fontSize={"sm"}>©2021 K Pass 12. All rights reserved.</Text>
+            <Text fontSize={"sm"}>
+              &copy; {new Date().getFullYear()} K Pass 12. All rights reserved.
+            </Text>
           </Stack>
           <Stack align={"flex-start"}>
             <ListHeader>Company</ListHeader>
