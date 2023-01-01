@@ -225,8 +225,8 @@ const NAV_ITEMS: NavItem[] = [
     label: "Password Generator",
     href: "/password-generator",
   },
-  {
-    label: "Blog",
-    href: "/engineering/blog",
-  },
+  // {
+  //   label: "Blog",
+  //   href: "/engineering/blog",
+  // },
 ];
